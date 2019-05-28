@@ -1,9 +1,10 @@
 from gameClasses import *
+import gameVariables
 
 screenSize = [0, 0]
 stage = pygame.image
 
-def paralaxBack(pos):
+def paralaxBack(pos, img):
     pass
 
 
@@ -15,3 +16,9 @@ def print_text(font, x, y, text, color, screen):
     text_image = font.render(text, True, color)
     screen.blit(text_image, (x,y))
 #########
+
+
+def drawImage(screen, pos, img, scl=1, rot=0):
+    imge = pygame.image.load("images/{}".format(img)).convert_alpha()
+    imge = pygame.transform.rotozoom(imge, rot, scl)
+    screen.blit(imge, pos)
