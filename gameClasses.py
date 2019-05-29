@@ -1,1 +1,2 @@
-import pygame, random
+import pygame
+import random

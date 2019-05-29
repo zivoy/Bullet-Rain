@@ -32,3 +32,12 @@ def loadImage(img, scl=1, rot=0):
     imge = pygame.image.load("images/{}".format(img)).convert_alpha()
     imge = pygame.transform.rotozoom(imge, rot, scl)
     return imge
+
+
+def typeing(key, varb):
+    if chr(key).lower() in gameVariables.keys:
+        varb += chr(key)
+    elif key == pygame.K_BACKSPACE:
+        varb = varb[:-1]
+
+    return varb.upper()
