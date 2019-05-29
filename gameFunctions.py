@@ -41,3 +41,18 @@ def typeing(key, varb):
         varb = varb[:-1]
 
     return varb.upper()
+
+
+def drawRectangle(startPos, endPos):
+    xStart, yStart = invCord(startPos)
+    xEnd, yEnd = invCord(endPos)
+    xEnd = xEnd - xStart
+    yEnd = yEnd - yStart
+
+    return pygame.Rect(xStart, yStart, xEnd, yEnd)
+
+
+def invCord(cords):
+    ret = list(cords)
+    ret[1] = -(cords[1] - gameVariables.screenSize[1])
+    return tuple(ret)
