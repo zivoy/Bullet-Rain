@@ -1,4 +1,4 @@
 from gameClasses import *
 
-screenSize = [0, 0]
+screenSize = [800, 800]
 stage = pygame.image

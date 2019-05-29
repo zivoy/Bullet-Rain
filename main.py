@@ -1,5 +1,6 @@
 import stage, gameFunctions
 from gameClasses import *
+import gameVariables
 
 from pygame.locals import *
 import sys
@@ -10,7 +11,7 @@ import sys
 pygame.init()
 
 
-
+gameVariables.screenSize = (1000, 1000)
 
 #color list
 white = (255, 255, 255)
@@ -23,7 +24,7 @@ black = (0,0,0)
 # use clock to slow things down
 clock = pygame.time.Clock()
 # creates a screen
-screen = pygame.display.set_mode((1100, 600))
+screen = pygame.display.set_mode(gameVariables.screenSize)
 
 
 #These are some fonts that I made up with differ sizes for different events such as when you win, lose, etc.
@@ -158,6 +159,16 @@ def main(): #################################################################
         gameFunctions.print_text(lost, 0, 300, "and press enter.", white, screen)
 
         pygame.display.update()
+    curr = (0, 0)
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+            curr = pygame.mouse.get_pos()
+        screen.fill((0, 0, 0))
+        stage.draw(screen, curr)
+        pygame.display.update()
+        clock.tick(60)
 
 
 if __name__ == "__main__":  # ####################################################################

@@ -1,5 +1,7 @@
 from gameClasses import *
-import gameFunctions, gameVariables
+import gameFunctions
+import gameVariables
 
-def draw():
-    gameFunctions.drawImage(gameVariables.stage, )
+
+def draw(screen, pos):
+    gameFunctions.paralaxBack(screen, pos)
