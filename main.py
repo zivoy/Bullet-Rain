@@ -2,7 +2,7 @@ import stage
 import gameFunctions
 from gameClasses import *
 import gameVariables
-
+import pygame
 from pygame.locals import *
 import sys
 
@@ -18,7 +18,7 @@ lost = pygame.font.SysFont("monospace", 20)
 win = pygame.font.SysFont("monospace", 30)
 
 
-gameVariables.screenSize = (1000, 1000)
+gameVariables.screenSize = (1250, 800)
 
 #color list
 white = (255, 255, 255)
@@ -120,12 +120,10 @@ def main(): #################################################################
         screen.fill(black)
 
         # this is the text that appear on the intro screen askign the user for the name
-        gameFunctions.print_text(win, 10, 25, "Here are the rolling instructions.", blue, screen)
-        gameFunctions.print_text(win, 10, 125, "Player 1 uses the DOWN arrow key to shake the dice", red, screen)
-        gameFunctions.print_text(win, 10, 175, "and the UP arrow key to roll.", red, screen)
-        gameFunctions.print_text(lost, 10, 225, "To make the game personalized please type your name", white, screen)
-        gameFunctions.print_text(bigfont, 0, 250, player1_name, green, screen)
-        gameFunctions.print_text(lost, 0, 300, "and press enter.", white, screen)
+        gameFunctions.print_text(win, 10, 25, "The first thing you need to do is to enter your names", blue, screen)
+        gameFunctions.print_text(win, 10, 125, "", red, screen)
+        gameFunctions.print_text(win, 10, 175, "Player 1 shall be known as ", red, screen)
+        gameFunctions.print_text(lost, 10, 225, "Enter Your Name", white, screen)
 
         pygame.display.flip()
 
@@ -143,12 +141,9 @@ def main(): #################################################################
 
                 player2_name = gameFunctions.typeing(event.key, player2_name)
 
-        # this is the text that appear on the intro screen askign the user for the name
-        gameFunctions.print_text(win, 10, 25, "Here are the rolling instructions.", blue, screen)
-        gameFunctions.print_text(win, 10, 175, "and the W key to roll.", red, screen)
-        gameFunctions.print_text(lost, 10, 225, "To make the game personalized please type your name", white, screen)
-        gameFunctions.print_text(bigfont, 0, 250, player2_name, green, screen)
-        gameFunctions.print_text(lost, 0, 300, "and press enter.", white, screen)
+        gameFunctions.print_text(win, 10, 25, "Player 2 shall be known as ", red, screen)
+        gameFunctions.print_text(lost, 10, 125, "Enter Your Name", white, screen)
+        gameFunctions.print_text(lost, 0, 225, "", white, screen)
 
         pygame.display.flip()
     curr = (0, 0)
