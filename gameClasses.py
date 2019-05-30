@@ -1,6 +1,7 @@
 import pygame
 import random
 import gameVariables
+import enum
 
 # Initializing pygame
 pygame.init()
@@ -20,13 +21,9 @@ purple=(255,0,255)
 
 
 
-
-
-
 class Bullets(pygame.sprite.Sprite):
-
     def __init__(self, x, y, img=gameVariables.defBull, xVel=5):
-        self.super()
+        super().__init__()
         self.x = x
         self.y = y
         self.xVel = xVel
