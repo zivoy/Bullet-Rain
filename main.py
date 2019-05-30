@@ -173,7 +173,9 @@ def settings():
             elif event.type == KEYUP:
                 if event.key == K_ESCAPE:
                     menu = False
-        pygame.display.flip()
+
+        gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", red, screen)
+
 
 
 if __name__ == "__main__":  # ####################################################################

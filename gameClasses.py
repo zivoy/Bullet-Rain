@@ -9,7 +9,7 @@ pygame.init()
 window = pygame.display.set_mode((800, 600))
 
 # Title of the game
-pygame.display.set_caption("Get to the Top but Don't Get Burnt!")
+pygame.display.set_caption("Bullet Rain")
 
 # colors
 black = (0, 0, 0)
