@@ -124,6 +124,7 @@ def main(): #################################################################
         gameFunctions.print_text(win, 10, 125, "", red, screen)
         gameFunctions.print_text(win, 10, 175, "Player 1 shall be known as ", red, screen)
         gameFunctions.print_text(lost, 10, 225, "Enter Your Name", white, screen)
+        gameFunctions.print_text(bigfont, 10, 250, player1_name, green, screen)
 
         pygame.display.flip()
 
@@ -143,7 +144,7 @@ def main(): #################################################################
 
         gameFunctions.print_text(win, 10, 25, "Player 2 shall be known as ", red, screen)
         gameFunctions.print_text(lost, 10, 125, "Enter Your Name", white, screen)
-        gameFunctions.print_text(lost, 0, 225, "", white, screen)
+        gameFunctions.print_text(bigfont, 10, 150, player2_name, green, screen)
 
         pygame.display.flip()
     curr = (0, 0)
