@@ -152,11 +152,28 @@ def main(): #################################################################
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
+            elif event.type == KEYUP:
+                if event.key == K_ESCAPE:
+                    settings()
             curr = pygame.mouse.get_pos()
         screen.fill((0, 0, 0))
         stage.draw(screen, curr)
-        pygame.display.update()
+        pygame.display.flip()
         clock.tick(60)
+
+
+def settings():
+    menu = True
+    while menu:
+        screen.fill(black)
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == KEYUP:
+                if event.key == K_ESCAPE:
+                    menu = False
+        pygame.display.flip()
 
 
 if __name__ == "__main__":  # ####################################################################
