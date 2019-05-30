@@ -5,9 +5,11 @@ import gameVariables
 def paralaxBack(screen, pos):
     im = "opt1.jpg"
     gameVariables.stage = loadImage(im)
-    sz = gameVariables.stage.get_size()
-    s = sz.index(min(sz))
-    mul = gameVariables.screenSize[s] / sz[s] * 1.1
+    sz = list(gameVariables.stage.get_size())
+    for i in range(2):
+        if sz[i] < gameVariables.screenSize[i]:
+            mul = gameVariables.screenSize[i] / sz[i] * 1.1
+            sz = list(map(lambda x: x*mul, sz))
 
     gameVariables.stage = loadImage(im, mul)
     imgSz = gameVariables.stage.get_size()
