@@ -2,16 +2,30 @@ from gameClasses import *
 import gameVariables
 
 
-def paralaxBack(screen, pos):
-    im = "opt1.jpg"
-    gameVariables.stage = loadImage(im)
-    sz = list(gameVariables.stage.get_size())
-    for i in range(2):
-        if sz[i] < gameVariables.screenSize[i]:
-            mul = gameVariables.screenSize[i] / sz[i] * 1.1
-            sz = list(map(lambda x: x*mul, sz))
+def loadBack(aa=True):
+    sz = loadImage(gameVariables.img).get_size()
+    szc = list(sz)
+    szd = szc.copy()
+    mul = 1
 
-    gameVariables.stage = loadImage(im, mul)
+    if list(map(lambda x: sz[x] < gameVariables.screenSize[x], range(2))):
+        for i in range(2):
+            if szd[i] > gameVariables.screenSize[i]:
+                mul = (gameVariables.screenSize[i] / sz[i]) * 1.1
+                szd = list(map(lambda x: x * mul, sz))
+        szc = szd
+
+    for i in range(2):
+        if szc[i] < gameVariables.screenSize[i]:
+            mul = (gameVariables.screenSize[i] / sz[i]) * 1.1
+            szc = list(map(lambda x: x * mul, sz))
+
+    gameVariables.stage = loadImage(gameVariables.img, mul, aaScale=aa)
+
+
+def paralaxBack(screen, pos):
+    if gameVariables.stage == pygame.image:
+        loadBack(False)
     imgSz = gameVariables.stage.get_size()
     xDiff = gameVariables.screenSize[0] - imgSz[0]
     yDiff = gameVariables.screenSize[1] - imgSz[1]
@@ -25,14 +39,19 @@ def paralaxBack(screen, pos):
 # my own fonts
 def print_text(font, x, y, text, color, screen):
     """Draws a text image to display surface"""
-    text_image = font.render(text, True, color)
+    text_image = font.render(text, True, color.value)
     screen.blit(text_image, (x, y))
 #########
 
 
-def loadImage(img, scl=1, rot=0):
+def loadImage(img, scl=1, rot=0, aaScale=True):
     imge = pygame.image.load("images/{}".format(img)).convert_alpha()
-    imge = pygame.transform.rotozoom(imge, rot, scl)
+    if aaScale:
+        imge = pygame.transform.rotozoom(imge, rot, scl)
+    else:
+        imge = pygame.transform.rotozoom(imge, rot, 1)
+        scl = list(map(lambda x: int(x*scl), imge.get_size()))
+        imge = pygame.transform.scale(imge, scl)
     return imge
 
 

@@ -3,7 +3,6 @@ import gameFunctions
 from gameClasses import *
 import gameVariables
 import pygame
-from pygame.locals import *
 import sys
 
 
@@ -20,13 +19,7 @@ win = pygame.font.SysFont("monospace", 30)
 
 gameVariables.screenSize = (1250, 800)
 
-#color list
-white = (255, 255, 255)
-red = (255, 0, 0)
-green = (0, 255, 0)
-blue = (0, 0, 255)
-black = (0,0,0)
-lightGray = (30,30,30)
+BLACK = Color.BLACK.value
 
 
 # use clock to slow things down
@@ -36,7 +29,7 @@ screen = pygame.display.set_mode(gameVariables.screenSize)
 
 
 #################################################
-score=[0,0]
+score = [0, 0]
 
 
 beatlist=[]
@@ -65,7 +58,7 @@ def die_sum(lister):
     return int(adder)
 
 def main(): #################################################################
-#    white = (0, 0, 255 )
+
 
     instructions = True  # intro is the boolean that keeps me in the introduction window
 
@@ -74,29 +67,31 @@ def main(): #################################################################
     player2_name = ""
 
     # first screen
-    screen.fill(black)
+    screen.fill(BLACK)
 
     # this is the text that appear on the intro screen askign the user for the name
-    gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", red, screen)
-    gameFunctions.print_text(win, 10, 100, "This is a two-player game and here are the instructions:", blue, screen)
-    gameFunctions.print_text(myfont, 10, 150, "Each player is a character in the world of Rain.", white, screen)
-    gameFunctions.print_text(myfont, 10, 200, "the game is a PVP game last man standing", white, screen)
-    gameFunctions.print_text(myfont, 10, 250, "In this game there are power-ups and ledges to jump to", white, screen)
-    gameFunctions.print_text(myfont, 10, 300, "Good luck", white, screen)
-    gameFunctions.print_text(myfont, 10, 350, "The player who reaches five points first wins!", red, screen)
-    gameFunctions.print_text(myfont, 10, 400, "But before playing we need to take you to some other screens.", white,
+    gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", Color.RED, screen)
+    gameFunctions.print_text(win, 10, 100, "This is a two-player game and here are the instructions:", Color.BLUE,
                              screen)
-    gameFunctions.print_text(myfont, 10, 450, "Please press enter to continue.", white, screen)
+    gameFunctions.print_text(myfont, 10, 150, "Each player is a character in the world of Rain.", Color.WHITE, screen)
+    gameFunctions.print_text(myfont, 10, 200, "the game is a PVP game last man standing", Color.WHITE, screen)
+    gameFunctions.print_text(myfont, 10, 250, "In this game there are power-ups and ledges to jump to", Color.WHITE,
+                             screen)
+    gameFunctions.print_text(myfont, 10, 300, "Good luck", Color.WHITE, screen)
+    gameFunctions.print_text(myfont, 10, 350, "The player who reaches five points first wins!", Color.RED, screen)
+    gameFunctions.print_text(myfont, 10, 400, "But before playing we need to take you to some other screens.",
+                             Color.WHITE, screen)
+    gameFunctions.print_text(myfont, 10, 450, "Please press enter to continue.", Color.WHITE, screen)
 
     pygame.display.flip()
 
     while instructions:
         for event in pygame.event.get():
-            if event.type == QUIT:
+            if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            elif event.type == KEYUP:
-                if event.key == K_RETURN:
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
                     instructions = False
 
     #############################################################################
@@ -109,43 +104,43 @@ def main(): #################################################################
 
     while intro_player1:
         for event in pygame.event.get():
-            if event.type == QUIT:
+            if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            elif event.type == KEYUP:
-                if event.key == K_RETURN or event.key == K_KP_ENTER:
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
                     intro_player1 = False
 
                 player1_name = gameFunctions.typeing(event.key, player1_name)
 
-        screen.fill(black)
+        screen.fill(BLACK)
 
         # this is the text that appear on the intro screen askign the user for the name
-        gameFunctions.print_text(win, 10, 25, "The first thing you need to do is to enter your names", blue, screen)
-        gameFunctions.print_text(win, 10, 125, "", red, screen)
-        gameFunctions.print_text(win, 10, 175, "Player 1 shall be known as ", red, screen)
-        gameFunctions.print_text(lost, 10, 225, "Enter Your Name", white, screen)
-        gameFunctions.print_text(bigfont, 10, 250, player1_name, green, screen)
+        gameFunctions.print_text(win, 10, 25, "The first thing you need to do is to enter your names", Color.BLUE, screen)
+        gameFunctions.print_text(win, 10, 125, "", Color.RED, screen)
+        gameFunctions.print_text(win, 10, 175, "Player 1 shall be known as ", Color.RED, screen)
+        gameFunctions.print_text(lost, 10, 225, "Enter Your Name", Color.WHITE, screen)
+        gameFunctions.print_text(bigfont, 10, 250, player1_name, Color.GREEN, screen)
 
         pygame.display.flip()
 
     intro_player2 = True
 
     while intro_player2:
-        screen.fill(black)
+        screen.fill(BLACK)
         for event in pygame.event.get():
-            if event.type == QUIT:
+            if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            elif event.type == KEYUP:
-                if event.key == K_RETURN or event.key == K_KP_ENTER:
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
                     intro_player2 = False
 
                 player2_name = gameFunctions.typeing(event.key, player2_name)
 
-        gameFunctions.print_text(win, 10, 25, "Player 2 shall be known as ", red, screen)
-        gameFunctions.print_text(lost, 10, 125, "Enter Your Name", white, screen)
-        gameFunctions.print_text(bigfont, 10, 150, player2_name, green, screen)
+        gameFunctions.print_text(win, 10, 25, "Player 2 shall be known as ", Color.RED, screen)
+        gameFunctions.print_text(lost, 10, 125, "Enter Your Name", Color.WHITE, screen)
+        gameFunctions.print_text(bigfont, 10, 150, player2_name, Color.GREEN, screen)
 
         pygame.display.flip()
 
@@ -157,21 +152,22 @@ def main(): #################################################################
     curr = (0, 0)
     while True:
         for event in pygame.event.get():
-            if event.type == QUIT:
+            if event.type == pygame.QUIT:
                 pygame.quit()
-            elif event.type == KEYUP:
-                if event.key == K_ESCAPE:
+                sys.exit()
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_ESCAPE:
                     settings()
             curr = pygame.mouse.get_pos()
         title = "{0} V.S. {1}".format(player1_name, player2_name)
         xPos, _ = bigfont.size(title)
         xPos = gameVariables.screenSize[0]/2 - xPos/2
-        screen.fill((0, 0, 0))
+        screen.fill(BLACK)
         stage.draw(screen, curr)
 
         v = 5
-        gameFunctions.print_text(bigfont, xPos + v, 15 + v, title, lightGray, screen)
-        gameFunctions.print_text(bigfont, xPos, 15, title, white, screen)
+        gameFunctions.print_text(bigfont, xPos + v, 15 + v, title, Color.LIGHT_GRAY, screen)
+        gameFunctions.print_text(bigfont, xPos, 15, title, Color.WHITE, screen)
 
         pygame.display.flip()
         clock.tick(60)
@@ -180,16 +176,16 @@ def main(): #################################################################
 def settings():
     menu = True
     while menu:
-        screen.fill(black)
+        screen.fill(BLACK)
         for event in pygame.event.get():
-            if event.type == QUIT:
+            if event.type ==  pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            elif event.type == KEYUP:
-                if event.key == K_ESCAPE:
+            elif event.type ==  pygame.KEYUP:
+                if event.key ==  pygame.K_ESCAPE:
                     menu = False
 
-        gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", red, screen)
+        gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", Color.RED, screen)
         pygame.display.flip()
 
 

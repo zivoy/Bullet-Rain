@@ -3,6 +3,7 @@ import gameFunctions
 import gameVariables
 from gameFunctions import placeAt
 
+
 def draw(screen, pos):
     gameFunctions.paralaxBack(screen, pos)
 
