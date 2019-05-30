@@ -55,7 +55,7 @@ def winner(x,y):
 
 
 
-
+#What is this????
 def die_sum(lister):
     lister.sort(reverse=True)
     adder=""
