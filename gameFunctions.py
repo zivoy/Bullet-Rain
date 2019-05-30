@@ -56,3 +56,7 @@ def invCord(cords):
     ret = list(cords)
     ret[1] = -(cords[1] - gameVariables.screenSize[1])
     return tuple(ret)
+
+
+def fillArea(img, rect):
+    pass
