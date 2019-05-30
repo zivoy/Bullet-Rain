@@ -147,6 +147,12 @@ def main(): #################################################################
         gameFunctions.print_text(bigfont, 10, 150, player2_name, green, screen)
 
         pygame.display.flip()
+
+    if player1_name == "":
+        player1_name = "Player 1"
+    if player2_name == "":
+        player2_name = "Player 2"
+
     curr = (0, 0)
     while True:
         for event in pygame.event.get():
@@ -156,8 +162,15 @@ def main(): #################################################################
                 if event.key == K_ESCAPE:
                     settings()
             curr = pygame.mouse.get_pos()
+        title = "{0} V.S. {1}".format(player1_name, player2_name)
+        xPos, _ = bigfont.size(title)
+        xPos = gameVariables.screenSize[0]/2 - xPos/2
         screen.fill((0, 0, 0))
         stage.draw(screen, curr)
+
+        gameFunctions.print_text(bigfont, xPos + 1, 16, title, black, screen)
+        gameFunctions.print_text(bigfont, xPos, 15, title, white, screen)
+
         pygame.display.flip()
         clock.tick(60)
 
