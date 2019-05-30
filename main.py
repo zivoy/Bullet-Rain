@@ -26,6 +26,7 @@ red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
 black = (0,0,0)
+lightGray = (30,30,30)
 
 
 # use clock to slow things down
@@ -168,7 +169,8 @@ def main(): #################################################################
         screen.fill((0, 0, 0))
         stage.draw(screen, curr)
 
-        gameFunctions.print_text(bigfont, xPos + 1, 16, title, black, screen)
+        v = 5
+        gameFunctions.print_text(bigfont, xPos + v, 15 + v, title, lightGray, screen)
         gameFunctions.print_text(bigfont, xPos, 15, title, white, screen)
 
         pygame.display.flip()
@@ -188,6 +190,7 @@ def settings():
                     menu = False
 
         gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", red, screen)
+        pygame.display.flip()
 
 
 

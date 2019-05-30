@@ -62,3 +62,7 @@ def invCord(cords):
 
 def fillArea(img, rect):
     pass
+
+
+def placeAt(percent):
+    return int(gameVariables.screenSize[0]*percent[0]), int(gameVariables.screenSize[1]*percent[1])
