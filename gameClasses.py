@@ -41,11 +41,12 @@ class Bullets(pygame.sprite.Sprite):
 
 '''
 class Player(pygame.sprite.Sprite):
-    def __init__(self, img, controls, name, pos, sz=.5):
+    def __init__(self, playerSpr, direc, controls, name, pos, sz=.5):
         super().__init__()
         self.vel = [0, 0]
         self.pos = pos
         self.hp = 20
+        self.direc = 0 if direc == "left" else 1
         self.name = name
         self.speed = 5
         self.jump = 10 #6
@@ -53,11 +54,13 @@ class Player(pygame.sprite.Sprite):
         self.time = 0
         self.u = 0
 
+        self.directions = [gameFunctions.loadImage("{0}/left.png".format(playerSpr), sz),
+                           gameFunctions.loadImage("{0}/right.png".format(playerSpr), sz)]
+
         self.controls = controls
 
-        img = gameFunctions.loadImage("sprites/{}".format(img), sz)
-        self.image = pygame.Surface(img.get_size(), pygame.SRCALPHA)
-        self.image.blit(img, (0, 0))
+        self.image = pygame.image
+        self.reImage()
 
         self.rect = self.image.get_rect()
         self.position()
@@ -70,9 +73,13 @@ class Player(pygame.sprite.Sprite):
 
         if key[self.controls["right"]]:
             self.vel[0] = self.speed
+            self.direc = 1
+            self.reImage()
 
         if key[self.controls["left"]]:
             self.vel[0] = -self.speed
+            self.direc = 0
+            self.reImage()
 
         if key[self.controls["special1"]]:
             self.spacial1()
@@ -105,8 +112,8 @@ class Player(pygame.sprite.Sprite):
                 self.vel[i] = 0
                 self.pos[i] = gameVariables.screenSize[i] - self.rect.size[i]
 
-    def reImage(self, image, sz=.5):
-        image = gameFunctions.loadImage("sprites/{}".format(image), sz)
+    def reImage(self):
+        image = self.directions[self.direc]
         self.image = pygame.Surface(image.get_size(), pygame.SRCALPHA)
         self.image.blit(image, (0, 0))
 

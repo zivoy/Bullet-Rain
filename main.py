@@ -150,8 +150,8 @@ def main(): #################################################################
     players = pygame.sprite.Group()
     projectiles = pygame.sprite.Group()
 
-    player1 = Player("red.png", gameVariables.player1_controls, player1_name, (200, 200))
-    player2 = Player("blue.png", gameVariables.player2_controls, player2_name, (600, 200))
+    player1 = Player("player1", "left", gameVariables.player1_controls, player1_name, (200, 200))
+    player2 = Player("player2", "right", gameVariables.player2_controls, player2_name, (600, 200))
 
     players.add(player1)
     players.add(player2)
