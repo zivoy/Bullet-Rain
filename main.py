@@ -49,13 +49,7 @@ def winner(x,y):
 
 
 
-#What is this????
-def die_sum(lister):
-    lister.sort(reverse=True)
-    adder=""
-    for i in lister:
-        adder+=str(i)
-    return int(adder)
+
 
 def main(): #################################################################
     leave = False
