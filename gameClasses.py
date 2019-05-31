@@ -41,7 +41,7 @@ class Bullets(pygame.sprite.Sprite):
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, playerSpr, direc, controls, name, pos, sz=.5):
+    def __init__(self, playerSpr, direc, controls, name, pos, sz=.4):
         super().__init__()
         self.vel = [0, 0]
         self.pos = pos
