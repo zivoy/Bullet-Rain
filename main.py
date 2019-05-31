@@ -145,6 +145,8 @@ def main(): #################################################################
 
     curr = (0, 0)
 
+    stage.createStage()
+
     players = pygame.sprite.Group()
     projectiles = pygame.sprite.Group()
 

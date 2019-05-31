@@ -79,8 +79,16 @@ def invCord(cords):
     return tuple(ret)
 
 
-def fillArea(img, rect):
-    pass
+def fillArea(screen, img, rect):
+    #pygame.draw.rect(screen, [63, 64, 65], rect)
+    platform = pygame.Surface([abs(rect.w), abs(rect.h)], pygame.SRCALPHA)
+    imgr = img.get_rect()
+    fitX = abs(rect.w / imgr.w)
+    fitY = abs(rect.h / imgr.h)
+    for i in range(round(fitX+.5)):
+        for j in range(round(fitY+.5)):
+            platform.blit(img, (imgr.w*i, imgr.h*j))
+    screen.blit(platform, (rect.x, rect.y))
 
 
 def placeAt(percent):

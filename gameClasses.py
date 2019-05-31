@@ -105,6 +105,13 @@ class Player(pygame.sprite.Sprite):
                 self.vel[i] = 0
                 self.pos[i] = gameVariables.screenSize[i] - self.rect.size[i]
 
+    def reImage(self, image, sz=.5):
+        image = gameFunctions.loadImage("sprites/{}".format(image), sz)
+        self.image = pygame.Surface(image.get_size(), pygame.SRCALPHA)
+        self.image.blit(image, (0, 0))
+
+        self.rect = self.image.get_rect()
+
     def update(self, keys, time):
         self.time = time/1000
         self.bounds()
