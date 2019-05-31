@@ -111,19 +111,38 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = self.pos[1]
 
     def bounds(self):
-        if self.pos[1] <= 0 and self.vel[1] < 0:
+        if self.pos[0] <= 0 and self.vel[0] < 0:
+                self.collisions("left")
+
+        elif self.pos[1] <= 0 and self.vel[1] < 0:
+                self.collisions("up")
+
+        elif self.pos[0] >= gameVariables.screenSize[0] - self.rect.size[0] and self.vel[0] > 0:
+                self.collisions("right")
+
+        elif self.pos[1] >= gameVariables.screenSize[1] - self.rect.size[1] and self.vel[1] > 0:
+                self.collisions("down")
+
+    def collisions(self, direct):
+        if direct == "up":
+            self.vel[1] = 0
+            self.pos[1] = 0
             self.airtime = 0.002
             self.u = 0
-        elif self.pos[1] >= gameVariables.screenSize[1] - self.rect.size[1] and self.vel[1] > 0:
+
+        elif direct == "down":
+            self.vel[1] = 0
+            self.pos[1] = gameVariables.screenSize[1] - self.rect.size[1]
             self.airtime = 0
             self.u = 0
-        for i in range(2):
-            if self.pos[i] <= 0 and self.vel[i] < 0:
-                self.vel[i] = 0
-                self.pos[i] = 0
-            elif self.pos[i] >= gameVariables.screenSize[i] - self.rect.size[i] and self.vel[i] > 0:
-                self.vel[i] = 0
-                self.pos[i] = gameVariables.screenSize[i] - self.rect.size[i]
+
+        elif direct == "right":
+            self.vel[0] = 0
+            self.pos[0] = gameVariables.screenSize[0] - self.rect.size[0]
+
+        elif direct == "left":
+            self.vel[0] = 0
+            self.pos[0] = 0
 
     def reImage(self):
         image = self.directions[self.direc]
