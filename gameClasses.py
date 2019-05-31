@@ -27,18 +27,28 @@ class Color(Enum):
 
 
 class Bullets(pygame.sprite.Sprite):
-    def __init__(self, x, y, img=gameVariables.defBull, xVel=5):
+    def __init__(self, x, y,direc, img=gameVariables.defBull ,xVel=5, ):
         super().__init__()
         self.x = x
         self.y = y
         self.xVel = xVel
         self.img = img
-
+        self.direc = 0 if direc == "left" else 1
         self.radius = 10
 
     def render(self):
         pygame.draw.circle(window, Color.YELLOW, ((self.x) % 800, self.y), self.radius)
 
+####################################****#################################************************
+
+
+
+
+
+
+
+
+#######################################################################################
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, playerSpr, direc, controls, name, pos, sz=.4):
