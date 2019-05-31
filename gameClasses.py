@@ -25,7 +25,7 @@ class Color(Enum):
     BLUE = (0, 0, 255)
     LIGHT_GRAY = (30, 30, 30)
 
-'''
+
 class Bullets(pygame.sprite.Sprite):
     def __init__(self, x, y, img=gameVariables.defBull, xVel=5):
         super().__init__()
@@ -39,7 +39,7 @@ class Bullets(pygame.sprite.Sprite):
     def render(self):
         pygame.draw.circle(window, Color.YELLOW, ((self.x) % 800, self.y), self.radius)
 
-'''
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, playerSpr, direc, controls, name, pos, sz=.5):
         super().__init__()
@@ -80,6 +80,9 @@ class Player(pygame.sprite.Sprite):
             self.vel[0] = -self.speed
             self.direc = 0
             self.reImage()
+
+        if key[self.controls["sneak"]]:
+            pass
 
         if key[self.controls["special1"]]:
             self.spacial1()
