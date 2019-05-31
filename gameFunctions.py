@@ -100,8 +100,8 @@ def avreagePos(sprites):
     x = list()
     y = list()
     for i in sprites:
-        x.append(i.rect.x)
-        y.append(i.rect.y)
+        x.append(i.rect.x + i.rect.w/2)
+        y.append(i.rect.y + i.rect.h/2)
     return avrage(x), avrage(y)
 
 

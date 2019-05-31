@@ -48,7 +48,7 @@ class Player(pygame.sprite.Sprite):
         self.hp = 20
         self.name = name
         self.speed = 5
-        self.jump = 6
+        self.jump = 10 #6
         self.airtime = 0.001
         self.time = 0
         self.u = 0
@@ -63,23 +63,22 @@ class Player(pygame.sprite.Sprite):
         self.position()
 
     def handleKeys(self, key):
-        for j, i in enumerate(self.controls):
-            if key[i]:
-                if j == 0 and self.airtime < 0.2:
-                    self.vel[1] = -self.jump
-                    self.u = -self.jump
-                    self.airtime = self.time
-                elif j == 1:
-                    pass
-                    # self.vel[1] = self.speed
-                elif j == 2:
-                    self.vel[0] = self.speed
-                elif j == 3:
-                    self.vel[0] = -self.speed
-                elif j == 4:
-                    self.spacial1()
-                elif j == 5:
-                    self.spacial2()
+        if key[self.controls["jump"]] and self.airtime == 0:
+            self.vel[1] = -self.jump
+            self.u = -self.jump
+            self.airtime = self.time
+
+        if key[self.controls["right"]]:
+            self.vel[0] = self.speed
+
+        if key[self.controls["left"]]:
+            self.vel[0] = -self.speed
+
+        if key[self.controls["special1"]]:
+            self.spacial1()
+
+        if key[self.controls["special2"]]:
+            self.spacial2()
 
     def spacial1(self):
         pass
@@ -92,6 +91,12 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = self.pos[1]
 
     def bounds(self):
+        if self.pos[1] <= 0 and self.vel[1] < 0:
+            self.airtime = 0.002
+            self.u = 0
+        elif self.pos[1] >= gameVariables.screenSize[1] - self.rect.size[1] and self.vel[1] > 0:
+            self.airtime = 0
+            self.u = 0
         for i in range(2):
             if self.pos[i] <= 0 and self.vel[i] < 0:
                 self.vel[i] = 0
@@ -99,8 +104,6 @@ class Player(pygame.sprite.Sprite):
             elif self.pos[i] >= gameVariables.screenSize[i] - self.rect.size[i] and self.vel[i] > 0:
                 self.vel[i] = 0
                 self.pos[i] = gameVariables.screenSize[i] - self.rect.size[i]
-                self.airtime = 0
-                self.u = 0
 
     def update(self, keys, time):
         self.time = time/1000
