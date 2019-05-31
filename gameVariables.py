@@ -11,3 +11,5 @@ player1_controls = [pygame.K_w, pygame.K_s, pygame.K_d, pygame.K_a, pygame.K_q, 
 player2_controls = [pygame.K_KP8, pygame.K_KP5, pygame.K_KP6, pygame.K_KP4, pygame.K_KP7, pygame.K_KP9]
 
 defBull = pygame.image
+
+gravity = 20

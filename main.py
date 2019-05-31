@@ -170,7 +170,7 @@ def main(): #################################################################
         stage.draw(screen, avrg)
 
         players.draw(screen)
-        players.update(pygame.key.get_pressed())
+        players.update(pygame.key.get_pressed(), clock.get_time())
 
         v = 5
         gameFunctions.print_text(bigfont, xPos + v, 15 + v, title, Color.LIGHT_GRAY, screen)

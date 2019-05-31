@@ -25,7 +25,7 @@ class Color(Enum):
     BLUE = (0, 0, 255)
     LIGHT_GRAY = (30, 30, 30)
 
-
+'''
 class Bullets(pygame.sprite.Sprite):
     def __init__(self, x, y, img=gameVariables.defBull, xVel=5):
         super().__init__()
@@ -39,7 +39,7 @@ class Bullets(pygame.sprite.Sprite):
     def render(self):
         pygame.draw.circle(window, Color.YELLOW, ((self.x) % 800, self.y), self.radius)
 
-
+'''
 class Player(pygame.sprite.Sprite):
     def __init__(self, img, controls, name, pos, sz=.5):
         super().__init__()
@@ -48,6 +48,10 @@ class Player(pygame.sprite.Sprite):
         self.hp = 20
         self.name = name
         self.speed = 5
+        self.jump = 6
+        self.airtime = 0.001
+        self.time = 0
+        self.u = 0
 
         self.controls = controls
 
@@ -61,10 +65,13 @@ class Player(pygame.sprite.Sprite):
     def handleKeys(self, key):
         for j, i in enumerate(self.controls):
             if key[i]:
-                if j == 0:
-                    self.vel[1] = -self.speed
+                if j == 0 and self.airtime < 0.2:
+                    self.vel[1] = -self.jump
+                    self.u = -self.jump
+                    self.airtime = self.time
                 elif j == 1:
-                    self.vel[1] = self.speed
+                    pass
+                    # self.vel[1] = self.speed
                 elif j == 2:
                     self.vel[0] = self.speed
                 elif j == 3:
@@ -88,12 +95,20 @@ class Player(pygame.sprite.Sprite):
         for i in range(2):
             if self.pos[i] <= 0 and self.vel[i] < 0:
                 self.vel[i] = 0
+                self.pos[i] = 0
             elif self.pos[i] >= gameVariables.screenSize[i] - self.rect.size[i] and self.vel[i] > 0:
                 self.vel[i] = 0
+                self.pos[i] = gameVariables.screenSize[i] - self.rect.size[i]
+                self.airtime = 0
+                self.u = 0
 
-    def update(self, keys):
+    def update(self, keys, time):
+        self.time = time/1000
         self.bounds()
-        self.pos = list(map(lambda x, y: int(x+y), self.pos, self.vel))
-        self.vel = list(map(gameFunctions.decel, self.vel))
         self.handleKeys(keys)
+        self.pos = list(map(lambda x, y: int(x+y), self.pos, self.vel))
+        self.vel[0] = gameFunctions.decel(self.vel[0])
         self.position()
+        if self.airtime != 0:
+            self.airtime += self.time
+            self.vel[1] = gameFunctions.gravity(self.u, self.airtime)

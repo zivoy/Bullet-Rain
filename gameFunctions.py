@@ -87,8 +87,7 @@ def placeAt(percent):
     return int(gameVariables.screenSize[0]*percent[0]/100), int(gameVariables.screenSize[1]*percent[1]/100)
 
 
-def decel(val):
-    rate = .5
+def decel(val, rate=.5):
     neg = -1 if val < 0 else 1
 
     if val != 0:
@@ -108,3 +107,7 @@ def avreagePos(sprites):
 
 def avrage(items):
     return sum(items) / len(items)
+
+
+def gravity(initalVel, airtime):
+    return initalVel + gameVariables.gravity * airtime
