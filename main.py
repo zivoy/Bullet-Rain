@@ -58,60 +58,56 @@ def die_sum(lister):
     return int(adder)
 
 def main(): #################################################################
-
-
-    instructions = True  # intro is the boolean that keeps me in the introduction window
-
-    # makes a variable where I will record the keys pressed by the user when typing the name
-    player1_name = ""
-    player2_name = ""
-
-    # first screen
-    screen.fill(BLACK)
-
-    # this is the text that appear on the intro screen askign the user for the name
-    gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", Color.RED, screen)
-    gameFunctions.print_text(win, 10, 100, "This is a two-player game and here are the instructions:", Color.BLUE,
-                             screen)
-    gameFunctions.print_text(myfont, 10, 150, "Each player is a character in the world of Rain.", Color.WHITE, screen)
-    gameFunctions.print_text(myfont, 10, 200, "the game is a PVP game last man standing", Color.WHITE, screen)
-    gameFunctions.print_text(myfont, 10, 250, "In this game there are power-ups and ledges to jump to", Color.WHITE,
-                             screen)
-    gameFunctions.print_text(myfont, 10, 300, "Good luck", Color.WHITE, screen)
-    gameFunctions.print_text(myfont, 10, 350, "The player who reaches five points first wins!", Color.RED, screen)
-    gameFunctions.print_text(myfont, 10, 400, "But before playing we need to take you to some other screens.",
-                             Color.WHITE, screen)
-    gameFunctions.print_text(myfont, 10, 450, "Please press enter to continue.", Color.WHITE, screen)
-
-    pygame.display.flip()
-
-    while instructions:
+    leave = False
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                return
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
-                    instructions = False
+                    leave = True
+        if leave:
+            leave = False
+            break
+
+        # first screen
+        screen.fill(BLACK)
+
+        # this is the text that appear on the intro screen askign the user for the name
+        gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", Color.RED, screen)
+        gameFunctions.print_text(win, 10, 100, "This is a two-player game and here are the instructions:", Color.BLUE,
+                                 screen)
+        gameFunctions.print_text(myfont, 10, 150, "Each player is a character in the world of Rain.", Color.WHITE,
+                                 screen)
+        gameFunctions.print_text(myfont, 10, 200, "the game is a PVP game last man standing", Color.WHITE, screen)
+        gameFunctions.print_text(myfont, 10, 250, "In this game there are power-ups and ledges to jump to", Color.WHITE,
+                                 screen)
+        gameFunctions.print_text(myfont, 10, 300, "Good luck", Color.WHITE, screen)
+        gameFunctions.print_text(myfont, 10, 350, "The player who reaches five points first wins!", Color.RED, screen)
+        gameFunctions.print_text(myfont, 10, 400, "But before playing we need to take you to some other screens.",
+                                 Color.WHITE, screen)
+        gameFunctions.print_text(myfont, 10, 450, "Please press enter to continue.", Color.WHITE, screen)
+
+        pygame.display.flip()
 
     #############################################################################
 
-    intro_player1 = True  # intro is the boolean that keeps me in the introduction window
-
     # makes a variable where I will record the keys pressed by the user when typing the name
     player1_name = ""
     player2_name = ""
 
-    while intro_player1:
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                return
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
-                    intro_player1 = False
+                    leave = True
 
                 player1_name = gameFunctions.typeing(event.key, player1_name)
+        if leave:
+            leave = False
+            break
 
         screen.fill(BLACK)
 
@@ -123,20 +119,19 @@ def main(): #################################################################
 
         pygame.display.flip()
 
-    intro_player2 = True
-
-    while intro_player2:
+    while True:
         screen.fill(BLACK)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                return
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
-                    intro_player2 = False
+                    leave = True
 
                 player2_name = gameFunctions.typeing(event.key, player2_name)
-
+        if leave:
+            leave = False
+            break
         gameFunctions.print_text(win, 10, 25, "Player 2 shall be known as ", Color.RED, screen)
         gameFunctions.print_text(lost, 10, 125, "Enter Your Name", Color.WHITE, screen)
         gameFunctions.print_text(bigfont, 10, 150, player2_name, Color.GREEN, screen)
@@ -162,11 +157,11 @@ def main(): #################################################################
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                return
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
-                    settings()
+                    if settings():
+                        return
         avrg = gameFunctions.avreagePos(players.sprites())
         title = "{0} V.S. {1}".format(player1_name, player2_name)
         xPos, _ = bigfont.size(title)
@@ -191,8 +186,7 @@ def settings():
         screen.fill(BLACK)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                return True
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
                     menu = False
@@ -204,3 +198,5 @@ def settings():
 if __name__ == "__main__":  # ####################################################################
     main()
 
+pygame.quit()
+sys.exit()

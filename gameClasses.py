@@ -84,7 +84,15 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
 
+    def bounds(self):
+        for i in range(2):
+            if self.pos[i] <= 0 and self.vel[i] < 0:
+                self.vel[i] = 0
+            elif self.pos[i] >= gameVariables.screenSize[i] - self.rect.size[i] and self.vel[i] > 0:
+                self.vel[i] = 0
+
     def update(self, keys):
+        self.bounds()
         self.pos = list(map(lambda x, y: int(x+y), self.pos, self.vel))
         self.vel = list(map(gameFunctions.decel, self.vel))
         self.handleKeys(keys)
