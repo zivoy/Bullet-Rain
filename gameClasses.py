@@ -63,6 +63,8 @@ class Player(pygame.sprite.Sprite):
         self.airtime = 0
         self.time = 0
         self.u = 0
+        self.airjumps = 2
+        self.jumptick = 0
 
         self.directions = [gameFunctions.loadImage("{0}/left.png".format(playerSpr), sz),
                            gameFunctions.loadImage("{0}/right.png".format(playerSpr), sz)]
@@ -76,10 +78,14 @@ class Player(pygame.sprite.Sprite):
         self.position()
 
     def handleKeys(self, key):
-        if key[self.controls["jump"]] and self.airtime == 0:
+        if key[self.controls["jump"]] and self.airjumps > 0 and self.jumptick == 0: #self.airtime == 0:
             self.vel[1] = -self.jump
             self.u = -self.jump
+            print(self.airjumps)
             self.airtime = self.time
+            self.jumptick = self.time*1000
+            if self.airtime > 0:
+                self.airjumps -= 1
 
         if key[self.controls["right"]]:
             self.vel[0] = self.speed
@@ -135,6 +141,7 @@ class Player(pygame.sprite.Sprite):
             self.pos[1] = loc - self.rect.h+1
             self.airtime = 0
             self.u = 0
+            self.airjumps = 2
 
         elif direct == "right":
             self.vel[0] = 0
@@ -174,6 +181,7 @@ class Player(pygame.sprite.Sprite):
         self.pos = list(map(lambda x, y: int(x+y), self.pos, self.vel))
         self.vel[0] = gameFunctions.decel(self.vel[0])
         self.position()
+        self.jumptick = max(0, self.jumptick - 1)
         if fall:
             self.airtime += self.time
             self.vel[1] = gameFunctions.gravity(self.u, self.airtime)
