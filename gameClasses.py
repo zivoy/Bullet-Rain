@@ -4,15 +4,7 @@ import gameVariables
 import gameFunctions
 from enum import Enum
 
-# Initializing pygame
-pygame.init()
-
-# Create a screen called window
-window = pygame.display.set_mode((800, 600))
-
-# Title of the game
-pygame.display.set_caption("Bullet Rain")
-
+pygame.font.init()
 nams = pygame.font.SysFont("monospace", 20)
 
 
@@ -132,20 +124,20 @@ class Player(pygame.sprite.Sprite):
         if self.pos[0] < 0 and self.vel[0] < 0:
             self.collisions("left", 0)
 
-        elif self.pos[1] < 0 and self.vel[1] < 0:
+        elif self.pos[1] < 0 - self.offs[1] and self.vel[1] < 0:
             self.collisions("up", 0)
 
         elif self.pos[0] > gameVariables.screenSize[0] - self.colider.size[0] - self.offs[0] and self.vel[0] > 0:
             self.collisions("right", gameVariables.screenSize[0])
 
-        elif self.pos[1] > gameVariables.screenSize[1] - self.colider.size[1] and self.vel[1] > 0:
+        elif self.pos[1] > gameVariables.screenSize[1] - self.rect.size[1] and self.vel[1] > 0:
             self.collisions("down", gameVariables.screenSize[1])
 
     def collisions(self, direct, loc):
         if direct == "up":
             self.vel[1] = 0
-            self.pos[1] = loc + self.offs[1]
-            self.airtime = 0.002
+            self.pos[1] = loc - self.offs[1]
+            self.airtime = 0
             self.u = 0
 
         elif direct == "down":

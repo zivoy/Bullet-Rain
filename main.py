@@ -26,6 +26,8 @@ BLACK = Color.BLACK.value
 clock = pygame.time.Clock()
 # creates a screen
 screen = pygame.display.set_mode(gameVariables.screenSize)
+# Title of the game
+pygame.display.set_caption("Bullet Rain")
 
 
 #################################################
@@ -145,6 +147,7 @@ def main(): #################################################################
     gameVariables.players.add(player1)
     gameVariables.players.add(player2)
 
+    gameVariables.scr = screen
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

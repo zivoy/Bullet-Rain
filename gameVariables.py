@@ -17,5 +17,7 @@ gravity = 15
 
 obstecls = list()
 
+scr = pygame.display.set_mode(screenSize)
+
 players = pygame.sprite.Group()
 projectiles = pygame.sprite.Group()
