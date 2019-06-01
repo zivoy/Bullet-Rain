@@ -16,11 +16,10 @@ def createStage():
 
     for i in floors:
         gameVariables.obstecls.append(i)
+        gameFunctions.fillArea(platforms, gameFunctions.loadImage("ground.jpg", .4), i)
 
     for i in landings:
         gameVariables.obstecls.append(i)
-
-    for i in gameVariables.obstecls:
         gameFunctions.fillArea(platforms, gameFunctions.loadImage("briks.jpg", 1.2), i)
 
 
