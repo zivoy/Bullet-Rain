@@ -13,8 +13,6 @@ player2_keys = [pygame.K_KP8, pygame.K_KP5, pygame.K_KP6, pygame.K_KP4, pygame.K
 player1_controls = dict(zip(actions, player1_keys))
 player2_controls = dict(zip(actions, player2_keys))
 
-defBull = pygame.image
-
 gravity = 15
 
 obstecls = list()

@@ -139,8 +139,8 @@ def main(): #################################################################
 
     stage.createStage()
 
-    player1 = Player("player1", "left", gameVariables.player1_controls, player1_name, (200, 200))
-    player2 = Player("player2", "right", gameVariables.player2_controls, player2_name, (600, 200))
+    player1 = Player("player1", "right", gameVariables.player1_controls, player1_name, (200, 200))
+    player2 = Player("player2", "left", gameVariables.player2_controls, player2_name, (600, 200))
 
     gameVariables.players.add(player1)
     gameVariables.players.add(player2)
@@ -154,7 +154,7 @@ def main(): #################################################################
                     if settings():
                         return
         avrg = gameFunctions.avreagePos(gameVariables.players.sprites())
-        title = "{0} V.S. {1}".format(player1_name, player2_name)
+        title = "{0}: {2} V.S. {1}: {3}".format(player1_name, player2_name, score[0], score[1])
         xPos, _ = bigfont.size(title)
         xPos = gameVariables.screenSize[0]/2 - xPos/2
         screen.fill(BLACK)
