@@ -60,7 +60,7 @@ class Player(pygame.sprite.Sprite):
         self.name = name
         self.speed = 5
         self.jump = 10 #6
-        self.airtime = 0.001
+        self.airtime = 0
         self.time = 0
         self.u = 0
 
@@ -111,38 +111,38 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = self.pos[1]
 
     def bounds(self):
-        if self.pos[0] <= 0 and self.vel[0] < 0:
-                self.collisions("left")
+        if self.pos[0] < 0 and self.vel[0] < 0:
+            self.collisions("left", 0)
 
-        elif self.pos[1] <= 0 and self.vel[1] < 0:
-                self.collisions("up")
+        elif self.pos[1] < 0 and self.vel[1] < 0:
+            self.collisions("up", 0)
 
-        elif self.pos[0] >= gameVariables.screenSize[0] - self.rect.size[0] and self.vel[0] > 0:
-                self.collisions("right")
+        elif self.pos[0] > gameVariables.screenSize[0] - self.rect.size[0] and self.vel[0] > 0:
+            self.collisions("right", gameVariables.screenSize[0])
 
-        elif self.pos[1] >= gameVariables.screenSize[1] - self.rect.size[1] and self.vel[1] > 0:
-                self.collisions("down")
+        elif self.pos[1] > gameVariables.screenSize[1] - self.rect.size[1] and self.vel[1] > 0:
+            self.collisions("down", gameVariables.screenSize[1])
 
-    def collisions(self, direct):
+    def collisions(self, direct, loc):
         if direct == "up":
             self.vel[1] = 0
-            self.pos[1] = 0
+            self.pos[1] = loc
             self.airtime = 0.002
             self.u = 0
 
         elif direct == "down":
             self.vel[1] = 0
-            self.pos[1] = gameVariables.screenSize[1] - self.rect.size[1]
+            self.pos[1] = loc - self.rect.h+1
             self.airtime = 0
             self.u = 0
 
         elif direct == "right":
             self.vel[0] = 0
-            self.pos[0] = gameVariables.screenSize[0] - self.rect.size[0]
+            self.pos[0] = loc - self.rect.w
 
         elif direct == "left":
             self.vel[0] = 0
-            self.pos[0] = 0
+            self.pos[0] = loc
 
     def reImage(self):
         image = self.directions[self.direc]
@@ -151,13 +151,29 @@ class Player(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
+    def fall(self):
+        l = [self.rect.x, self.rect.y + self.rect.h-10]
+        r = [self.rect.x + self.rect.w, self.rect.y + self.rect.h+10]
+        benth = pygame.Rect(l, r)
+
+        if benth.collidelist(gameVariables.obstecls) != -1:
+            self.airtime = 0.001
+            self.u = 0
+
     def update(self, keys, time):
         self.time = time/1000
+        fall = True
+        for i in gameVariables.obstecls:
+            colisions = gameFunctions.colideDir(self.rect, i)
+            if colisions is not None:
+                self.collisions(colisions[0], colisions[1])
+                if colisions[0] == "down":
+                    fall = False
         self.bounds()
         self.handleKeys(keys)
         self.pos = list(map(lambda x, y: int(x+y), self.pos, self.vel))
         self.vel[0] = gameFunctions.decel(self.vel[0])
         self.position()
-        if self.airtime != 0:
+        if fall:
             self.airtime += self.time
             self.vel[1] = gameFunctions.gravity(self.u, self.airtime)

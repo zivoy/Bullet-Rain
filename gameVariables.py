@@ -16,3 +16,8 @@ player2_controls = dict(zip(actions, player2_keys))
 defBull = pygame.image
 
 gravity = 15
+
+obstecls = list()
+
+players = pygame.sprite.Group()
+projectiles = pygame.sprite.Group()

@@ -119,3 +119,18 @@ def avrage(items):
 
 def gravity(initalVel, airtime):
     return initalVel + gameVariables.gravity * airtime
+
+
+def colideDir(rect1, rect2):
+    if rect1.colliderect(rect2):
+
+        if rect1.midbottom[1] > rect2.midtop[1] > rect1.centery:
+            return "down", rect2.midtop[1]
+        elif rect1.midtop[1] < rect2.midbottom[1] < rect1.centery:
+            return "up", rect2.midbottom[1]
+        elif rect1.midleft[0] < rect2.midright[0] < rect1.centerx:
+            return "left", rect2.midright[0]
+        elif rect1.midright[0] > rect2.midleft[0] > rect1.centerx:
+            return "right", rect2.midleft[0]
+    else:
+        return None, None

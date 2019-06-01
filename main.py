@@ -137,18 +137,13 @@ def main(): #################################################################
     if player2_name == "":
         player2_name = "Player 2"
 
-    curr = (0, 0)
-
     stage.createStage()
-
-    players = pygame.sprite.Group()
-    projectiles = pygame.sprite.Group()
 
     player1 = Player("player1", "left", gameVariables.player1_controls, player1_name, (200, 200))
     player2 = Player("player2", "right", gameVariables.player2_controls, player2_name, (600, 200))
 
-    players.add(player1)
-    players.add(player2)
+    gameVariables.players.add(player1)
+    gameVariables.players.add(player2)
 
     while True:
         for event in pygame.event.get():
@@ -158,15 +153,15 @@ def main(): #################################################################
                 if event.key == pygame.K_ESCAPE:
                     if settings():
                         return
-        avrg = gameFunctions.avreagePos(players.sprites())
+        avrg = gameFunctions.avreagePos(gameVariables.players.sprites())
         title = "{0} V.S. {1}".format(player1_name, player2_name)
         xPos, _ = bigfont.size(title)
         xPos = gameVariables.screenSize[0]/2 - xPos/2
         screen.fill(BLACK)
         stage.draw(screen, avrg)
 
-        players.draw(screen)
-        players.update(pygame.key.get_pressed(), clock.get_time())
+        gameVariables.players.draw(screen)
+        gameVariables.players.update(pygame.key.get_pressed(), clock.get_time(),)
 
         v = 5
         gameFunctions.print_text(bigfont, xPos + v, 15 + v, title, Color.LIGHT_GRAY, screen)
