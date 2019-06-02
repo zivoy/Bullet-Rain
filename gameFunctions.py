@@ -73,6 +73,9 @@ def drawRectangle(startPos, endPos, inv=True):
     xEnd = xEnd - xStart
     yEnd = yEnd - yStart
 
+    xStart, xEnd = positiveBox(xStart, xEnd)
+    yStart, yEnd = positiveBox(yStart, yEnd)
+
     return pygame.Rect(xStart, yStart, xEnd, yEnd)
 
 
@@ -124,41 +127,9 @@ def gravity(initalVel, airtime):
     return initalVel + gameVariables.gravity * airtime
 
 
-'''
-def colideDir(rect1, rect2):
-    buffer = 3
-    edge = 5
-    surrnods = [drawRectangle((rect1.topleft[0], rect1.topleft[1] + edge),
-                              (rect1.bottomleft[0] - buffer, rect1.bottomleft[1] - edge), False),
-                drawRectangle((rect1.bottomleft[0] + edge, rect1.bottomleft[1]),
-                              (rect1.bottomright[0] - edge, rect1.bottomright[1] + buffer), False),
-                drawRectangle((rect1.topright[0], rect1.topright[1] + edge),
-                              (rect1.bottomright[0] + buffer, rect1.bottomright[1] - edge), False),
-                drawRectangle((rect1.topleft[0] + edge, rect1.topleft[1]),
-                              (rect1.topright[0] - edge, rect1.topright[1] - buffer), False)]
-    if rect1.colliderect(rect2):
-
-
-
-
-
-        if rect2.colliderect(surrnods[1]):
-            return "down", rect2.midtop[1]
-        if rect2.colliderect(surrnods[3]):
-            return "up", rect2.midbottom[1]
-        if rect2.colliderect(surrnods[0]):
-            return "left", rect2.midright[0]
-        if rect2.colliderect(surrnods[2]):
-            return "right", rect2.midleft[0]
-
-        \'''if  rect1.centery < rect2.midtop[1] < rect1.midbottom[1]:
-            return "down", rect2.midtop[1]
-        elif rect1.midtop[1] < rect2.midbottom[1] < rect1.centery:
-            return "up", rect2.midbottom[1]
-        elif rect1.midleft[0] < rect2.midright[0] < rect1.centerx:
-            return "left", rect2.midright[0]
-        elif rect1.midright[0] > rect2.midleft[0] > rect1.centerx:
-            return "right", rect2.midleft[0]\'''
+def positiveBox(start, gofor):
+    if gofor < 0:
+        start += gofor
+        return start, abs(gofor)
     else:
-        return None, None
-'''
+        return start, gofor

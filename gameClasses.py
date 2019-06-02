@@ -171,6 +171,7 @@ class Player(pygame.sprite.Sprite):
         self.colider = image.get_rect()
 
     def colideIn(self):
+        saf = 4
 
         coordsX = self.colider.topright if self.vel[0] > 0 else self.colider.topleft
         coordsY = self.colider.bottomleft if self.vel[1] > 0 else self.colider.topleft
@@ -178,33 +179,33 @@ class Player(pygame.sprite.Sprite):
         xSide = False if self.vel[0] > 0 else True
         ySide = False if self.vel[1] > 0 else True
 
-        colliders = [pygame.Rect(*coordsX, self.vel[0], self.colider.h),
-                     pygame.Rect(*coordsY, self.colider.w, self.vel[1])]
+        colliders = [pygame.Rect(coordsX[0], coordsX[1] + saf, self.vel[0], self.colider.h - saf*2),
+                     pygame.Rect(coordsY[0] + saf, coordsY[1], self.colider.w - saf*2, self.vel[1])]
 
         flors = gameFunctions.drawRectangle((self.colider.bottomleft[0], self.colider.bottomleft[1]),
-                              (self.colider.bottomright[0], self.colider.bottomright[1] + 2), False)
+                                            (self.colider.bottomright[0], self.colider.bottomright[1] + 2), False)
 
 
         #for testing purposes
-        for i in colliders:
-            gameFunctions.fillArea(gameVariables.scr, a, i)
+        for scan in colliders:
+            gameFunctions.fillArea(gameVariables.scr, a, scan)
 
-        for i in gameVariables.obstecls:
-            if colliders[0].colliderect(i) and colliders[0].w != 0:
+        for obstecles in gameVariables.obstecls:
+            if colliders[0].colliderect(obstecles) and colliders[0].w != 0:
                 offSide = 0 if xSide else self.colider.w
-                wallAt = i.midright[0] if xSide else i.midleft[0]
+                wallAt = obstecles.midright[0] if xSide else obstecles.midleft[0]
                 self.vel[0] = 0
                 self.pos[0] = wallAt - offSide - self.offs[0]
 
-            if colliders[1].colliderect(i) and colliders[1].h != 0:
+            if colliders[1].colliderect(obstecles) and colliders[1].h != 0:
                 offSide = 0 if ySide else self.colider.h
-                wallAt = i.midbottom[1] if ySide else i.midtop[1]
+                wallAt = obstecles.midbottom[1] if ySide else obstecles.midtop[1]
                 self.vel[1] = 0
                 self.pos[1] = wallAt - offSide - self.offs[1]
                 self.airtime = 0
                 self.u = 0
 
-            if flors.colliderect(i):
+            if flors.colliderect(obstecles):
                 self.airjumps = 2
                 self.fall = False
         self.position()
