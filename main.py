@@ -163,8 +163,11 @@ def main(): #################################################################
         screen.fill(BLACK)
         stage.draw(screen, avrg)
 
+        gameVariables.players.update(pygame.key.get_pressed(), clock.get_time())
+        gameVariables.projectiles.update()
+
         gameVariables.players.draw(screen)
-        gameVariables.players.update(pygame.key.get_pressed(), clock.get_time(),)
+        gameVariables.projectiles.draw(screen)
 
         v = 5
         gameFunctions.print_text(bigfont, xPos + v, 15 + v, title, Color.LIGHT_GRAY, screen)

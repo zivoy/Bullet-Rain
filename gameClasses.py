@@ -21,17 +21,46 @@ class Color(Enum):
 
 
 class Bullets(pygame.sprite.Sprite):
-    def __init__(self, x, y,direc, img ,xVel=5, ):
+    def __init__(self, img, pos, direc, damage, speed, sz=1.0):
         super().__init__()
-        self.x = x
-        self.y = y
-        self.xVel = xVel
-        self.img = img
-        self.direc = 0 if direc == "left" else 1
-        self.radius = 10
+        self.pos = list(pos)
+        self.vel = [0, 0]
+        self.damage = damage
+        self.direc = direc  # 0 left, 1 right, 2 down, 3 up
 
-    def render(self):
-        pygame.draw.circle(window, Color.YELLOW, ((self.x) % 800, self.y), self.radius)
+        turnDeg = {0: 180, 1: 0, 2: 90, 3: 270}
+        self.image = gameFunctions.loadImage("projectiles/{0}".format(img), sz, turnDeg[direc])
+        self.rect = self.image.get_rect()
+
+
+        if direc == 0:
+            self.vel = [-speed, 0]
+            self.pos[0] -= self.rect.w
+        elif direc == 1:
+            self.vel = [speed, 0]
+        elif direc == 2:
+            self.vel = [0, speed]
+        elif direc == 3:
+            self.vel = [0, -speed]
+            self.pos[1] -= self.rect.h
+
+        self.position()
+
+    def collide(self):
+        for obstecles in gameVariables.obstecls:
+            if self.rect.colliderect(obstecles):
+                self.kill()
+
+    def position(self):
+        self.rect.x = self.pos[0]
+        self.rect.y = self.pos[1]
+
+    def update(self):
+        self.pos = list(map(lambda x, y: int(x + y), self.pos, self.vel))
+        self.collide()
+        self.position()
+
+
 
 ####################################****#################################************************
 
@@ -91,13 +120,15 @@ class Player(pygame.sprite.Sprite):
 
         if key[self.controls["right"]]:
             self.vel[0] = self.speed
-            self.direc = 1
-            self.reImage()
+            if self.direc != 1:
+                self.direc = 1
+                self.reImage()
 
         if key[self.controls["left"]]:
             self.vel[0] = -self.speed
-            self.direc = 0
-            self.reImage()
+            if self.direc != 0:
+                self.direc = 0
+                self.reImage()
 
         if key[self.controls["sneak"]]:
             self.speed = 2
@@ -108,14 +139,17 @@ class Player(pygame.sprite.Sprite):
 
         if key[self.controls["special1"]] and self.spacial1tick == 0:
             self.spacial1()
-            self.spacial1tick = 10
+            self.spacial1tick = 20
 
         if key[self.controls["special2"]] and self.spacial2tick == 0:
             self.spacial2()
-            self.spacial2tick = 100
+            self.spacial2tick = 1000
 
     def spacial1(self):
-        pass
+        spawnS = self.colider.midright if self.direc == 1 else self.colider.midleft
+        bullet = Bullets("bullet.png", spawnS, self.direc, 5, 20, 1.4)
+        gameVariables.projectiles.add(bullet)
+        #print("bam")
 
     def spacial2(self):
         pass
@@ -185,16 +219,16 @@ class Player(pygame.sprite.Sprite):
                 self.fall = False
         self.position()
 
+    def gotHit(self):
+        for projectile in gameVariables.projectiles:
+            if self.colider.colliderect(projectile.rect):
+                self.hp -= projectile.damage
+                projectile.kill()
+
     def update(self, keys, time):
         self.time = time/1000
-        '''for i in gameVariables.obstecls:
-            colisions = gameFunctions.colideDir(self.colider, i)
-            if colisions is not None:
-                if colisions[0] == "down":
-                    fall = False'''
         self.fall = True
         self.colideIn()
-       # self.bounds()
         self.handleKeys(keys)
 
         self.pos = list(map(lambda x, y: int(x+y), self.pos, self.vel))
@@ -205,6 +239,8 @@ class Player(pygame.sprite.Sprite):
         self.jumptick = max(0, self.jumptick - 1)
         self.spacial1tick = max(0, self.spacial1tick - 1)
         self.spacial2tick = max(0, self.spacial2tick - 1)
+
+        self.gotHit()
 
         if self.fall:
             self.airtime += self.time
