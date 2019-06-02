@@ -65,12 +65,6 @@ class Bullets(pygame.sprite.Sprite):
 ####################################****#################################************************
 
 
-
-
-
-
-a=gameFunctions.loadImage("ground.jpg",.05)
-
 #######################################################################################
 
 class Player(pygame.sprite.Sprite):
@@ -143,10 +137,10 @@ class Player(pygame.sprite.Sprite):
 
         if key[self.controls["special2"]] and self.spacial2tick == 0:
             self.spacial2()
-            self.spacial2tick = 1000
+            self.spacial2tick = 10000
 
     def spacial1(self):
-        spawnS = self.colider.midright if self.direc == 1 else self.colider.midleft
+        spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
         bullet = Bullets("bullet.png", spawnS, self.direc, 5, 20, 1.4)
         gameVariables.projectiles.add(bullet)
         #print("bam")
@@ -225,6 +219,16 @@ class Player(pygame.sprite.Sprite):
                 self.hp -= projectile.damage
                 projectile.kill()
 
+    def life(self):
+        if self.hp <= 0:
+            self.hp = 20
+            openet = gameVariables.player_list.opponent(self.name)
+            curr = gameVariables.player_list.playerScore(openet)
+            gameVariables.player_list.playerScore(openet, curr+1)
+
+        '''if gameVariables.score[self.name] <= 0:
+            self.kill()'''
+
     def update(self, keys, time):
         self.time = time/1000
         self.fall = True
@@ -241,7 +245,48 @@ class Player(pygame.sprite.Sprite):
         self.spacial2tick = max(0, self.spacial2tick - 1)
 
         self.gotHit()
+        self.life()
 
         if self.fall:
             self.airtime += self.time
             self.vel[1] = gameFunctions.gravity(self.u, self.airtime)
+
+
+class StatusBars:
+    def __init__(self):
+        pass
+
+
+class PlayerList:
+    def __init__(self, player1, player2, scoreStart=0):
+        self.player1 = player1
+        self.player2 = player2
+        self.score = [scoreStart, scoreStart]
+
+    def __getitem__(self, val):
+        if val == 0:
+            return self.player1
+        else:
+            return self.player2
+
+    def __getattr__(self, item):
+        if item == "list":
+            return {self.player1: self.score[0], self.player2: self.score[1]}
+        else:
+            if isinstance(self, item):
+                return self.item
+
+    def opponent(self, player):
+        return {self.player2: self.player1,
+                self.player1: self.player2}[player]
+
+    def index(self, player):
+        return {self.player1: 0,
+                self.player2: 1}[player]
+
+    def playerScore(self, player, setTo=None):
+        if setTo is not None:
+            self.score[self.index(player)] = setTo
+        else:
+            return self.score[self.index(player)]
+

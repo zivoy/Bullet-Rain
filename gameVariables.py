@@ -1,4 +1,6 @@
-from gameClasses import *
+#from gameClasses import *
+import gameClasses
+from gameClasses import pygame
 
 screenSize = [800, 800]
 stage = pygame.image
@@ -17,7 +19,9 @@ gravity = 15
 
 obstecls = list()
 
-scr = pygame.display.set_mode(screenSize)
+#scr = pygame.display.set_mode(screenSize)
 
 players = pygame.sprite.Group()
 projectiles = pygame.sprite.Group()
+
+player_list = dict()
