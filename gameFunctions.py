@@ -55,7 +55,7 @@ def loadImage(img, scl=1, rot=0, aaScale=True):
 
 
 def typeing(key, varb):
-    if chr(key).lower() in gameVariables.keys:
+    if chr(key).lower() in gameVariables.keys and len(varb) < 16:
         varb += chr(key)
     elif key == pygame.K_BACKSPACE:
         varb = varb[:-1]

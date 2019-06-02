@@ -171,7 +171,7 @@ class Player(pygame.sprite.Sprite):
         self.colider = image.get_rect()
 
     def colideIn(self):
-        saf = 4
+        saf = 8
 
         coordsX = self.colider.topright if self.vel[0] > 0 else self.colider.topleft
         coordsY = self.colider.bottomleft if self.vel[1] > 0 else self.colider.topleft
@@ -179,17 +179,23 @@ class Player(pygame.sprite.Sprite):
         xSide = False if self.vel[0] > 0 else True
         ySide = False if self.vel[1] > 0 else True
 
+        xF = -1 if xSide else 1
+        yF = -1 if ySide else 1
+
         colliders = [pygame.Rect(coordsX[0], coordsX[1] + saf, self.vel[0], self.colider.h - saf*2),
                      pygame.Rect(coordsY[0] + saf, coordsY[1], self.colider.w - saf*2, self.vel[1])]
 
-        flors = gameFunctions.drawRectangle((self.colider.bottomleft[0], self.colider.bottomleft[1]),
-                                            (self.colider.bottomright[0], self.colider.bottomright[1] + 2), False)
+        flors = gameFunctions.drawRectangle((self.colider.bottomleft[0]+saf, self.colider.bottomleft[1]),
+                                            (self.colider.bottomright[0]-saf, self.colider.bottomright[1] + 1), False)
 
-
+        '''
         #for testing purposes
         for scan in colliders:
-            gameFunctions.fillArea(gameVariables.scr, a, scan)
-
+            if scan.w == 0 or scan.h == 0:
+                continue
+            else:
+                pygame.draw.rect(gameVariables.scr, [63, 64, 65], scan)
+        '''
         for obstecles in gameVariables.obstecls:
             if colliders[0].colliderect(obstecles) and colliders[0].w != 0:
                 offSide = 0 if xSide else self.colider.w
