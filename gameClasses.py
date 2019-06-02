@@ -40,7 +40,7 @@ class Bullets(pygame.sprite.Sprite):
 
 
 
-
+a=gameFunctions.loadImage("ground.jpg",.05)
 
 #######################################################################################
 
@@ -61,6 +61,8 @@ class Player(pygame.sprite.Sprite):
         self.airjumps = 2
         self.jumptick = 0
         self.offs = [0, 23]
+
+        self.fall = True
 
         self.spacial1tick = 0
         self.spacial2tick = 0
@@ -163,30 +165,71 @@ class Player(pygame.sprite.Sprite):
                  image.get_size()[1]+self.offs[1]]
         self.image = pygame.Surface(bonds, pygame.SRCALPHA)
         self.image.blit(image, self.offs)
-        gameFunctions.print_text(nams, 0, 0, self.name, Color.WHITE, self.image)
+        gameFunctions.print_text(nams, bonds[0]/2-self.namelength/2, 0, self.name, Color.WHITE, self.image)
 
         self.rect = self.image.get_rect()
         self.colider = image.get_rect()
 
+    def colideIn(self):
+
+        coordsX = self.colider.topright if self.vel[0] > 0 else self.colider.topleft
+        coordsY = self.colider.bottomleft if self.vel[1] > 0 else self.colider.topleft
+
+        xSide = False if self.vel[0] > 0 else True
+        ySide = False if self.vel[1] > 0 else True
+
+        colliders = [pygame.Rect(*coordsX, self.vel[0], self.colider.h),
+                     pygame.Rect(*coordsY, self.colider.w, self.vel[1])]
+
+        flors = gameFunctions.drawRectangle((self.colider.bottomleft[0], self.colider.bottomleft[1]),
+                              (self.colider.bottomright[0], self.colider.bottomright[1] + 2), False)
+
+
+        #for testing purposes
+        for i in colliders:
+            gameFunctions.fillArea(gameVariables.scr, a, i)
+
+        for i in gameVariables.obstecls:
+            if colliders[0].colliderect(i) and colliders[0].w != 0:
+                offSide = 0 if xSide else self.colider.w
+                wallAt = i.midright[0] if xSide else i.midleft[0]
+                self.vel[0] = 0
+                self.pos[0] = wallAt - offSide - self.offs[0]
+
+            if colliders[1].colliderect(i) and colliders[1].h != 0:
+                offSide = 0 if ySide else self.colider.h
+                wallAt = i.midbottom[1] if ySide else i.midtop[1]
+                self.vel[1] = 0
+                self.pos[1] = wallAt - offSide - self.offs[1]
+                self.airtime = 0
+                self.u = 0
+
+            if flors.colliderect(i):
+                self.airjumps = 2
+                self.fall = False
+        self.position()
+
     def update(self, keys, time):
         self.time = time/1000
-        fall = True
-        for i in gameVariables.obstecls:
+        '''for i in gameVariables.obstecls:
             colisions = gameFunctions.colideDir(self.colider, i)
             if colisions is not None:
-                self.collisions(colisions[0], colisions[1])
                 if colisions[0] == "down":
-                    fall = False
-        self.bounds()
+                    fall = False'''
+        self.fall = True
+        self.colideIn()
+       # self.bounds()
         self.handleKeys(keys)
+
         self.pos = list(map(lambda x, y: int(x+y), self.pos, self.vel))
         self.vel[0] = gameFunctions.decel(self.vel[0])
+
         self.position()
 
         self.jumptick = max(0, self.jumptick - 1)
         self.spacial1tick = max(0, self.spacial1tick - 1)
         self.spacial2tick = max(0, self.spacial2tick - 1)
 
-        if fall:
+        if self.fall:
             self.airtime += self.time
             self.vel[1] = gameFunctions.gravity(self.u, self.airtime)
