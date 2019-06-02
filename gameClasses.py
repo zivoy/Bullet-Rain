@@ -100,7 +100,11 @@ class Player(pygame.sprite.Sprite):
             self.reImage()
 
         if key[self.controls["sneak"]]:
-            pass
+            self.speed = 2
+            self.jump = 5
+        else:
+            self.speed = 5
+            self.jump = 10
 
         if key[self.controls["special1"]] and self.spacial1tick == 0:
             self.spacial1()
@@ -121,41 +125,6 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = self.pos[1]
         self.colider.x = self.pos[0] + self.offs[0]
         self.colider.y = self.pos[1] + self.offs[1]
-
-    def bounds(self):
-        if self.pos[0] < 0 and self.vel[0] < 0:
-            self.collisions("left", 0)
-
-        elif self.pos[1] < 0 - self.offs[1] and self.vel[1] < 0:
-            self.collisions("up", 0)
-
-        elif self.pos[0] > gameVariables.screenSize[0] - self.colider.size[0] - self.offs[0] and self.vel[0] > 0:
-            self.collisions("right", gameVariables.screenSize[0])
-
-        elif self.pos[1] > gameVariables.screenSize[1] - self.rect.size[1] and self.vel[1] > 0:
-            self.collisions("down", gameVariables.screenSize[1])
-
-    def collisions(self, direct, loc):
-        if direct == "up":
-            self.vel[1] = 0
-            self.pos[1] = loc - self.offs[1]
-            self.airtime = 0
-            self.u = 0
-
-        elif direct == "down":
-            self.vel[1] = 0
-            self.pos[1] = loc - self.rect.h+1
-            self.airtime = 0
-            self.u = 0
-            self.airjumps = 2
-
-        elif direct == "right":
-            self.vel[0] = 0
-            self.pos[0] = loc - self.colider.w - self.offs[0]
-
-        elif direct == "left":
-            self.vel[0] = 0
-            self.pos[0] = loc - self.offs[0]
 
     def reImage(self):
         image = self.directions[self.direc]
