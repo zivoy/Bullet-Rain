@@ -1,4 +1,5 @@
 import stage
+import time
 import gameFunctions
 from gameClasses import *
 import gameVariables
@@ -11,6 +12,7 @@ import sys
 pygame.init()
 
 # These are some fonts that I made up with differ sizes for different events such as when you win, lose, etc.
+titlefont = pygame.font.SysFont("kunstlerscript", 200)
 bigfont = pygame.font.SysFont("monospace", 40)
 myfont = pygame.font.SysFont("monospace", 25)
 lost = pygame.font.SysFont("monospace", 20)
@@ -39,7 +41,30 @@ for i in range(1000):
 
 
 def main(): #################################################################
+    next = False
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+                    next = True
+        if next:
+            next = False
+            break
+
+        # first screen
+        screen.fill(BLACK)
+
+        # this is the text that appear on the intro screen askign the user for the name
+        gameFunctions.print_text(titlefont, 200, 300, "Bullet-Rain", Color.RED, screen)
+
+
+        pygame.display.flip()
+
+
     leave = False
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
