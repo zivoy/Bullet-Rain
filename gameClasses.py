@@ -1,5 +1,4 @@
 import pygame
-import random
 import gameVariables
 import gameFunctions
 from enum import Enum
@@ -137,16 +136,18 @@ class Player(pygame.sprite.Sprite):
 
         if key[self.controls["special2"]] and self.spacial2tick == 0:
             self.spacial2()
-            self.spacial2tick = 10000
+            self.spacial2tick = 100
 
     def spacial1(self):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
-        bullet = Bullets("bullet.png", spawnS, self.direc, 5, 20, 1.4)
+        bullet = Bullets("bullet.png", spawnS, self.direc, 5, 20, 1.3)
         gameVariables.projectiles.add(bullet)
         #print("bam")
 
     def spacial2(self):
-        pass
+        spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
+        rocket = Bullets("rocket.png", spawnS, self.direc, 10, 40, 5)
+        gameVariables.projectiles.add(rocket)
 
     def position(self):
         self.rect.x = self.pos[0]

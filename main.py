@@ -31,10 +31,10 @@ pygame.display.set_caption("Bullet Rain")
 
 #################################################
 
-
+'''
 beatlist=[]
 for i in range(1000):
-    beatlist.append(random.randrange(1,7))
+    beatlist.append(random.randrange(1,7))'''
 #############################################
 
 
