@@ -168,7 +168,7 @@ class Player(pygame.sprite.Sprite):
         self.colider = image.get_rect()
 
     def colideIn(self):
-        saf = 8
+        saf = 10
 
         coordsX = self.colider.topright if self.vel[0] > 0 else self.colider.topleft
         coordsY = self.colider.bottomleft if self.vel[1] > 0 else self.colider.topleft
@@ -289,4 +289,3 @@ class PlayerList:
             self.score[self.index(player)] = setTo
         else:
             return self.score[self.index(player)]
-
