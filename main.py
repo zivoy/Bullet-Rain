@@ -31,10 +31,10 @@ pygame.display.set_caption("Bullet Rain")
 
 #################################################
 
-
+'''
 beatlist=[]
 for i in range(1000):
-    beatlist.append(random.randrange(1,7))
+    beatlist.append(random.randrange(1,7))'''
 #############################################
 
 
@@ -159,6 +159,7 @@ def main(): #################################################################
         gameFunctions.print_text(bigfont, xPos + v, 15 + v, title, Color.LIGHT_GRAY, screen)
         gameFunctions.print_text(bigfont, xPos, 15, title, Color.WHITE, screen)
 
+        pygame.display.update()
         pygame.display.flip()
         clock.tick(60)
 

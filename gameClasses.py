@@ -1,5 +1,4 @@
 import pygame
-import random
 import gameVariables
 import gameFunctions
 from enum import Enum
@@ -133,20 +132,22 @@ class Player(pygame.sprite.Sprite):
 
         if key[self.controls["special1"]] and self.spacial1tick == 0:
             self.spacial1()
-            self.spacial1tick = 20
+            self.spacial1tick = 12
 
         if key[self.controls["special2"]] and self.spacial2tick == 0:
             self.spacial2()
-            self.spacial2tick = 10000
+            self.spacial2tick = 250
 
     def spacial1(self):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
-        bullet = Bullets("bullet.png", spawnS, self.direc, 5, 20, 1.4)
+        bullet = Bullets("bullet.png", spawnS, self.direc, 5, 20, 1.3)
         gameVariables.projectiles.add(bullet)
         #print("bam")
 
     def spacial2(self):
-        pass
+        spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
+        rocket = Bullets("rocket.png", spawnS, self.direc, 10, 30, 5)
+        gameVariables.projectiles.add(rocket)
 
     def position(self):
         self.rect.x = self.pos[0]
@@ -168,7 +169,7 @@ class Player(pygame.sprite.Sprite):
         self.colider = image.get_rect()
 
     def colideIn(self):
-        saf = 8
+        saf = 10
 
         coordsX = self.colider.topright if self.vel[0] > 0 else self.colider.topleft
         coordsY = self.colider.bottomleft if self.vel[1] > 0 else self.colider.topleft
@@ -289,4 +290,3 @@ class PlayerList:
             self.score[self.index(player)] = setTo
         else:
             return self.score[self.index(player)]
-
