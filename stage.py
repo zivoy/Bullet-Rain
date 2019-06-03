@@ -13,8 +13,8 @@ def createStage():
               gameFunctions.drawRectangle(placeAt((101, 0)), placeAt((100, 100)))]
 
     landings = [gameFunctions.drawRectangle(placeAt((20, 30)), placeAt((40, 35))),
-                gameFunctions.drawRectangle(placeAt((50, 30)), placeAt((60, 35))),
-                gameFunctions.drawRectangle(placeAt((45, 57)), placeAt((60, 50))),
+                gameFunctions.drawRectangle(placeAt((60, 30)), placeAt((80, 35))),
+                gameFunctions.drawRectangle(placeAt((45, 59)), placeAt((65, 56))),
                 gameFunctions.drawRectangle(placeAt((30, 60)), placeAt((32, 100)))]
 
     for i in floors:
