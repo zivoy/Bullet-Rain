@@ -132,11 +132,11 @@ class Player(pygame.sprite.Sprite):
 
         if key[self.controls["special1"]] and self.spacial1tick == 0:
             self.spacial1()
-            self.spacial1tick = 20
+            self.spacial1tick = 12
 
         if key[self.controls["special2"]] and self.spacial2tick == 0:
             self.spacial2()
-            self.spacial2tick = 100
+            self.spacial2tick = 250
 
     def spacial1(self):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
@@ -146,7 +146,7 @@ class Player(pygame.sprite.Sprite):
 
     def spacial2(self):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
-        rocket = Bullets("rocket.png", spawnS, self.direc, 10, 40, 5)
+        rocket = Bullets("rocket.png", spawnS, self.direc, 10, 30, 5)
         gameVariables.projectiles.add(rocket)
 
     def position(self):
