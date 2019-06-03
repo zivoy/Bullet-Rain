@@ -170,7 +170,7 @@ class Player(pygame.sprite.Sprite):
 
     def colideIn(self):
         saf = 10
-
+        self.position()
         coordsX = self.colider.topright if self.vel[0] > 0 else self.colider.topleft
         coordsY = self.colider.bottomleft if self.vel[1] > 0 else self.colider.topleft
 
@@ -186,14 +186,16 @@ class Player(pygame.sprite.Sprite):
         flors = gameFunctions.drawRectangle((self.colider.bottomleft[0]+saf, self.colider.bottomleft[1]),
                                             (self.colider.bottomright[0]-saf, self.colider.bottomright[1] + 1), False)
 
-        '''
+        """
         #for testing purposes
         for scan in colliders:
             if scan.w == 0 or scan.h == 0:
                 continue
             else:
                 pygame.draw.rect(gameVariables.scr, [63, 64, 65], scan)
-        '''
+            pygame.draw.rect(gameVariables.scr, [255, 255, 255], flors)
+        """
+
         for obstecles in gameVariables.obstecls:
             if colliders[0].colliderect(obstecles) and colliders[0].w != 0:
                 offSide = 0 if xSide else self.colider.w
