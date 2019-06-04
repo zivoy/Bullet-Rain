@@ -209,7 +209,7 @@ class Player(pygame.sprite.Sprite):
                 wallAt = obstecles.midbottom[1] if ySide else obstecles.midtop[1]
                 self.vel[1] = 0
                 self.pos[1] = wallAt - offSide - self.offs[1]
-                self.airtime = 0
+                self.airtime = 0.001
                 self.u = 0
 
             if flors.colliderect(obstecles):
