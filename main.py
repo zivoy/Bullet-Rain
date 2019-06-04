@@ -143,9 +143,9 @@ def main(): #################################################################
         pygame.display.flip()
 
     if gameVariables.player_list.player1 == "":
-        gameVariables.player_list.player1 = "Player 1"
+        gameVariables.player_list.player1 = "ROB"
     if gameVariables.player_list.player2 == "":
-        gameVariables.player_list.player2 = "Player 2"
+        gameVariables.player_list.player2 = "BOB"
 
     stage.createStage()
 
