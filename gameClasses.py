@@ -90,8 +90,11 @@ class Player(pygame.sprite.Sprite):
         self.spacial1tick = 0
         self.spacial2tick = 0
 
+        self.dead = False
+
         self.directions = [gameFunctions.loadImage("{0}/left.png".format(playerSpr), sz),
                            gameFunctions.loadImage("{0}/right.png".format(playerSpr), sz)]
+        self.deadImg = gameFunctions.loadImage("{0}/dead.png".format(playerSpr), sz)
 
         self.controls = controls
 
@@ -160,8 +163,9 @@ class Player(pygame.sprite.Sprite):
         self.colider.x = self.pos[0] + self.offs[0]
         self.colider.y = self.pos[1] + self.offs[1]
 
-    def reImage(self):
-        image = self.directions[self.direc]
+    def reImage(self, image=None):
+        if image is None:
+            image = self.directions[self.direc]
         if image.get_size()[0] < self.namelength:
             self.offs[0] = (self.namelength - image.get_size()[0]) / 2
         bonds = [max(self.namelength, image.get_size()[0]),
@@ -232,39 +236,46 @@ class Player(pygame.sprite.Sprite):
             curr = gameVariables.player_list.playerScore(openet)
             gameVariables.player_list.playerScore(openet, curr + 1)
 
+            self.reImage(self.deadImg)
+            self.dead = True
+
         '''if gameVariables.score[self.name] <= 0:
             self.kill()'''
 
     def update(self, keys, time):
-        self.time = time / 1000
-        self.fall = True
-        self.handleKeys(keys)
+        if not self.dead:
+            self.time = time / 1000
+            self.fall = True
+            self.handleKeys(keys)
 
-        self.colideIn()
+            self.colideIn()
 
-        self.pos = list(map(lambda x, y: int(x + y), self.pos, self.vel))
-        self.vel[0] = gameFunctions.decel(self.vel[0])
+            self.pos = list(map(lambda x, y: int(x + y), self.pos, self.vel))
+            self.vel[0] = gameFunctions.decel(self.vel[0])
 
-        self.colideIn()
+            self.colideIn()
 
-        self.position()
+            self.position()
 
-        self.jumptick = max(0, self.jumptick - 1)
-        self.spacial1tick = max(0, self.spacial1tick - 1)
-        self.spacial2tick = max(0, self.spacial2tick - 1)
+            self.jumptick = max(0, self.jumptick - 1)
+            self.spacial1tick = max(0, self.spacial1tick - 1)
+            self.spacial2tick = max(0, self.spacial2tick - 1)
 
-        self.gotHit()
-        self.life()
+            self.gotHit()
+            self.life()
 
-        if self.fall:
-            self.airtime += self.time
-            self.vel[1] = gameFunctions.gravity(self.u, self.airtime)
+            if self.fall:
+                self.airtime += self.time
+                self.vel[1] = gameFunctions.gravity(self.u, self.airtime)
 
-        if self.clip == 0:
-            self.reloadTick = max(0, self.reloadTick - 1)
+            if self.clip == 0:
+                self.reloadTick = max(0, self.reloadTick - 1)
 
-        if self.reloadTick == 0:
-            self.clip = gameVariables.clip_size
+            if self.reloadTick == 0:
+                self.clip = gameVariables.clip_size
+        elif keys[gameVariables.revive_key]:
+            self.dead = False
+            self.reImage()
 
 
 class StatusBars:
