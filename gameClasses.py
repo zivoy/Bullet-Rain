@@ -134,7 +134,7 @@ class Player(pygame.sprite.Sprite):
         if key[self.controls["special1"]] and self.spacial1tick == 0 and self.clip > 0:
             self.spacial1()
             self.spacial1tick = 12
-            self.clip -= 1
+            self.clip = max(0, self.clip - 1)
             self.reloadTick = gameVariables.reload_speed
 
         if key[self.controls["special2"]] and self.spacial2tick == 0:
@@ -262,6 +262,9 @@ class Player(pygame.sprite.Sprite):
 
         if self.clip == 0:
             self.reloadTick = max(0, self.reloadTick - 1)
+
+        if self.reloadTick == 0:
+            self.clip = gameVariables.clip_size
 
 
 class StatusBars:
