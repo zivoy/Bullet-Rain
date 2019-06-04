@@ -11,7 +11,7 @@ import sys
 pygame.init()
 
 # These are some fonts that I made up with differ sizes for different events such as when you win, lose, etc.
-titlefont = pygame.font.SysFont("kunstlerscript", 200)
+titlefont = pygame.font.Font("kunstler.ttf", 200)
 bigfont = pygame.font.SysFont("monospace", 40)
 myfont = pygame.font.SysFont("monospace", 25)
 lost = pygame.font.SysFont("monospace", 20)
