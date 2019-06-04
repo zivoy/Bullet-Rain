@@ -25,3 +25,9 @@ players = pygame.sprite.Group()
 projectiles = pygame.sprite.Group()
 
 player_list = dict()
+
+player_lives = 5
+player_health = 20
+
+bullet_speed = 20
+rocket_speed = 30

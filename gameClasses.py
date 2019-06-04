@@ -71,7 +71,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.vel = [0, 0]
         self.pos = pos
-        self.hp = 20
+        self.hp = gameVariables.player_health
         self.direc = 0 if direc == "left" else 1
         self.name = name
         self.namelength, _ = nams.size(name)
@@ -140,13 +140,13 @@ class Player(pygame.sprite.Sprite):
 
     def spacial1(self):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
-        bullet = Bullets("bullet.png", spawnS, self.direc, 5, 20, 1.3)
+        bullet = Bullets("bullet.png", spawnS, self.direc, 5, gameVariables.bullet_speed, 1.3)
         gameVariables.projectiles.add(bullet)
         #print("bam")
 
     def spacial2(self):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
-        rocket = Bullets("rocket.png", spawnS, self.direc, 10, 30, 5)
+        rocket = Bullets("rocket.png", spawnS, self.direc, 10, gameVariables.rocket_speed, 5)
         gameVariables.projectiles.add(rocket)
 
     def position(self):
@@ -224,7 +224,7 @@ class Player(pygame.sprite.Sprite):
 
     def life(self):
         if self.hp <= 0:
-            self.hp = 20
+            self.hp = gameVariables.player_health
             openet = gameVariables.player_list.opponent(self.name)
             curr = gameVariables.player_list.playerScore(openet)
             gameVariables.player_list.playerScore(openet, curr+1)
@@ -292,3 +292,8 @@ class PlayerList:
             self.score[self.index(player)] = setTo
         else:
             return self.score[self.index(player)]
+
+
+class RebindButton:
+    def __init__(self, key, player):
+        pass
