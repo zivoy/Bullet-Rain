@@ -142,16 +142,16 @@ class Player(pygame.sprite.Sprite):
             self.spacial2tick = 250
 
     def spacial1(self):
-        self.position()
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
-        bullet = Bullets("bullet.png", (spawnS[0]+self.vel[0], spawnS[1]), self.direc, 5, gameVariables.bullet_speed, 1.3)
+        bullet = Bullets("bullet.png", (spawnS[0]+self.vel[0], spawnS[1]),
+                         self.direc, 5, gameVariables.bullet_speed, 1.3)
         gameVariables.projectiles.add(bullet)
         # print("bam")
 
     def spacial2(self):
-        self.position()
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
-        rocket = Bullets("rocket.png", (spawnS[0]+self.vel[0], spawnS[1]), self.direc, 10, gameVariables.rocket_speed, 5)
+        rocket = Bullets("rocket.png", (spawnS[0]+self.vel[0], spawnS[1]),
+                         self.direc, 10, gameVariables.rocket_speed, 5)
         gameVariables.projectiles.add(rocket)
 
     def position(self):
