@@ -80,7 +80,7 @@ class Player(pygame.sprite.Sprite):
         self.airtime = 0
         self.time = 0
         self.u = 0
-        self.airjumps = 2
+        self.airjumps = 1
         self.jumptick = 0
         self.offs = [0, 23]
 
@@ -170,7 +170,7 @@ class Player(pygame.sprite.Sprite):
         self.position()
 
     def colideIn(self):
-        saf = 10
+        saf = 13
         self.position()
         coordsX = self.colider.topright if self.vel[0] > 0 else self.colider.topleft
         coordsY = self.colider.bottomleft if self.vel[1] > 0 else self.colider.topleft
@@ -182,7 +182,7 @@ class Player(pygame.sprite.Sprite):
         yF = -1 if ySide else 1
 
         colliders = [pygame.Rect(coordsX[0], coordsX[1] + saf, self.vel[0], self.colider.h - saf*2),
-                     pygame.Rect(coordsY[0] + saf, coordsY[1], self.colider.w - saf*2, self.vel[1])]
+                     pygame.Rect(coordsY[0] + saf, coordsY[1], self.colider.w - saf, self.vel[1])]
 
         flors = gameFunctions.drawRectangle((self.colider.bottomleft[0]+saf, self.colider.bottomleft[1]),
                                             (self.colider.bottomright[0]-saf, self.colider.bottomright[1] + 1), False)
@@ -213,7 +213,7 @@ class Player(pygame.sprite.Sprite):
                 self.u = 0
 
             if flors.colliderect(obstecles):
-                self.airjumps = 2
+                self.airjumps = 1
                 self.fall = False
         self.position()
 
@@ -236,11 +236,14 @@ class Player(pygame.sprite.Sprite):
     def update(self, keys, time):
         self.time = time/1000
         self.fall = True
-        self.colideIn()
         self.handleKeys(keys)
+
+        self.colideIn()
 
         self.pos = list(map(lambda x, y: int(x+y), self.pos, self.vel))
         self.vel[0] = gameFunctions.decel(self.vel[0])
+
+        self.colideIn()
 
         self.position()
 

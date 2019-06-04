@@ -9,9 +9,9 @@ def createStage():
     platforms = pygame.Surface(gameVariables.screenSize, pygame.SRCALPHA)
 
     floors = [gameFunctions.drawRectangle(placeAt((0, 10)), placeAt((100, 0))),
-              gameFunctions.drawRectangle(placeAt((-1, 0)), placeAt((0, 100))),
-              gameFunctions.drawRectangle(placeAt((101, 0)), placeAt((100, 100))),
-              gameFunctions.drawRectangle(placeAt((0, 102)), placeAt((100, 100)))]
+              gameFunctions.drawRectangle(placeAt((-5, 0)), placeAt((0, 100))),
+              gameFunctions.drawRectangle(placeAt((105, 0)), placeAt((100, 100))),
+              gameFunctions.drawRectangle(placeAt((0, 105)), placeAt((100, 100)))]
 
     landings = [gameFunctions.drawRectangle(placeAt((20, 30)), placeAt((40, 35))),
                 gameFunctions.drawRectangle(placeAt((60, 30)), placeAt((80, 35))),
