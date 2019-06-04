@@ -38,3 +38,5 @@ settings = settings.load()
 
 clip_size = 20
 reload_speed = 150
+
+revive_key = pygame.K_SPACE

@@ -3,7 +3,9 @@ import gameVariables
 
 settings_file = "settings.json"
 screenSizes = {"small": [625, 400], "medium": [938, 600], "large": [1250, 800]}
-diffs = {"easy": [], "medium": [], "hard": []}
+diffs = {"easy": {"projectile": [14, 25], "clip": [50, 100]},
+         "medium": {"projectile": [20, 30], "clip": [20, 150]},
+         "hard": {"projectile": [30, 45], "clip": [12, 220]}}
 
 
 def write(data, file=settings_file):
@@ -30,3 +32,7 @@ def apply():
     gameVariables.player_lives = data["lives"]
     gameVariables.player_health = data["health per life"]
     gameVariables.power_ups = data["power-ups"]
+    gameVariables.bullet_speed = diffs[data["difficulty"]]["projectile"][0]
+    gameVariables.rocket_speed = diffs[data["difficulty"]]["projectile"][1]
+    gameVariables.clip_size = diffs[data["difficulty"]]["clip"][0]
+    gameVariables.reload_speed = diffs[data["difficulty"]]["clip"][1]
