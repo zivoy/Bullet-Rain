@@ -1,7 +1,7 @@
 {
-  "difficulty": [0,1,2],
+  "difficulty": 0,
   "screen": "large",
-  "lives": "integer",
-  "health per life": "integer",
-  "power-ups": "yes"
+  "lives": 5,
+  "health per life": 20,
+  "power-ups": true
 }

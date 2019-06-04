@@ -167,6 +167,7 @@ class Player(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
         self.colider = image.get_rect()
+        self.position()
 
     def colideIn(self):
         saf = 10

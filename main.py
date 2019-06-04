@@ -1,6 +1,6 @@
 import stage
-import time
 import gameFunctions
+import settings
 from gameClasses import *
 import gameVariables
 import pygame
@@ -19,7 +19,7 @@ lost = pygame.font.SysFont("monospace", 20)
 win = pygame.font.SysFont("monospace", 30)
 
 
-gameVariables.screenSize = (1250, 800)
+settings.load()
 
 BLACK = Color.BLACK.value
 

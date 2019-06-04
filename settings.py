@@ -2,7 +2,7 @@ import json
 import gameVariables
 
 settings_file = "settings.json"
-screenSizes = {"Small": [625, 400], "Medium": [938, 600], "Large": [1250, 800]}
+screenSizes = {"small": [625, 400], "medium": [938, 600], "large": [1250, 800]}
 
 
 def write(data):
@@ -20,4 +20,7 @@ def compose():
 
 
 def load():
-    pass
+    data = read()
+    gameVariables.screenSize = screenSizes[data["screen"].lower()]
+    gameVariables.player_lives = data["lives"]
+    gameVariables.player_health = data["health per life"]
