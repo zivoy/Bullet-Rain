@@ -1,6 +1,7 @@
 from gameClasses import *
 import gameVariables
 
+
 def loadBack(aa=True):
     sz = loadImage(gameVariables.img).get_size()
     szc = list(sz)
@@ -40,6 +41,8 @@ def print_text(font, x, y, text, color, screen):
     """Draws a text image to display surface"""
     text_image = font.render(text, True, color.value)
     screen.blit(text_image, (x, y))
+
+
 #########
 
 
@@ -49,7 +52,7 @@ def loadImage(img, scl=1, rot=0, aaScale=True):
         imge = pygame.transform.rotozoom(imge, rot, scl)
     else:
         imge = pygame.transform.rotozoom(imge, rot, 1)
-        scl = list(map(lambda x: int(x*scl), imge.get_size()))
+        scl = list(map(lambda x: int(x * scl), imge.get_size()))
         imge = pygame.transform.scale(imge, scl)
     return imge
 
@@ -86,19 +89,19 @@ def invCord(cords):
 
 
 def fillArea(screen, img, rect):
-    #pygame.draw.rect(screen, [63, 64, 65], rect)
+    # pygame.draw.rect(screen, [63, 64, 65], rect)
     platform = pygame.Surface([abs(rect.w), abs(rect.h)], pygame.SRCALPHA)
     imgr = img.get_rect()
     fitX = abs(rect.w / imgr.w)
     fitY = abs(rect.h / imgr.h)
-    for i in range(round(fitX+.5)):
-        for j in range(round(fitY+.5)):
-            platform.blit(img, (imgr.w*i, imgr.h*j))
+    for i in range(round(fitX + .5)):
+        for j in range(round(fitY + .5)):
+            platform.blit(img, (imgr.w * i, imgr.h * j))
     screen.blit(platform, (rect.x, rect.y))
 
 
 def placeAt(percent):
-    return int(gameVariables.screenSize[0]*percent[0]/100), int(gameVariables.screenSize[1]*percent[1]/100)
+    return int(gameVariables.screenSize[0] * percent[0] / 100), int(gameVariables.screenSize[1] * percent[1] / 100)
 
 
 def decel(val, rate=.5):
@@ -114,8 +117,8 @@ def avreagePos(sprites):
     x = list()
     y = list()
     for i in sprites:
-        x.append(i.rect.x + i.rect.w/2)
-        y.append(i.rect.y + i.rect.h/2)
+        x.append(i.rect.x + i.rect.w / 2)
+        y.append(i.rect.y + i.rect.h / 2)
     return avrage(x), avrage(y)
 
 
@@ -133,3 +136,10 @@ def positiveBox(start, gofor):
         return start, abs(gofor)
     else:
         return start, gofor
+
+
+def flag(item1, item2, curr):
+    if curr == item1:
+        return item2
+    else:
+        return item1

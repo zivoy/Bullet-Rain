@@ -6,7 +6,6 @@ import gameVariables
 import pygame
 import sys
 
-
 ####from fiirstclass import bla ###    Put classes here
 
 pygame.init()
@@ -18,11 +17,10 @@ myfont = pygame.font.SysFont("monospace", 25)
 lost = pygame.font.SysFont("monospace", 20)
 win = pygame.font.SysFont("monospace", 30)
 
-
 settings.load()
+settings.apply()
 
 BLACK = Color.BLACK.value
-
 
 # use clock to slow things down
 clock = pygame.time.Clock()
@@ -37,10 +35,12 @@ pygame.display.set_caption("Bullet Rain")
 beatlist=[]
 for i in range(1000):
     beatlist.append(random.randrange(1,7))'''
+
+
 #############################################
 
 
-def main(): #################################################################
+def main():  #################################################################
     next = False
     while True:
         for event in pygame.event.get():
@@ -59,9 +59,7 @@ def main(): #################################################################
         # this is the text that appear on the intro screen askign the user for the name
         gameFunctions.print_text(titlefont, 200, 300, "Bullet-Rain", Color.RED, screen)
 
-
         pygame.display.flip()
-
 
     leave = False
 
@@ -117,7 +115,8 @@ def main(): #################################################################
         screen.fill(BLACK)
 
         # this is the text that appear on the intro screen askign the user for the name
-        gameFunctions.print_text(win, 10, 25, "The first thing you need to do is to enter your names", Color.BLUE, screen)
+        gameFunctions.print_text(win, 10, 25, "The first thing you need to do is to enter your names", Color.BLUE,
+                                 screen)
         gameFunctions.print_text(win, 10, 175, "Player 1 shall be known as ", Color.RED, screen)
         gameFunctions.print_text(lost, 10, 225, "Enter Your Name", Color.WHITE, screen)
         gameFunctions.print_text(bigfont, 10, 250, gameVariables.player_list.player1, Color.GREEN, screen)
@@ -157,7 +156,7 @@ def main(): #################################################################
 
     gameVariables.score = gameVariables.player_list.list
 
-    #gameVariables.scr = screen
+    # gameVariables.scr = screen
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -170,7 +169,7 @@ def main(): #################################################################
         title = "{0}: {2} V.S. {1}: {3}".format(*gameVariables.player_list.list.keys(),
                                                 *gameVariables.player_list.list.values())
         xPos, _ = bigfont.size(title)
-        xPos = gameVariables.screenSize[0]/2 - xPos/2
+        xPos = gameVariables.screenSize[0] / 2 - xPos / 2
         screen.fill(BLACK)
         stage.draw(screen, avrg)
 

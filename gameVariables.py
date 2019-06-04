@@ -1,5 +1,5 @@
 #from gameClasses import *
-import gameClasses
+import settings
 from gameClasses import pygame
 
 screenSize = [800, 800]
@@ -31,3 +31,10 @@ player_health = 20
 
 bullet_speed = 20
 rocket_speed = 30
+
+power_ups = True
+
+settings = settings.load()
+
+clip_size = 20
+reload_speed = 150

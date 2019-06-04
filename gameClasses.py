@@ -31,7 +31,6 @@ class Bullets(pygame.sprite.Sprite):
         self.image = gameFunctions.loadImage("projectiles/{0}".format(img), sz, turnDeg[direc])
         self.rect = self.image.get_rect()
 
-
         if direc == 0:
             self.vel = [-speed, 0]
             self.pos[0] -= self.rect.w
@@ -60,7 +59,6 @@ class Bullets(pygame.sprite.Sprite):
         self.position()
 
 
-
 ####################################****#################################************************
 
 
@@ -76,13 +74,16 @@ class Player(pygame.sprite.Sprite):
         self.name = name
         self.namelength, _ = nams.size(name)
         self.speed = 5
-        self.jump = 10 #6
+        self.jump = 10  # 6
         self.airtime = 0
         self.time = 0
         self.u = 0
         self.airjumps = 1
         self.jumptick = 0
         self.offs = [0, 23]
+
+        self.clip = gameVariables.clip_size
+        self.reloadTick = gameVariables.reload_speed
 
         self.fall = True
 
@@ -102,10 +103,10 @@ class Player(pygame.sprite.Sprite):
         self.position()
 
     def handleKeys(self, key):
-        if key[self.controls["jump"]] and self.airjumps > 0 and self.jumptick == 0: #self.airtime == 0:
+        if key[self.controls["jump"]] and self.airjumps > 0 and self.jumptick == 0:  # self.airtime == 0:
             self.vel[1] = -self.jump
             self.u = -self.jump
-        #    print(self.airjumps)
+            #    print(self.airjumps)
             self.airtime = self.time
             self.jumptick = 18
             if self.airtime > 0:
@@ -130,9 +131,11 @@ class Player(pygame.sprite.Sprite):
             self.speed = 5
             self.jump = 10
 
-        if key[self.controls["special1"]] and self.spacial1tick == 0:
+        if key[self.controls["special1"]] and self.spacial1tick == 0 and self.clip > 0:
             self.spacial1()
             self.spacial1tick = 12
+            self.clip -= 1
+            self.reloadTick = gameVariables.reload_speed
 
         if key[self.controls["special2"]] and self.spacial2tick == 0:
             self.spacial2()
@@ -142,7 +145,7 @@ class Player(pygame.sprite.Sprite):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
         bullet = Bullets("bullet.png", spawnS, self.direc, 5, gameVariables.bullet_speed, 1.3)
         gameVariables.projectiles.add(bullet)
-        #print("bam")
+        # print("bam")
 
     def spacial2(self):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
@@ -158,12 +161,12 @@ class Player(pygame.sprite.Sprite):
     def reImage(self):
         image = self.directions[self.direc]
         if image.get_size()[0] < self.namelength:
-            self.offs[0] = (self.namelength-image.get_size()[0])/2
+            self.offs[0] = (self.namelength - image.get_size()[0]) / 2
         bonds = [max(self.namelength, image.get_size()[0]),
-                 image.get_size()[1]+self.offs[1]]
+                 image.get_size()[1] + self.offs[1]]
         self.image = pygame.Surface(bonds, pygame.SRCALPHA)
         self.image.blit(image, self.offs)
-        gameFunctions.print_text(nams, bonds[0]/2-self.namelength/2, 0, self.name, Color.WHITE, self.image)
+        gameFunctions.print_text(nams, bonds[0] / 2 - self.namelength / 2, 0, self.name, Color.WHITE, self.image)
 
         self.rect = self.image.get_rect()
         self.colider = image.get_rect()
@@ -178,14 +181,11 @@ class Player(pygame.sprite.Sprite):
         xSide = False if self.vel[0] > 0 else True
         ySide = False if self.vel[1] > 0 else True
 
-        xF = -1 if xSide else 1
-        yF = -1 if ySide else 1
-
-        colliders = [pygame.Rect(coordsX[0], coordsX[1] + saf, self.vel[0], self.colider.h - saf*2),
+        colliders = [pygame.Rect(coordsX[0], coordsX[1] + saf, self.vel[0], self.colider.h - saf * 2),
                      pygame.Rect(coordsY[0] + saf, coordsY[1], self.colider.w - saf, self.vel[1])]
 
-        flors = gameFunctions.drawRectangle((self.colider.bottomleft[0]+saf, self.colider.bottomleft[1]),
-                                            (self.colider.bottomright[0]-saf, self.colider.bottomright[1] + 1), False)
+        flors = gameFunctions.drawRectangle((self.colider.bottomleft[0], self.colider.bottomleft[1]),
+                                            (self.colider.bottomright[0], self.colider.bottomright[1] + 1), False)
 
         """
         #for testing purposes
@@ -228,19 +228,19 @@ class Player(pygame.sprite.Sprite):
             self.hp = gameVariables.player_health
             openet = gameVariables.player_list.opponent(self.name)
             curr = gameVariables.player_list.playerScore(openet)
-            gameVariables.player_list.playerScore(openet, curr+1)
+            gameVariables.player_list.playerScore(openet, curr + 1)
 
         '''if gameVariables.score[self.name] <= 0:
             self.kill()'''
 
     def update(self, keys, time):
-        self.time = time/1000
+        self.time = time / 1000
         self.fall = True
         self.handleKeys(keys)
 
         self.colideIn()
 
-        self.pos = list(map(lambda x, y: int(x+y), self.pos, self.vel))
+        self.pos = list(map(lambda x, y: int(x + y), self.pos, self.vel))
         self.vel[0] = gameFunctions.decel(self.vel[0])
 
         self.colideIn()
@@ -257,6 +257,9 @@ class Player(pygame.sprite.Sprite):
         if self.fall:
             self.airtime += self.time
             self.vel[1] = gameFunctions.gravity(self.u, self.airtime)
+
+        if self.clip == 0:
+            self.reloadTick = max(0, self.reloadTick - 1)
 
 
 class StatusBars:
@@ -301,3 +304,31 @@ class PlayerList:
 class RebindButton:
     def __init__(self, key, player):
         pass
+
+
+class Button(pygame.sprite.Sprite):
+    def __init__(self, message, pos, size, colors, font):
+        super().__init__()
+        self.font = font
+        self.message = message
+        self.colors = colors
+        self.curr_color = 0
+        self.size = size
+        self.image = pygame.Surface(*size, pygame.SRCALPHA)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = pos[0]
+        self.rect.y = pos[1]
+
+    def message(self):
+        self.image.fill(self.colors[self.curr_color])
+        xTx, yTx = self.font.size(self.message)
+        xTx = self.size[0] / 2 - xTx / 2
+        yTx = self.size[1] / 2 - yTx / 2
+
+        text_image = self.font.render(self.message(), True, self.curr_color)
+        self.image.blit(text_image, (xTx, yTx))
+
+    def update(self, mousePos):
+        if self.rect.collidepoint(mousePos):
+            self.curr_color = gameFunctions.flag(0, 1, self.curr_color)
