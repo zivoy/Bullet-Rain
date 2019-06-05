@@ -191,9 +191,10 @@ def main():  #################################################################
 def settings():
     menu = True
     cols = [[0, 0, 255, 255], [255, 0, 0, 255]]
-    opt1 = Button("message", gameFunctions.placeAt((20, 30)), [20, 40], cols, win)
+    opt1 = Button("message", gameFunctions.placeAt((20, 30)), [20, 40], cols, win, 1)
     opt2 = Button("opt", gameFunctions.placeAt((20, 50)), [20, 40], cols, win)
     buts = MultipleOptions([opt1, opt2])
+    dele = 0
 
     while menu:
         screen.fill(BLACK)
@@ -207,14 +208,18 @@ def settings():
         gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", Color.RED, screen)
 
         mPos = (0, 0)
-        if pygame.mouse.get_pressed()[0]:
+        if pygame.mouse.get_pressed()[0] and not dele > 0:
             mPos = pygame.mouse.get_pos()
+            dele = 10
         buts.update(mPos)
 
         buts.draw(screen)
 
         pygame.display.flip()
 
+        if dele > 0:
+            dele -= 1
+        clock.tick(30)
 
 if __name__ == "__main__":  # ####################################################################
     main()

@@ -323,12 +323,12 @@ class RebindButton:
 
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, message, pos, size, colors, font):
+    def __init__(self, message, pos, size, colors, font, deful=0):
         super().__init__()
         self.font = font
         self.message = message
         self.colors = colors
-        self.curr_color = 0
+        self.curr_color = deful
         self.size = size
         self.image = pygame.Surface(size, pygame.SRCALPHA)
 
@@ -343,7 +343,7 @@ class Button(pygame.sprite.Sprite):
         yTx = self.size[1] / 2 - yTx / 2
 
         text_image = self.font.render(self.message, True, [255, 255, 255])
-       # self.image.blit(text_image, (xTx, yTx))
+        self.image.blit(text_image, (xTx, yTx))
 
     def flagColor(self):
         self.curr_color = gameFunctions.flag(0, 1, self.curr_color)
@@ -377,8 +377,9 @@ class MultipleOptions(pygame.sprite.Group):
 
     def update(self, mousePos):
         for j in self.items:
-            if j.update(mousePos):
-                self.selectOne(j.message)
+            if not self.selections[j.message]:
+                if j.update(mousePos):
+                    self.selectOne(j.message)
 
         return self.selections
 
