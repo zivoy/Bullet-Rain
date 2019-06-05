@@ -366,7 +366,7 @@ class MultipleOptions(pygame.sprite.Group):
 
     def updateList(self):
         for i in self.items:
-            if
+            if self.selections[i.message] != bool(i.curr_color):
                 self.selections[i.message] = bool(i.curr_color)
 
     def selectOne(self, pressed):
