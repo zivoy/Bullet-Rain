@@ -146,14 +146,14 @@ class Player(pygame.sprite.Sprite):
 
     def spacial1(self):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
-        bullet = Bullets("bullet.png", (spawnS[0]+self.vel[0], spawnS[1]),
+        bullet = Bullets("bullet.png", (spawnS[0] + self.vel[0], spawnS[1]),
                          self.direc, 5, gameVariables.bullet_speed, 1.3)
         gameVariables.projectiles.add(bullet)
         # print("bam")
 
     def spacial2(self):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
-        rocket = Bullets("rocket.png", (spawnS[0]+self.vel[0], spawnS[1]),
+        rocket = Bullets("rocket.png", (spawnS[0] + self.vel[0], spawnS[1]),
                          self.direc, 10, gameVariables.rocket_speed, 5)
         gameVariables.projectiles.add(rocket)
 
@@ -190,8 +190,8 @@ class Player(pygame.sprite.Sprite):
         colliders = [pygame.Rect(coordsX[0], coordsX[1] + saf, self.vel[0], self.colider.h - saf * 2),
                      pygame.Rect(coordsY[0] + saf, coordsY[1], self.colider.w - saf, self.vel[1])]
 
-        flors = gameFunctions.drawRectangle((self.colider.bottomleft[0], self.colider.bottomleft[1]),
-                                            (self.colider.bottomright[0], self.colider.bottomright[1] + 1), False)
+        flors = gameFunctions.drawRectangle((self.colider.bottomleft[0] + 5, self.colider.bottomleft[1]),
+                                            (self.colider.bottomright[0] - 5, self.colider.bottomright[1] + 1), False)
 
         """
         #for testing purposes
