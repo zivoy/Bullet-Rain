@@ -22,7 +22,7 @@ stage3 = [gameFunctions.drawRectangle(placeAt((25, 30)), placeAt((40, 40))),
           gameFunctions.drawRectangle(placeAt((30, 60)), placeAt((32, 100))),
           gameFunctions.drawRectangle(placeAt((25, 75)), placeAt((32.5, 72.5)))]
 
-def createStage(stage1):
+def createStage(stage):
     global platforms
     platforms = pygame.Surface(gameVariables.screenSize, pygame.SRCALPHA)
 
@@ -35,7 +35,7 @@ def createStage(stage1):
         gameVariables.obstecls.append(i)
         gameFunctions.fillArea(platforms, gameFunctions.loadImage("ground.jpg", .4), i)
 
-    for i in stage3:
+    for i in stage:
         gameVariables.obstecls.append(i)
         gameFunctions.fillArea(platforms, gameFunctions.loadImage("briks.jpg", 1.2), i)
 
