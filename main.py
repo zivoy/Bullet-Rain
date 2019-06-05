@@ -146,7 +146,7 @@ def main():  #################################################################
     if gameVariables.player_list.player2 == "":
         gameVariables.player_list.player2 = "BOB"
 
-    stage.createStage(stage.stage1)
+    stage.createStage(gameVariables.stage_choice)
 
     player1 = Player("player1", "right", gameVariables.player1_controls, gameVariables.player_list.player1, (200, 200))
     player2 = Player("player2", "left", gameVariables.player2_controls, gameVariables.player_list.player2, (600, 200))
