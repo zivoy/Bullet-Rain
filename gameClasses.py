@@ -345,6 +345,39 @@ class Button(pygame.sprite.Sprite):
         text_image = self.font.render(self.message(), True, self.curr_color)
         self.image.blit(text_image, (xTx, yTx))
 
+    def flagColor(self):
+        self.curr_color = gameFunctions.flag(0, 1, self.curr_color)
+
     def update(self, mousePos):
         if self.rect.collidepoint(mousePos):
-            self.curr_color = gameFunctions.flag(0, 1, self.curr_color)
+            self.flagColor()
+            return True
+        self.message()
+
+
+class MultipleOptions(pygame.sprite.Group):
+    def __init__(self, objects):
+        super().__init__()
+        self.items = objects
+        self.selections = dict()
+        self.updateList()
+
+    def updateList(self):
+        for i in self.items:
+            self.selections[i.message] = bool(i.curr_color)
+
+    def selectOne(self, pressed):
+        for i in self.items:
+            if i.message != pressed:
+                self.selections[i.message] = False
+                i.curr_color = 0
+        self.updateList()
+
+
+    def update(self, mousePos):
+        for j in self.items:
+            if j.update():
+                self.selectOne(j.message)
+
+        return self.selections
+
