@@ -191,9 +191,28 @@ def main():  #################################################################
 def settings():
     menu = True
     cols = [[0, 0, 255, 255], [255, 0, 0, 255]]
-    opt1 = Button("message", gameFunctions.placeAt((20, 30)), [20, 40], cols, win, 1)
-    opt2 = Button("opt", gameFunctions.placeAt((20, 50)), [20, 40], cols, win)
-    buts = MultipleOptions([opt1, opt2])
+
+    scrX = 19
+    screenSmall = Button("Small", gameFunctions.placeAt((scrX, 20)), gameFunctions.placeAt((15, 5)), cols, win)
+    screenMedium = Button("Medium", gameFunctions.placeAt((scrX+17, 20)), gameFunctions.placeAt((15, 5)), cols, win)
+    screenLarge = Button("Large", gameFunctions.placeAt((scrX+34, 20)), gameFunctions.placeAt((15, 5)), cols, win, 1)
+
+    diffX = 17
+    easyDiff = Button("Easy", gameFunctions.placeAt((diffX, 30)), gameFunctions.placeAt((15, 5)), cols, win)
+    mediumDiff = Button("Medium", gameFunctions.placeAt((diffX + 17, 30)), gameFunctions.placeAt((15, 5)), cols, win)
+    hardDiff = Button("Hard", gameFunctions.placeAt((diffX + 34, 30)), gameFunctions.placeAt((15, 5)), cols, win, 1)
+
+    powX = 17
+    powTrue = Button("Yes", gameFunctions.placeAt((powX + 17, 40)), gameFunctions.placeAt((15, 5)), cols, win)
+    powFalse = Button("No", gameFunctions.placeAt((powX, 40)), gameFunctions.placeAt((15, 5)), cols, win, 1)
+
+    screenSize = MultipleOptions([screenSmall, screenMedium, screenLarge])
+    diffs = MultipleOptions([easyDiff, mediumDiff, hardDiff])
+    pows = MultipleOptions([powTrue, powFalse])
+
+    save = Button("Save Settings", gameFunctions.placeAt((30, 90)), gameFunctions.placeAt((21, 5)), cols, win)
+    apply = Button("Apply settings", gameFunctions.placeAt((55, 90)), gameFunctions.placeAt((21, 5)), cols, win)
+
     dele = 0
 
     while menu:
@@ -207,13 +226,28 @@ def settings():
 
         gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", Color.RED, screen)
 
+        gameFunctions.print_text(win, *gameFunctions.placeAt((1, 20)), "Screen Size:", Color.WHITE, screen)
+        gameFunctions.print_text(win, *gameFunctions.placeAt((1, 30)), "Difficulty:", Color.WHITE, screen)
+        gameFunctions.print_text(win, *gameFunctions.placeAt((1, 40)), "Power ups:", Color.WHITE, screen)
+
         mPos = (0, 0)
         if pygame.mouse.get_pressed()[0] and not dele > 0:
             mPos = pygame.mouse.get_pos()
-            dele = 10
-        buts.update(mPos)
+            dele = 5
 
-        buts.draw(screen)
+        diffs.update(mPos)
+        screenSize.update(mPos)
+        pows.update(mPos)
+
+        save.update(mPos)
+        apply.update(mPos)
+
+        save.draw(screen)
+        apply.draw(screen)
+
+        diffs.draw(screen)
+        screenSize.draw(screen)
+        pows.draw(screen)
 
         pygame.display.flip()
 

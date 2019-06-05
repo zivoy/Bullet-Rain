@@ -25,7 +25,7 @@ def loadBack(aa=True):
 
 def paralaxBack(screen, pos):
     if gameVariables.stage == pygame.image:
-        loadBack(False)
+        loadBack(True)
     imgSz = gameVariables.stage.get_size()
     xDiff = gameVariables.screenSize[0] - imgSz[0]
     yDiff = gameVariables.screenSize[1] - imgSz[1]

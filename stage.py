@@ -25,7 +25,6 @@ def createStage(stage=1):
                gameFunctions.drawRectangle(placeAt((30, 60)), placeAt((32, 100))),
                gameFunctions.drawRectangle(placeAt((25, 75)), placeAt((32.5, 72.5)))]]
 
-
     platforms = pygame.Surface(gameVariables.screenSize, pygame.SRCALPHA)
 
     floors = [gameFunctions.drawRectangle(placeAt((0, 10)), placeAt((100, 0))),

@@ -188,7 +188,7 @@ class Player(pygame.sprite.Sprite):
         ySide = False if self.vel[1] > 0 else True
 
         colliders = [pygame.Rect(coordsX[0], coordsX[1] + saf, self.vel[0], self.colider.h - saf * 2),
-                     pygame.Rect(coordsY[0] + saf, coordsY[1], self.colider.w - saf, self.vel[1])]
+                     pygame.Rect(int(coordsY[0] + saf / 2), coordsY[1], self.colider.w - saf, self.vel[1])]
 
         flors = gameFunctions.drawRectangle((self.colider.bottomleft[0] + 5, self.colider.bottomleft[1]),
                                             (self.colider.bottomright[0] - 5, self.colider.bottomright[1] + 1), False)
@@ -336,17 +336,20 @@ class Button(pygame.sprite.Sprite):
         self.rect.x = pos[0]
         self.rect.y = pos[1]
 
-    def messageSprite(self):
+    def messageSprite(self, col=Color.WHITE.value):
         self.image.fill(self.colors[self.curr_color])
         xTx, yTx = self.font.size(self.message)
         xTx = self.size[0] / 2 - xTx / 2
         yTx = self.size[1] / 2 - yTx / 2
 
-        text_image = self.font.render(self.message, True, [255, 255, 255])
+        text_image = self.font.render(self.message, True, col)
         self.image.blit(text_image, (xTx, yTx))
 
     def flagColor(self):
         self.curr_color = gameFunctions.flag(0, 1, self.curr_color)
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
 
     def update(self, mousePos):
         if self.rect.collidepoint(mousePos):
@@ -364,6 +367,8 @@ class MultipleOptions(pygame.sprite.Group):
         for i in objects:
             self.add(i)
         self.updateList()
+        for i in self.sprites():
+            i.update([0, 0])
 
     def updateList(self):
         for i in self.items:
@@ -383,3 +388,7 @@ class MultipleOptions(pygame.sprite.Group):
 
         return self.selections
 
+
+class ClickButton(Button):
+    def __init__(self, message, pos, size, colors, font):
+        super().__init__(message[0], pos, size, colors, font)
