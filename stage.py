@@ -22,7 +22,7 @@ stage3 = [gameFunctions.drawRectangle(placeAt((25, 30)), placeAt((40, 40))),
           gameFunctions.drawRectangle(placeAt((30, 60)), placeAt((32, 100))),
           gameFunctions.drawRectangle(placeAt((25, 75)), placeAt((32.5, 72.5)))]
 
-def createStage(stage3):
+def createStage(stage1):
     global platforms
     platforms = pygame.Surface(gameVariables.screenSize, pygame.SRCALPHA)
 
