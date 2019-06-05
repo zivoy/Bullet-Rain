@@ -31,6 +31,8 @@ player_health = 20
 
 bullet_speed = 20
 rocket_speed = 30
+rocket_damage = 10
+bullet_damage = 5
 
 power_ups = True
 
