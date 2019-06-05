@@ -146,7 +146,7 @@ def main():  #################################################################
     if gameVariables.player_list.player2 == "":
         gameVariables.player_list.player2 = "BOB"
 
-    stage.createStage()
+    stage.createStage(stage.stage3)
 
     player1 = Player("player1", "right", gameVariables.player1_controls, gameVariables.player_list.player1, (200, 200))
     player2 = Player("player2", "left", gameVariables.player2_controls, gameVariables.player_list.player2, (600, 200))
@@ -190,6 +190,11 @@ def main():  #################################################################
 
 def settings():
     menu = True
+    cols = [[0, 0, 255, 255], [255, 0, 0, 255]]
+    opt1 = Button("message", gameFunctions.placeAt((20, 30)), [20, 40], cols, win)
+    opt2 = Button("opt", gameFunctions.placeAt((20, 50)), [20, 40], cols, win)
+    buts = MultipleOptions([opt1, opt2])
+
     while menu:
         screen.fill(BLACK)
         for event in pygame.event.get():
@@ -200,6 +205,10 @@ def settings():
                     menu = False
 
         gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", Color.RED, screen)
+        param = pygame.mouse.get_pos()
+        buts.update(param)
+        buts.draw(screen)
+
         pygame.display.flip()
 
 

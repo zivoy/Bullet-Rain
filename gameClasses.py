@@ -330,20 +330,20 @@ class Button(pygame.sprite.Sprite):
         self.colors = colors
         self.curr_color = 0
         self.size = size
-        self.image = pygame.Surface(*size, pygame.SRCALPHA)
+        self.image = pygame.Surface(size, pygame.SRCALPHA)
 
         self.rect = self.image.get_rect()
         self.rect.x = pos[0]
         self.rect.y = pos[1]
 
-    def message(self):
+    def messageSprite(self):
         self.image.fill(self.colors[self.curr_color])
         xTx, yTx = self.font.size(self.message)
         xTx = self.size[0] / 2 - xTx / 2
         yTx = self.size[1] / 2 - yTx / 2
 
-        text_image = self.font.render(self.message(), True, self.curr_color)
-        self.image.blit(text_image, (xTx, yTx))
+        text_image = self.font.render(self.message, True, [255, 255, 255])
+       # self.image.blit(text_image, (xTx, yTx))
 
     def flagColor(self):
         self.curr_color = gameFunctions.flag(0, 1, self.curr_color)
@@ -352,7 +352,7 @@ class Button(pygame.sprite.Sprite):
         if self.rect.collidepoint(mousePos):
             self.flagColor()
             return True
-        self.message()
+        self.messageSprite()
 
 
 class MultipleOptions(pygame.sprite.Group):
@@ -360,23 +360,24 @@ class MultipleOptions(pygame.sprite.Group):
         super().__init__()
         self.items = objects
         self.selections = dict()
+        for i in objects:
+            self.add(i)
         self.updateList()
 
     def updateList(self):
         for i in self.items:
-            self.selections[i.message] = bool(i.curr_color)
+            if self.selections[i.message] != bool(i.curr_color):
+                self.selections[i.message] = bool(i.curr_color)
 
     def selectOne(self, pressed):
         for i in self.items:
             if i.message != pressed:
-                self.selections[i.message] = False
                 i.curr_color = 0
         self.updateList()
 
-
     def update(self, mousePos):
         for j in self.items:
-            if j.update():
+            if j.update(mousePos):
                 self.selectOne(j.message)
 
         return self.selections
