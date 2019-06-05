@@ -105,6 +105,11 @@ class Player(pygame.sprite.Sprite):
 
         self.position()
 
+        statsPos = gameFunctions.placeAt((5, 10)) if self.direc == 1 else gameFunctions.placeAt((91, 10))
+        self.stats = StatusBars(statsPos, gameFunctions.placeAt((4, 70)),
+                                [201, 49, 38, 60], gameVariables.player_health)
+        gameVariables.statuss.add(self.stats)
+
     def handleKeys(self, key):
         if key[self.controls["jump"]] and self.airjumps > 0 and self.jumptick == 0:  # self.airtime == 0:
             self.vel[1] = -self.jump
@@ -231,7 +236,6 @@ class Player(pygame.sprite.Sprite):
 
     def life(self):
         if self.hp <= 0:
-            self.hp = gameVariables.player_health
             openet = gameVariables.player_list.opponent(self.name)
             curr = gameVariables.player_list.playerScore(openet)
             gameVariables.player_list.playerScore(openet, curr + 1)
@@ -243,6 +247,7 @@ class Player(pygame.sprite.Sprite):
             self.kill()'''
 
     def update(self, keys, time):
+        self.stats.update(self.hp)
         if not self.dead:
             self.time = time / 1000
             self.fall = True
@@ -276,11 +281,34 @@ class Player(pygame.sprite.Sprite):
         elif keys[gameVariables.revive_key]:
             self.dead = False
             self.reImage()
+            self.hp = gameVariables.player_health
 
 
-class StatusBars:
-    def __init__(self):
-        pass
+class StatusBars(pygame.sprite.Sprite):
+    def __init__(self, pos, size, color, maxVl):
+        super().__init__()
+        self.color = color
+        self.val = 0
+        self.max = maxVl
+        self.image = pygame.Surface(size, pygame.SRCALPHA)
+        self.rect = self.image.get_rect()
+        self.rect.topleft = pos
+        self.draw()
+        print(pos)
+
+    def draw(self):
+        self.image.fill([0,0,0,0])
+        backroundC = list(map(lambda x: max(0, x-40), self.color))
+        hight = self.val*self.rect.h/self.max
+        req = pygame.Rect(0, hight, *self.rect.size)
+        self.color[3] = 150
+        backroundC[3] = 150
+        self.image.fill(backroundC)
+        pygame.draw.rect(self.image, self.color, req)
+
+    def update(self, val):
+        self.val = val*-1+self.max
+        self.draw()
 
 
 class PlayerList:

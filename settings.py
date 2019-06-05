@@ -2,7 +2,7 @@ import json
 import gameVariables
 
 settings_file = "settings.json"
-screenSizes = {"small": [625, 400], "medium": [938, 600], "large": [1250, 800]}
+screenSizes = {"small": (625, 400), "medium": (938, 600), "large": (1250, 800)}
 
 
 diffs = {"easy": {"projectile": [12, 7], "clip": [50, 100], "damage": [4, 10]},

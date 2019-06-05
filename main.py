@@ -178,6 +178,7 @@ def main():  #################################################################
 
         gameVariables.players.draw(screen)
         gameVariables.projectiles.draw(screen)
+        gameVariables.statuss.draw(screen)
 
         v = 5
         gameFunctions.print_text(bigfont, xPos + v, 15 + v, title, Color.LIGHT_GRAY, screen)
