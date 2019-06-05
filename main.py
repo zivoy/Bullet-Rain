@@ -205,8 +205,12 @@ def settings():
                     menu = False
 
         gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", Color.RED, screen)
-        param = pygame.mouse.get_pos()
-        buts.update(param)
+
+        mPos = (0, 0)
+        if pygame.mouse.get_pressed()[0]:
+            mPos = pygame.mouse.get_pos()
+        buts.update(mPos)
+
         buts.draw(screen)
 
         pygame.display.flip()
