@@ -146,7 +146,7 @@ def main():  #################################################################
     if gameVariables.player_list.player2 == "":
         gameVariables.player_list.player2 = "BOB"
 
-    stage.createStage(gameVariables.stage_choice)
+    stage.createStage(1)
 
     player1 = Player("player1", "right", gameVariables.player1_controls, gameVariables.player_list.player1, (200, 200))
     player2 = Player("player2", "left", gameVariables.player2_controls, gameVariables.player_list.player2, (600, 200))
@@ -156,7 +156,7 @@ def main():  #################################################################
 
     gameVariables.score = gameVariables.player_list.list
 
-    # gameVariables.scr = screen
+    #gameVariables.scr = screen
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -178,6 +178,7 @@ def main():  #################################################################
 
         gameVariables.players.draw(screen)
         gameVariables.projectiles.draw(screen)
+        gameVariables.statuss.draw(screen)
 
         v = 5
         gameFunctions.print_text(bigfont, xPos + v, 15 + v, title, Color.LIGHT_GRAY, screen)
@@ -191,9 +192,30 @@ def main():  #################################################################
 def settings():
     menu = True
     cols = [[0, 0, 255, 255], [255, 0, 0, 255]]
-    opt1 = Button("message", gameFunctions.placeAt((20, 30)), [20, 40], cols, win)
-    opt2 = Button("opt", gameFunctions.placeAt((20, 50)), [20, 40], cols, win)
-    buts = MultipleOptions([opt1, opt2])
+
+    scrX = 19
+    screenSmall = Button("Small", gameFunctions.placeAt((scrX, 20)), gameFunctions.placeAt((15, 5)), cols, win)
+    screenMedium = Button("Medium", gameFunctions.placeAt((scrX+17, 20)), gameFunctions.placeAt((15, 5)), cols, win)
+    screenLarge = Button("Large", gameFunctions.placeAt((scrX+34, 20)), gameFunctions.placeAt((15, 5)), cols, win, 1)
+
+    diffX = 17
+    easyDiff = Button("Easy", gameFunctions.placeAt((diffX, 30)), gameFunctions.placeAt((15, 5)), cols, win)
+    mediumDiff = Button("Medium", gameFunctions.placeAt((diffX + 17, 30)), gameFunctions.placeAt((15, 5)), cols, win, 1)
+    hardDiff = Button("Hard", gameFunctions.placeAt((diffX + 34, 30)), gameFunctions.placeAt((15, 5)), cols, win)
+
+    powX = 16
+    powTrue = Button("Yes", gameFunctions.placeAt((powX + 17, 40)), gameFunctions.placeAt((15, 5)), cols, win)
+    powFalse = Button("No", gameFunctions.placeAt((powX, 40)), gameFunctions.placeAt((15, 5)), cols, win, 1)
+
+    screenSize = MultipleOptions([screenSmall, screenMedium, screenLarge])
+    diffs = MultipleOptions([easyDiff, mediumDiff, hardDiff])
+    pows = MultipleOptions([powTrue, powFalse])
+
+    save = ClickButton("Save Settings", gameFunctions.placeAt((30, 90)), gameFunctions.placeAt((21, 5)), cols, win)
+    apply = ClickButton("Apply settings", gameFunctions.placeAt((55, 90)), gameFunctions.placeAt((21, 5)), cols, win,
+                   func=lambda: print(gameVariables.settings))
+
+    dele = 0
 
     while menu:
         screen.fill(BLACK)
@@ -205,11 +227,35 @@ def settings():
                     menu = False
 
         gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", Color.RED, screen)
-        param = pygame.mouse.get_pos()
-        buts.update(param)
-        buts.draw(screen)
+
+        gameFunctions.print_text(win, *gameFunctions.placeAt((1, 20)), "Screen Size:", Color.WHITE, screen)
+        gameFunctions.print_text(win, *gameFunctions.placeAt((1, 30)), "Difficulty:", Color.WHITE, screen)
+        gameFunctions.print_text(win, *gameFunctions.placeAt((1, 40)), "Power ups:", Color.WHITE, screen)
+
+        mPos = (0, 0)
+        if pygame.mouse.get_pressed()[0] and not dele > 0:
+            mPos = pygame.mouse.get_pos()
+            dele = 5
+
+        diffs.update(mPos)
+        screenSize.update(mPos)
+        pows.update(mPos)
+
+        save.update(mPos)
+        apply.update(mPos)
+
+        save.draw(screen)
+        apply.draw(screen)
+
+        diffs.draw(screen)
+        screenSize.draw(screen)
+        pows.draw(screen)
 
         pygame.display.flip()
+
+        if dele > 0:
+            dele -= 1
+        clock.tick(30)
 
 
 if __name__ == "__main__":  # ####################################################################

@@ -23,6 +23,7 @@ obstecls = list()
 
 players = pygame.sprite.Group()
 projectiles = pygame.sprite.Group()
+statuss = pygame.sprite.Group()
 
 player_list = dict()
 

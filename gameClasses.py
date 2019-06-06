@@ -105,6 +105,11 @@ class Player(pygame.sprite.Sprite):
 
         self.position()
 
+        statsPos = gameFunctions.placeAt((5, 10)) if self.direc == 1 else gameFunctions.placeAt((91, 10))
+        self.stats = StatusBars(statsPos, gameFunctions.placeAt((4, 70)),
+                                [201, 49, 38, 60], gameVariables.player_health)
+        gameVariables.statuss.add(self.stats)
+
     def handleKeys(self, key):
         if key[self.controls["jump"]] and self.airjumps > 0 and self.jumptick == 0:  # self.airtime == 0:
             self.vel[1] = -self.jump
@@ -188,7 +193,7 @@ class Player(pygame.sprite.Sprite):
         ySide = False if self.vel[1] > 0 else True
 
         colliders = [pygame.Rect(coordsX[0], coordsX[1] + saf, self.vel[0], self.colider.h - saf * 2),
-                     pygame.Rect(coordsY[0] + saf, coordsY[1], self.colider.w - saf, self.vel[1])]
+                     pygame.Rect(int(coordsY[0] + saf / 2), coordsY[1], self.colider.w - saf, self.vel[1])]
 
         flors = gameFunctions.drawRectangle((self.colider.bottomleft[0] + 5, self.colider.bottomleft[1]),
                                             (self.colider.bottomright[0] - 5, self.colider.bottomright[1] + 1), False)
@@ -231,10 +236,12 @@ class Player(pygame.sprite.Sprite):
 
     def life(self):
         if self.hp <= 0:
-            self.hp = gameVariables.player_health
             openet = gameVariables.player_list.opponent(self.name)
             curr = gameVariables.player_list.playerScore(openet)
             gameVariables.player_list.playerScore(openet, curr + 1)
+            self.clip = gameVariables.clip_size
+            self.spacial1tick = 0
+            self.spacial2tick = 0
 
             self.reImage(self.deadImg)
             self.dead = True
@@ -243,6 +250,7 @@ class Player(pygame.sprite.Sprite):
             self.kill()'''
 
     def update(self, keys, time):
+        self.stats.update(self.hp)
         if not self.dead:
             self.time = time / 1000
             self.fall = True
@@ -276,11 +284,38 @@ class Player(pygame.sprite.Sprite):
         elif keys[gameVariables.revive_key]:
             self.dead = False
             self.reImage()
+            self.hp = gameVariables.player_health
 
 
-class StatusBars:
-    def __init__(self):
-        pass
+class StatusBars(pygame.sprite.Sprite):
+    def __init__(self, pos, size, color, maxVl, revs=True):
+        super().__init__()
+        self.color = color
+        self.val = 0
+        self.revs = revs
+        self.max = maxVl
+        self.image = pygame.Surface(size, pygame.SRCALPHA)
+        self.rect = self.image.get_rect()
+        self.rect.topleft = pos
+        self.draw()
+        print(pos)
+
+    def draw(self):
+        self.image.fill([0,0,0,0])
+        backroundC = list(map(lambda x: max(0, x-40), self.color))
+        hight = self.val*self.rect.h/self.max
+        req = pygame.Rect(0, hight, *self.rect.size)
+        self.color[3] = 150
+        backroundC[3] = 150
+        self.image.fill(backroundC)
+        pygame.draw.rect(self.image, self.color, req)
+
+    def update(self, val):
+        if self.revs:
+            self.val = val*-1+self.max
+        else:
+            self.val = val
+        self.draw()
 
 
 class PlayerList:
@@ -323,35 +358,40 @@ class RebindButton:
 
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, message, pos, size, colors, font):
+    def __init__(self, message, pos, size, colors, font, deful=0, func=lambda: True):
         super().__init__()
         self.font = font
         self.message = message
         self.colors = colors
-        self.curr_color = 0
+        self.curr_color = deful
         self.size = size
+        self.function = func
         self.image = pygame.Surface(size, pygame.SRCALPHA)
 
         self.rect = self.image.get_rect()
         self.rect.x = pos[0]
         self.rect.y = pos[1]
 
-    def messageSprite(self):
+    def messageSprite(self, col=Color.WHITE.value):
         self.image.fill(self.colors[self.curr_color])
         xTx, yTx = self.font.size(self.message)
         xTx = self.size[0] / 2 - xTx / 2
         yTx = self.size[1] / 2 - yTx / 2
 
-        text_image = self.font.render(self.message, True, [255, 255, 255])
-       # self.image.blit(text_image, (xTx, yTx))
+        text_image = self.font.render(self.message, True, col)
+        self.image.blit(text_image, (xTx, yTx))
 
     def flagColor(self):
         self.curr_color = gameFunctions.flag(0, 1, self.curr_color)
 
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+
     def update(self, mousePos):
         if self.rect.collidepoint(mousePos):
             self.flagColor()
-            return True
+            self.messageSprite()
+            return self.function
         self.messageSprite()
 
 
@@ -363,11 +403,12 @@ class MultipleOptions(pygame.sprite.Group):
         for i in objects:
             self.add(i)
         self.updateList()
+        for i in self.sprites():
+            i.update([0, 0])
 
     def updateList(self):
         for i in self.items:
-            if self.selections[i.message] != bool(i.curr_color):
-                self.selections[i.message] = bool(i.curr_color)
+            self.selections[i.message] = bool(i.curr_color)
 
     def selectOne(self, pressed):
         for i in self.items:
@@ -377,8 +418,14 @@ class MultipleOptions(pygame.sprite.Group):
 
     def update(self, mousePos):
         for j in self.items:
-            if j.update(mousePos):
-                self.selectOne(j.message)
+            if not self.selections[j.message]:
+                if j.update(mousePos):
+                    self.selectOne(j.message)
 
         return self.selections
 
+
+class ClickButton(Button):
+    def __init__(self, message, pos, size, colors, font, func=lambda: True):
+        colors[1] = colors[0]
+        super().__init__(message, pos, size, colors, font, func=func)
