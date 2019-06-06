@@ -33,16 +33,16 @@ pygame.display.set_caption("Bullet Rain")
 
 
 def main():  #################################################################
-    next = False
+    leave = False
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
-                    next = True
-        if next:
-            next = False
+                    leave = True
+        if leave:
+            leave = False
             break
 
         # first screen
@@ -52,8 +52,6 @@ def main():  #################################################################
         gameFunctions.print_text(titlefont, 200, 300, "Bullet-Rain", Color.RED, screen)
 
         pygame.display.flip()
-
-    leave = False
 
     while True:
         for event in pygame.event.get():
@@ -132,6 +130,7 @@ def main():  #################################################################
 
                 gameVariables.player_list.player2 = gameFunctions.typeing(event.key, gameVariables.player_list.player2)
         if leave:
+            leave = False
             break
         gameFunctions.print_text(win, 10, 25, "Player 2 shall be known as ", Color.RED, screen)
         gameFunctions.print_text(lost, 10, 125, "Enter Your Name", Color.WHITE, screen)
@@ -148,19 +147,6 @@ def main():  #################################################################
 
 
 ###############################++++++++++++++++++++++#########################3
-
-
-
-
-
-
-
-
-
-
-
-
-    leave=False
 
     while True:
         for event in pygame.event.get():
@@ -190,16 +176,6 @@ def main():  #################################################################
         gameFunctions.print_text(myfont, 10, 400, "Good luck...",
                                  Color.WHITE, screen)
         pygame.display.flip()
-
-
-
-
-
-
-
-
-
-
 
 
 

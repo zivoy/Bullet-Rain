@@ -285,15 +285,18 @@ class Player(pygame.sprite.Sprite):
             if self.reloadTick == 0:
                 self.clip = gameVariables.clip_size
 
-        elif keys[gameVariables.revive_key]:
-            self.respawn_tick = 120
+        elif keys[gameVariables.revive_key] and not self.doRespawn:
+            self.respawn_tick = 0
             self.doRespawn = True
 
-        if self.doRespawn and self.respawn_tick == 0:
+        if self.doRespawn and self.respawn_tick >= 120:
             self.respawn()
             self.doRespawn = False
 
-        self.respawn_tick = max(0, self.respawn_tick-1)
+        if self.doRespawn:
+            self.hp = self.respawn_tick/120*20
+
+        self.respawn_tick = min(120, self.respawn_tick+1)
 
 
     def respawn(self):
