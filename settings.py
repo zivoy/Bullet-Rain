@@ -49,7 +49,4 @@ def apply():
     gameVariables.reload_speed = diffs[data["difficulty"]]["clip"][1]
     gameVariables.bullet_damage = diffs[data["difficulty"]]["damage"][0]
     gameVariables.rocket_damage = diffs[data["difficulty"]]["damage"][1]
-    #gameVariables.stage_choice = stage.stage1
-    gameVariables.stage_choice = stage.stage3
-    #gameVariables.stage_choice = stage.stage3
-
+    gameVariables.stage_choice = 1
