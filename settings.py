@@ -5,9 +5,9 @@ import stage
 settings_file = "settings.json"
 screenSizes = {"small": (625, 400), "medium": (938, 600), "large": (1250, 800)}
 
-diffs = {"easy": {"projectile": [12, 7], "clip": [50, 100], "damage": [4, 10]},
-         "medium": {"projectile": [15, 10], "clip": [20, 150], "damage": [5, 15]},
-         "hard": {"projectile": [20, 15], "clip": [12, 220], "damage": [7, 20]}}
+diffs = {"easy": {"projectile": [12, 7], "clip": [30, 40], "damage": [4, 10], "bullet rain": 30},
+         "medium": {"projectile": [15, 10], "clip": [12, 80], "damage": [5, 15], "bullet rain": 30},
+         "hard": {"projectile": [20, 15], "clip": [5, 150], "damage": [7, 20], "bullet rain": 30}}
 
 stage_choice = ''
 
@@ -43,3 +43,4 @@ def apply():
     gameVariables.bullet_damage = diffs[data["difficulty"]]["damage"][0]
     gameVariables.rocket_damage = diffs[data["difficulty"]]["damage"][1]
     gameVariables.stage_choice = 1
+    gameVariables.img = "opt4.jpg"

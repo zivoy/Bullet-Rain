@@ -4,7 +4,7 @@ from gameClasses import pygame
 
 screenSize = [800, 800]
 stage = pygame.image
-img = "opt4.jpg"
+img = "opt1.jpg"
 
 keys = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v",
         "w", "x", "y", "z", "-", "_"]
@@ -43,3 +43,7 @@ clip_size = 20
 reload_speed = 150
 
 revive_key = pygame.K_SPACE
+
+rain_amount = 10
+
+stage_choice = 1
