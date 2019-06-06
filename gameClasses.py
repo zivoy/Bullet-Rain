@@ -387,12 +387,13 @@ class Button(pygame.sprite.Sprite):
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
-    def update(self, mousePos):
-        if self.rect.collidepoint(mousePos):
-            self.flagColor()
+    def update(self, mouse, accept):
+        if accept:
+            if self.rect.collidepoint(mouse.get_pos()):
+                self.flagColor()
+                self.messageSprite()
+                return self.function
             self.messageSprite()
-            return self.function
-        self.messageSprite()
 
 
 class MultipleOptions(pygame.sprite.Group):
@@ -404,7 +405,7 @@ class MultipleOptions(pygame.sprite.Group):
             self.add(i)
         self.updateList()
         for i in self.sprites():
-            i.update([0, 0])
+            i.update([0, 0], False)
 
     def updateList(self):
         for i in self.items:
@@ -416,13 +417,14 @@ class MultipleOptions(pygame.sprite.Group):
                 i.curr_color = 0
         self.updateList()
 
-    def update(self, mousePos):
-        for j in self.items:
-            if not self.selections[j.message]:
-                if j.update(mousePos):
-                    self.selectOne(j.message)
+    def update(self, mouse, accept):
+        if accept:
+            for j in self.items:
+                if not self.selections[j.message]:
+                    if j.update(mouse, accept):
+                        self.selectOne(j.message)
 
-        return self.selections
+            return self.selections
 
 
 class ClickButton(Button):
