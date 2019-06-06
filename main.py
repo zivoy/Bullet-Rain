@@ -31,14 +31,6 @@ pygame.display.set_caption("Bullet Rain")
 
 #################################################
 
-'''
-beatlist=[]
-for i in range(1000):
-    beatlist.append(random.randrange(1,7))'''
-
-
-#############################################
-
 
 def main():  #################################################################
     next = False
@@ -123,6 +115,12 @@ def main():  #################################################################
 
         pygame.display.flip()
 
+#################################################################
+
+
+
+#######################################################################
+
     while True:
         screen.fill(BLACK)
         for event in pygame.event.get():
@@ -141,10 +139,75 @@ def main():  #################################################################
 
         pygame.display.flip()
 
+
+
     if gameVariables.player_list.player1 == "":
         gameVariables.player_list.player1 = "ROB"
     if gameVariables.player_list.player2 == "":
         gameVariables.player_list.player2 = "BOB"
+
+
+###############################++++++++++++++++++++++#########################3
+
+
+
+
+
+
+
+
+
+
+
+
+    leave=False
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+                    leave = True
+
+        if leave:
+            leave = False
+            break
+
+        # first screen
+        screen.fill(BLACK)
+
+        # this is the text that appear on the intro screen askign the user for the name
+        gameFunctions.print_text(bigfont, 50, 25, "Instructions", Color.RED, screen)
+        gameFunctions.print_text(win, 10, 100, gameVariables.player_list[0] +"'s controlls are:", Color.BLUE,
+                                 screen)
+        gameFunctions.print_text(myfont, 10, 150, "The A, S, W and D Keys to move and 5 for bullets and 6 for Rocket", Color.WHITE,
+                                 screen)
+        gameFunctions.print_text(myfont, 10, 250,  gameVariables.player_list[1] +"'s controlls are:", Color.WHITE,
+                                 screen)
+        gameFunctions.print_text(myfont, 10, 300, "Arrow keys, and bullet is keypad 2, rocket is keypad 3", Color.WHITE, screen)
+        gameFunctions.print_text(myfont, 10, 350, "Both players have a mid air jump that cools down when they hit the ground", Color.RED, screen)
+        gameFunctions.print_text(myfont, 10, 400, "Good luck...",
+                                 Color.WHITE, screen)
+        pygame.display.flip()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###################################++++++++++++++++++++++++++++++++######################
+
+
+
 
     stage.createStage(1)
 
@@ -156,6 +219,10 @@ def main():  #################################################################
 
     gameVariables.score = gameVariables.player_list.list
 
+######################################
+
+
+################################
     #gameVariables.scr = screen
     while True:
         for event in pygame.event.get():
