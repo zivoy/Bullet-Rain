@@ -299,17 +299,17 @@ def settings():
         gameFunctions.print_text(win, *gameFunctions.placeAt((1, 30)), "Difficulty:", Color.WHITE, screen)
         gameFunctions.print_text(win, *gameFunctions.placeAt((1, 40)), "Power ups:", Color.WHITE, screen)
 
-        mPos = (0, 0)
+        acc = False
         if pygame.mouse.get_pressed()[0] and not dele > 0:
-            mPos = pygame.mouse.get_pos()
+            acc = True
             dele = 5
 
-        diffs.update(mPos)
-        screenSize.update(mPos)
-        pows.update(mPos)
+        diffs.update(pygame.mouse, acc)
+        screenSize.update(pygame.mouse, acc)
+        pows.update(pygame.mouse, acc)
 
-        save.update(mPos)
-        apply.update(mPos)
+        save.update(pygame.mouse, acc)
+        apply.update(pygame.mouse, acc)
 
         save.draw(screen)
         apply.draw(screen)

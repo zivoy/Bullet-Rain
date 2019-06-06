@@ -69,6 +69,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.vel = [0, 0]
         self.pos = pos
+        self.startpos = pos
         self.hp = gameVariables.player_health
         self.direc = 0 if direc == "left" else 1
         self.name = name
@@ -89,6 +90,8 @@ class Player(pygame.sprite.Sprite):
 
         self.spacial1tick = 0
         self.spacial2tick = 0
+        self.respawn_tick = 0
+        self.doRespawn = False
 
         self.dead = False
 
@@ -105,8 +108,8 @@ class Player(pygame.sprite.Sprite):
 
         self.position()
 
-        statsPos = gameFunctions.placeAt((5, 10)) if self.direc == 1 else gameFunctions.placeAt((91, 10))
-        self.stats = StatusBars(statsPos, gameFunctions.placeAt((4, 70)),
+        statsPos = gameFunctions.placeAt((2, 10)) if self.direc == 1 else gameFunctions.placeAt((97, 10))
+        self.stats = StatusBars(statsPos, gameFunctions.placeAt((2, 70)),
                                 [201, 49, 38, 60], gameVariables.player_health)
         gameVariables.statuss.add(self.stats)
 
@@ -281,10 +284,23 @@ class Player(pygame.sprite.Sprite):
 
             if self.reloadTick == 0:
                 self.clip = gameVariables.clip_size
+
         elif keys[gameVariables.revive_key]:
-            self.dead = False
-            self.reImage()
-            self.hp = gameVariables.player_health
+            self.respawn_tick = 120
+            self.doRespawn = True
+
+        if self.doRespawn and self.respawn_tick == 0:
+            self.respawn()
+            self.doRespawn = False
+
+        self.respawn_tick = max(0, self.respawn_tick-1)
+
+
+    def respawn(self):
+        self.dead = False
+        self.reImage()
+        self.hp = gameVariables.player_health
+        self.pos = self.startpos
 
 
 class StatusBars(pygame.sprite.Sprite):
@@ -367,6 +383,7 @@ class Button(pygame.sprite.Sprite):
         self.size = size
         self.function = func
         self.image = pygame.Surface(size, pygame.SRCALPHA)
+        self.mouse = pygame.mouse
 
         self.rect = self.image.get_rect()
         self.rect.x = pos[0]
@@ -387,11 +404,13 @@ class Button(pygame.sprite.Sprite):
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
-    def update(self, mousePos):
-        if self.rect.collidepoint(mousePos):
-            self.flagColor()
-            self.messageSprite()
-            return self.function
+    def update(self, mouse, accept):
+        self.mouse = mouse
+        if accept:
+            if self.rect.collidepoint(mouse.get_pos()):
+                self.flagColor()
+                self.messageSprite()
+                return self.function
         self.messageSprite()
 
 
@@ -404,7 +423,7 @@ class MultipleOptions(pygame.sprite.Group):
             self.add(i)
         self.updateList()
         for i in self.sprites():
-            i.update([0, 0])
+            i.update([0, 0], False)
 
     def updateList(self):
         for i in self.items:
@@ -416,16 +435,36 @@ class MultipleOptions(pygame.sprite.Group):
                 i.curr_color = 0
         self.updateList()
 
-    def update(self, mousePos):
-        for j in self.items:
-            if not self.selections[j.message]:
-                if j.update(mousePos):
-                    self.selectOne(j.message)
+    def update(self, mouse, accept):
+        if accept:
+            for j in self.items:
+                if not self.selections[j.message]:
+                    if j.update(mouse, accept):
+                        self.selectOne(j.message)
 
         return self.selections
 
 
 class ClickButton(Button):
     def __init__(self, message, pos, size, colors, font, func=lambda: True):
-        colors[1] = colors[0]
+        #colors[1] = colors[0]
         super().__init__(message, pos, size, colors, font, func=func)
+
+    def flagColor(self):
+        if self.mouse.get_pressed()[0]:
+            self.curr_color = 1
+
+        else:
+            self.curr_color = 0
+
+    def update(self, mouse, accept):
+        self.mouse = mouse
+        if accept:
+            if self.rect.collidepoint(mouse.get_pos()):
+                if self.mouse.get_pressed()[0]:
+                    self.curr_color = 1
+                self.messageSprite()
+                return self.function
+        if not self.mouse.get_pressed()[0]:
+            self.curr_color = 0
+        self.messageSprite()
