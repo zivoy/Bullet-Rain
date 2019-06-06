@@ -295,10 +295,9 @@ class Player(pygame.sprite.Sprite):
             self.doRespawn = False
 
         if self.doRespawn:
-            self.hp = self.respawn_tick/regenWait*20
+            self.hp = self.respawn_tick / regenWait * 20
 
-        self.respawn_tick = min(regenWait, self.respawn_tick+1)
-
+        self.respawn_tick = min(regenWait, self.respawn_tick + 1)
 
     def respawn(self):
         self.dead = False
@@ -318,12 +317,11 @@ class StatusBars(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = pos
         self.draw()
-        print(pos)
 
     def draw(self):
-        self.image.fill([0,0,0,0])
-        backroundC = list(map(lambda x: max(0, x-40), self.color))
-        hight = self.val*self.rect.h/self.max
+        self.image.fill([0, 0, 0, 0])
+        backroundC = list(map(lambda x: max(0, x - 40), self.color))
+        hight = self.val * self.rect.h / self.max
         req = pygame.Rect(0, hight, *self.rect.size)
         self.color[3] = 150
         backroundC[3] = 150
@@ -332,7 +330,7 @@ class StatusBars(pygame.sprite.Sprite):
 
     def update(self, val):
         if self.revs:
-            self.val = val*-1+self.max
+            self.val = val * -1 + self.max
         else:
             self.val = val
         self.draw()
@@ -451,7 +449,7 @@ class MultipleOptions(pygame.sprite.Group):
 
 class ClickButton(Button):
     def __init__(self, message, pos, size, colors, font, func=lambda: True):
-        #colors[1] = colors[0]
+        # colors[1] = colors[0]
         super().__init__(message, pos, size, colors, font, func=func)
 
     def flagColor(self):

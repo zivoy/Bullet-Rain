@@ -5,18 +5,11 @@ import stage
 settings_file = "settings.json"
 screenSizes = {"small": (625, 400), "medium": (938, 600), "large": (1250, 800)}
 
-
 diffs = {"easy": {"projectile": [12, 7], "clip": [50, 100], "damage": [4, 10]},
          "medium": {"projectile": [15, 10], "clip": [20, 150], "damage": [5, 15]},
          "hard": {"projectile": [20, 15], "clip": [12, 220], "damage": [7, 20]}}
 
-
 stage_choice = ''
-
-
-
-
-
 
 
 def write(data, file=settings_file):

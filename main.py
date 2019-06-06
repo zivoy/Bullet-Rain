@@ -29,6 +29,7 @@ screen = pygame.display.set_mode(gameVariables.screenSize)
 # Title of the game
 pygame.display.set_caption("Bullet Rain")
 
+
 #################################################
 
 
@@ -113,11 +114,9 @@ def main():  #################################################################
 
         pygame.display.flip()
 
-#################################################################
+    #################################################################
 
-
-
-#######################################################################
+    #######################################################################
 
     while True:
         screen.fill(BLACK)
@@ -138,15 +137,14 @@ def main():  #################################################################
 
         pygame.display.flip()
 
-
+    ##############################################################################
 
     if gameVariables.player_list.player1 == "":
         gameVariables.player_list.player1 = "ROB"
     if gameVariables.player_list.player2 == "":
         gameVariables.player_list.player2 = "BOB"
 
-
-###############################++++++++++++++++++++++#########################3
+    ###############################++++++++++++++++++++++#########################3
 
     while True:
         for event in pygame.event.get():
@@ -165,25 +163,23 @@ def main():  #################################################################
 
         # this is the text that appear on the intro screen askign the user for the name
         gameFunctions.print_text(bigfont, 50, 25, "Instructions", Color.RED, screen)
-        gameFunctions.print_text(win, 10, 100, gameVariables.player_list[0] +"'s controlls are:", Color.BLUE,
+        gameFunctions.print_text(win, 10, 100, gameVariables.player_list[0] + "'s controlls are:", Color.BLUE,
                                  screen)
-        gameFunctions.print_text(myfont, 10, 150, "The A, S, W and D Keys to move and 5 for bullets and 6 for Rocket", Color.WHITE,
+        gameFunctions.print_text(myfont, 10, 150, "The A, S, W and D Keys to move and 5 for bullets and 6 for Rocket",
+                                 Color.WHITE,
                                  screen)
-        gameFunctions.print_text(myfont, 10, 250,  gameVariables.player_list[1] +"'s controlls are:", Color.WHITE,
+        gameFunctions.print_text(myfont, 10, 250, gameVariables.player_list[1] + "'s controlls are:", Color.WHITE,
                                  screen)
-        gameFunctions.print_text(myfont, 10, 300, "Arrow keys, and bullet is keypad 2, rocket is keypad 3", Color.WHITE, screen)
-        gameFunctions.print_text(myfont, 10, 350, "Both players have a mid air jump that cools down when they hit the ground", Color.RED, screen)
+        gameFunctions.print_text(myfont, 10, 300, "Arrow keys, and bullet is keypad 2, rocket is keypad 3", Color.WHITE,
+                                 screen)
+        gameFunctions.print_text(myfont, 10, 350,
+                                 "Both players have a mid air jump that cools down when they hit the ground", Color.RED,
+                                 screen)
         gameFunctions.print_text(myfont, 10, 400, "Good luck...",
                                  Color.WHITE, screen)
         pygame.display.flip()
 
-
-
-
-###################################++++++++++++++++++++++++++++++++######################
-
-
-
+    ###################################++++++++++++++++++++++++++++++++######################
 
     stage.createStage(1)
 
@@ -195,11 +191,10 @@ def main():  #################################################################
 
     gameVariables.score = gameVariables.player_list.list
 
-######################################
+    ######################################
 
-
-################################
-    #gameVariables.scr = screen
+    ################################
+    # gameVariables.scr = screen
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -238,8 +233,8 @@ def settings():
 
     scrX = 19
     screenSmall = Button("Small", gameFunctions.placeAt((scrX, 20)), gameFunctions.placeAt((15, 5)), cols, win)
-    screenMedium = Button("Medium", gameFunctions.placeAt((scrX+17, 20)), gameFunctions.placeAt((15, 5)), cols, win)
-    screenLarge = Button("Large", gameFunctions.placeAt((scrX+34, 20)), gameFunctions.placeAt((15, 5)), cols, win, 1)
+    screenMedium = Button("Medium", gameFunctions.placeAt((scrX + 17, 20)), gameFunctions.placeAt((15, 5)), cols, win)
+    screenLarge = Button("Large", gameFunctions.placeAt((scrX + 34, 20)), gameFunctions.placeAt((15, 5)), cols, win, 1)
 
     diffX = 17
     easyDiff = Button("Easy", gameFunctions.placeAt((diffX, 30)), gameFunctions.placeAt((15, 5)), cols, win)
@@ -256,7 +251,7 @@ def settings():
 
     save = ClickButton("Save Settings", gameFunctions.placeAt((30, 90)), gameFunctions.placeAt((21, 5)), cols, win)
     apply = ClickButton("Apply settings", gameFunctions.placeAt((55, 90)), gameFunctions.placeAt((21, 5)), cols, win,
-                   func=lambda: print(gameVariables.settings))
+                        func=lambda: print(gameVariables.settings))
 
     dele = 0
 
