@@ -239,6 +239,9 @@ class Player(pygame.sprite.Sprite):
             openet = gameVariables.player_list.opponent(self.name)
             curr = gameVariables.player_list.playerScore(openet)
             gameVariables.player_list.playerScore(openet, curr + 1)
+            self.clip = gameVariables.clip_size
+            self.spacial1tick = 0
+            self.spacial2tick = 0
 
             self.reImage(self.deadImg)
             self.dead = True
@@ -285,10 +288,11 @@ class Player(pygame.sprite.Sprite):
 
 
 class StatusBars(pygame.sprite.Sprite):
-    def __init__(self, pos, size, color, maxVl):
+    def __init__(self, pos, size, color, maxVl, revs=True):
         super().__init__()
         self.color = color
         self.val = 0
+        self.revs = revs
         self.max = maxVl
         self.image = pygame.Surface(size, pygame.SRCALPHA)
         self.rect = self.image.get_rect()
@@ -307,7 +311,10 @@ class StatusBars(pygame.sprite.Sprite):
         pygame.draw.rect(self.image, self.color, req)
 
     def update(self, val):
-        self.val = val*-1+self.max
+        if self.revs:
+            self.val = val*-1+self.max
+        else:
+            self.val = val
         self.draw()
 
 
@@ -351,13 +358,14 @@ class RebindButton:
 
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, message, pos, size, colors, font, deful=0):
+    def __init__(self, message, pos, size, colors, font, deful=0, func=lambda: True):
         super().__init__()
         self.font = font
         self.message = message
         self.colors = colors
         self.curr_color = deful
         self.size = size
+        self.function = func
         self.image = pygame.Surface(size, pygame.SRCALPHA)
 
         self.rect = self.image.get_rect()
@@ -383,7 +391,7 @@ class Button(pygame.sprite.Sprite):
         if self.rect.collidepoint(mousePos):
             self.flagColor()
             self.messageSprite()
-            return True
+            return self.function
         self.messageSprite()
 
 
@@ -418,5 +426,6 @@ class MultipleOptions(pygame.sprite.Group):
 
 
 class ClickButton(Button):
-    def __init__(self, message, pos, size, colors, font):
-        super().__init__(message[0], pos, size, colors, font)
+    def __init__(self, message, pos, size, colors, font, func=lambda: True):
+        colors[1] = colors[0]
+        super().__init__(message, pos, size, colors, font, func=func)
