@@ -68,7 +68,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, playerSpr, direc, controls, name, pos, sz=.25):
         super().__init__()
         self.vel = [0, 0]
-        self.pos = pos
+        self.pos = list(pos)
         self.startpos = pos
         self.hp = gameVariables.player_health
         self.direc = 0 if direc == "left" else 1
@@ -289,21 +289,22 @@ class Player(pygame.sprite.Sprite):
             self.respawn_tick = 0
             self.doRespawn = True
 
-        if self.doRespawn and self.respawn_tick >= 120:
+        regenWait = 120
+        if self.doRespawn and self.respawn_tick == regenWait:
             self.respawn()
             self.doRespawn = False
 
         if self.doRespawn:
-            self.hp = self.respawn_tick/120*20
+            self.hp = self.respawn_tick/regenWait*20
 
-        self.respawn_tick = min(120, self.respawn_tick+1)
+        self.respawn_tick = min(regenWait, self.respawn_tick+1)
 
 
     def respawn(self):
         self.dead = False
         self.reImage()
         self.hp = gameVariables.player_health
-        self.pos = self.startpos
+        self.pos = list(self.startpos)
 
 
 class StatusBars(pygame.sprite.Sprite):
