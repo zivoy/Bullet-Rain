@@ -214,10 +214,11 @@ def main():  #################################################################
                 if event.key == pygame.K_ESCAPE:
                     if settingsMen():
                         return
-                if event.key == pygame.K_RETURN:
-                    makeItRain()
+                '''if event.key == pygame.K_RETURN:
+                    makeItRain()'''
 
-        rain_tick = max(0,rain_tick-1)
+        rain_tick = max(0, rain_tick-1)
+
 
 
 
@@ -227,8 +228,6 @@ def main():  #################################################################
             random_offset = randint(0, 200)
             off_dir = randint(0, 1) * 2 - 1
             rain_tick = gameVariables.rain_delay + random_offset * off_dir
-
-
 
         avrg = gameFunctions.avreagePos(gameVariables.players.sprites())
         title = "{0}: {2} V.S. {1}: {3}".format(*gameVariables.player_list.list.keys(),
@@ -249,6 +248,9 @@ def main():  #################################################################
         v = 5
         gameFunctions.print_text(bigfont, xPos + v, 15 + v, title, Color.LIGHT_GRAY, screen)
         gameFunctions.print_text(bigfont, xPos, 15, title, Color.WHITE, screen)
+
+        if 50 < rain_tick < 200:
+            gameFunctions.print_text(win, *gameFunctions.placeAt((30, 45)), "Bam bam", Color.RED, screen)
 
         pygame.display.update()
         pygame.display.flip()
