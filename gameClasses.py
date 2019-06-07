@@ -272,6 +272,7 @@ class Player(pygame.sprite.Sprite):
             self.fall = True
             self.handleKeys(keys)
 
+
             self.colideIn()
 
             self.pos = list(map(lambda x, y: int(x + y), self.pos, self.vel))
@@ -298,7 +299,7 @@ class Player(pygame.sprite.Sprite):
             if self.reloadTick == gameVariables.reload_speed:
                 self.clip = gameVariables.clip_size
 
-        elif keys[gameVariables.revive_key] and not self.doRespawn:
+        elif not self.doRespawn:  #  elif keys[gameVariables.revive_key] and not self.doRespawn:
             self.respawn_tick = 0
             self.doRespawn = True
 
