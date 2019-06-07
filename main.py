@@ -183,8 +183,10 @@ def main():  #################################################################
 
     stage.createStage(gameVariables.stage_choice)
 
-    player1 = Player("player1", "right", gameVariables.player1_controls, gameVariables.player_list.player1, (200, 200))
-    player2 = Player("player2", "left", gameVariables.player2_controls, gameVariables.player_list.player2, (600, 200))
+    player1 = Player("player1", "right", gameVariables.player1_controls, gameVariables.player_list.player1, (200, 200),
+                     gameVariables.screenSize[1]/3200)
+    player2 = Player("player2", "left", gameVariables.player2_controls, gameVariables.player_list.player2, (600, 200),
+                     gameVariables.screenSize[1]/3200)
 
     gameVariables.players.add(player1)
     gameVariables.players.add(player2)
@@ -236,26 +238,48 @@ def settingsMen():
     menu = True
     cols = [[0, 0, 255, 255], [255, 0, 0, 255]]
 
+    sS = sM = sL = 0
+    if gameVariables.settings['screen'] == "small":
+        sS = 1
+    elif gameVariables.settings['screen'] == "medium":
+        sM = 1
+    else:
+        sL = 1
+
     scrX = 19
-    screenSmall = Button("Small", gameFunctions.placeAt((scrX, 20)), gameFunctions.placeAt((15, 5)), cols, win,
+    screenSmall = Button("Small", gameFunctions.placeAt((scrX, 20)), gameFunctions.placeAt((15, 5)), cols, win, sS,
                          func=lambda: gameFunctions.setScreen("small"))
     screenMedium = Button("Medium", gameFunctions.placeAt((scrX + 17, 20)), gameFunctions.placeAt((15, 5)), cols, win,
-                          func=lambda: gameFunctions.setScreen("medium"))
-    screenLarge = Button("Large", gameFunctions.placeAt((scrX + 34, 20)), gameFunctions.placeAt((15, 5)), cols, win, 1,
-                         func=lambda: gameFunctions.setScreen("large"))
+                          sM, func=lambda: gameFunctions.setScreen("medium"))
+    screenLarge = Button("Large", gameFunctions.placeAt((scrX + 34, 20)), gameFunctions.placeAt((15, 5)), cols, win, sL,
+                          func=lambda: gameFunctions.setScreen("large"))
+
+    dE = dM = dH = 0
+    if gameVariables.settings['difficulty'] == "easy":
+        dE = 1
+    elif gameVariables.settings['difficulty'] == "medium":
+        dM = 1
+    else:
+        dH = 1
 
     diffX = 17
-    easyDiff = Button("Easy", gameFunctions.placeAt((diffX, 30)), gameFunctions.placeAt((15, 5)), cols, win,
+    easyDiff = Button("Easy", gameFunctions.placeAt((diffX, 30)), gameFunctions.placeAt((15, 5)), cols, win, dE,
                       func=lambda: gameFunctions.setDiff("easy"))
-    mediumDiff = Button("Medium", gameFunctions.placeAt((diffX + 17, 30)), gameFunctions.placeAt((15, 5)), cols, win, 1,
-                        func=lambda: gameFunctions.setDiff("medium"))
-    hardDiff = Button("Hard", gameFunctions.placeAt((diffX + 34, 30)), gameFunctions.placeAt((15, 5)), cols, win,
+    mediumDiff = Button("Medium", gameFunctions.placeAt((diffX + 17, 30)), gameFunctions.placeAt((15, 5)), cols, win,
+                        dM, func=lambda: gameFunctions.setDiff("medium"))
+    hardDiff = Button("Hard", gameFunctions.placeAt((diffX + 34, 30)), gameFunctions.placeAt((15, 5)), cols, win, dH,
                       func=lambda: gameFunctions.setDiff("hard"))
 
+    pY = pN = 0
+    if gameVariables.settings['power-ups']:
+        pY = 1
+    else:
+        pN = 1
+
     powX = 16
-    powTrue = Button("Yes", gameFunctions.placeAt((powX + 17, 40)), gameFunctions.placeAt((15, 5)), cols, win,
+    powTrue = Button("Yes", gameFunctions.placeAt((powX + 17, 40)), gameFunctions.placeAt((15, 5)), cols, win, pY,
                      func=lambda: gameFunctions.setPow(True))
-    powFalse = Button("No", gameFunctions.placeAt((powX, 40)), gameFunctions.placeAt((15, 5)), cols, win, 1,
+    powFalse = Button("No", gameFunctions.placeAt((powX, 40)), gameFunctions.placeAt((15, 5)), cols, win, pN,
                       func=lambda: gameFunctions.setPow(False))
 
     screenSize = MultipleOptions([screenSmall, screenMedium, screenLarge])
