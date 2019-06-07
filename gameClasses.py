@@ -88,8 +88,9 @@ class Player(pygame.sprite.Sprite):
 
         self.fall = True
 
-        self.spacial1tick = self.spacial2tick = self.respawn_tick = 0
+        self.spacial1tick = self.respawn_tick = 0
         self.doRespawn = False
+        self.spacial2tick = 250
 
         self.dead = False
 
@@ -154,10 +155,10 @@ class Player(pygame.sprite.Sprite):
             self.clip = max(0, self.clip - 1)
             self.reloadTick = 0
 
-        if key[self.controls["special2"]] and self.spacial2tick == 0:
+        if key[self.controls["special2"]] and self.spacial2tick == 250 and self.rockNums > 0:
             self.spacial2()
             self.rockNums = max(0, self.rockNums - 1)
-            self.spacial2tick = 250
+            self.spacial2tick = 0
 
     def spacial1(self):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
@@ -171,8 +172,6 @@ class Player(pygame.sprite.Sprite):
         rocket = Bullets("rocket.png", (spawnS[0] + self.vel[0], spawnS[1]),
                          self.direc, gameVariables.rocket_damage, gameVariables.rocket_speed, 5)
         gameVariables.projectiles.add(rocket)
-        if self.rokes.val == 1:
-            self.rokes.update(0)
 
     def position(self):
         self.rect.x = self.pos[0]
@@ -268,6 +267,11 @@ class Player(pygame.sprite.Sprite):
         else:
             self.bulles.update(self.reloadTick / gameVariables.reload_speed * gameVariables.clip_size)
 
+        if self.rockNums > 0:
+            self.rokes.update(self.rockNums)
+        else:
+            self.rokes.update(self.spacial2tick / 250)
+
         if not self.dead:
             self.time = time / 1000
             self.fall = True
@@ -285,7 +289,6 @@ class Player(pygame.sprite.Sprite):
 
             self.jumptick = max(0, self.jumptick - 1)
             self.spacial1tick = max(0, self.spacial1tick - 1)
-            self.spacial2tick = max(0, self.spacial2tick - 1)
 
             self.gotHit()
             self.life()
@@ -296,6 +299,12 @@ class Player(pygame.sprite.Sprite):
 
             if self.clip == 0:
                 self.reloadTick = min(gameVariables.reload_speed, self.reloadTick + 1)
+
+            if self.rockNums == 0:
+                self.spacial2tick = min(250, self.spacial2tick + 1)
+
+            if self.spacial2tick == 250:
+                self.rockNums = 1
 
             if self.reloadTick == gameVariables.reload_speed:
                 self.clip = gameVariables.clip_size
