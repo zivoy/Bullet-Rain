@@ -219,6 +219,10 @@ def main():  #################################################################
 
         rain_tick = max(0, rain_tick-1)
 
+
+
+
+
         if rain_tick == 0:
             makeItRain()
             random_offset = randint(0, 200)
