@@ -27,7 +27,7 @@ class Bullets(pygame.sprite.Sprite):
         self.damage = damage
         self.direc = direc  # 0 left, 1 right, 2 down, 3 up
 
-        turnDeg = {0: 180, 1: 0, 2: 90, 3: 270}
+        turnDeg = {0: 180, 1: 0, 2: 270, 3: 90}
         self.image = gameFunctions.loadImage("projectiles/{0}".format(img), sz, turnDeg[direc])
         self.rect = self.image.get_rect()
 

@@ -225,7 +225,7 @@ def main():  #################################################################
         if rain_tick == 0:
             makeItRain()
             random_offset = randint(0, 200)
-            off_dir = random(0, 1) * 2 - 1
+            off_dir = randint(0, 1) * 2 - 1
             rain_tick = gameVariables.rain_delay + random_offset * off_dir
 
 
