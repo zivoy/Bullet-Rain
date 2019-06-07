@@ -245,6 +245,9 @@ def main():  #################################################################
         gameFunctions.print_text(bigfont, xPos + v, 15 + v, title, Color.LIGHT_GRAY, screen)
         gameFunctions.print_text(bigfont, xPos, 15, title, Color.WHITE, screen)
 
+        if 50 < rain_tick < 200:
+            gameFunctions.print_text(win, *gameFunctions.placeAt((30, 45)), "Bam bam", Color.RED, screen)
+
         pygame.display.update()
         pygame.display.flip()
         clock.tick(60)
