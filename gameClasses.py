@@ -156,6 +156,7 @@ class Player(pygame.sprite.Sprite):
 
         if key[self.controls["special2"]] and self.spacial2tick == 0:
             self.spacial2()
+            self.rockNums = max(0, self.rockNums - 1)
             self.spacial2tick = 250
 
     def spacial1(self):

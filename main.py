@@ -16,6 +16,7 @@ bigfont = pygame.font.SysFont("monospace", 40)
 myfont = pygame.font.SysFont("monospace", 25)
 lost = pygame.font.SysFont("monospace", 20)
 win = pygame.font.SysFont("monospace", 30)
+warning = pygame.font.Font("Commodore-64.ttf", 200)
 
 settings.load()
 settings.apply()
@@ -219,10 +220,6 @@ def main():  #################################################################
 
         rain_tick = max(0, rain_tick-1)
 
-
-
-
-
         if rain_tick == 0:
             makeItRain()
             random_offset = randint(0, 200)
@@ -250,7 +247,7 @@ def main():  #################################################################
         gameFunctions.print_text(bigfont, xPos, 15, title, Color.WHITE, screen)
 
         if 50 < rain_tick < 200:
-            gameFunctions.print_text(win, *gameFunctions.placeAt((30, 45)), "Bam bam", Color.RED, screen)
+            gameFunctions.print_text(warning, *gameFunctions.placeAt((30, 45)), u"Rain incoming!!", Color.RED, screen)
 
         pygame.display.update()
         pygame.display.flip()
