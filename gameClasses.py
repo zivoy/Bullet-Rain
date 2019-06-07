@@ -90,7 +90,7 @@ class Player(pygame.sprite.Sprite):
 
         self.spacial1tick = self.respawn_tick = 0
         self.doRespawn = False
-        self.spacial2tick = 250
+        self.spacial2tick = gameVariables.rocket_reload
 
         self.dead = False
 
@@ -270,13 +270,12 @@ class Player(pygame.sprite.Sprite):
         if self.rockNums > 0:
             self.rokes.update(self.rockNums)
         else:
-            self.rokes.update(self.spacial2tick / 250)
+            self.rokes.update(self.spacial2tick / gameVariables.rocket_reload)
 
         if not self.dead:
             self.time = time / 1000
             self.fall = True
             self.handleKeys(keys)
-
 
             self.colideIn()
 
@@ -303,7 +302,7 @@ class Player(pygame.sprite.Sprite):
             if self.rockNums == 0:
                 self.spacial2tick = min(250, self.spacial2tick + 1)
 
-            if self.spacial2tick == 250:
+            if self.spacial2tick == gameVariables.rocket_reload:
                 self.rockNums = 1
 
             if self.reloadTick == gameVariables.reload_speed:
