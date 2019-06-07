@@ -20,8 +20,19 @@ win = pygame.font.SysFont("monospace", 30)
 settings.load()
 settings.apply()
 
-BLACK = Color.BLACK.value
 
+white = (255, 255, 255)
+red = (200, 0, 0)
+green = (0, 255, 0)
+blue = (0, 0, 230)
+black = (0,0,0)
+
+
+
+
+BLACK = Color.BLACK.value
+RED = Color.RED.value
+BLUE = Color.BLUE.value
 # use clock to slow things down
 clock = pygame.time.Clock()
 # creates a screen
@@ -103,12 +114,12 @@ def main():  #################################################################
             leave = False
             break
 
-        screen.fill(BLACK)
+        screen.fill(red)
 
         # this is the text that appear on the intro screen askign the user for the name
-        gameFunctions.print_text(win, 10, 25, "The first thing you need to do is to enter your names", Color.BLUE,
+        gameFunctions.print_text(win, 10, 25, "The first thing you need to do is to enter your names...", Color.YELLOW,
                                  screen)
-        gameFunctions.print_text(win, 10, 175, "Player 1 shall be known as ", Color.RED, screen)
+        gameFunctions.print_text(win, 10, 175, "Player 1 shall be known as ",Color.YELLOW, screen)
         gameFunctions.print_text(lost, 10, 225, "Enter Your Name", Color.WHITE, screen)
         gameFunctions.print_text(bigfont, 10, 250, gameVariables.player_list.player1, Color.GREEN, screen)
 
@@ -119,7 +130,7 @@ def main():  #################################################################
     #######################################################################
 
     while True:
-        screen.fill(BLACK)
+        screen.fill(blue)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
@@ -131,7 +142,7 @@ def main():  #################################################################
         if leave:
             leave = False
             break
-        gameFunctions.print_text(win, 10, 25, "Player 2 shall be known as ", Color.RED, screen)
+        gameFunctions.print_text(win, 10, 25, "Player 2 shall be known as ", Color.YELLOW, screen)
         gameFunctions.print_text(lost, 10, 125, "Enter Your Name", Color.WHITE, screen)
         gameFunctions.print_text(bigfont, 10, 150, gameVariables.player_list.player2, Color.GREEN, screen)
 
@@ -162,13 +173,13 @@ def main():  #################################################################
         screen.fill(BLACK)
 
         # this is the text that appear on the intro screen askign the user for the name
-        gameFunctions.print_text(bigfont, 50, 25, "Instructions", Color.RED, screen)
-        gameFunctions.print_text(win, 10, 100, gameVariables.player_list[0] + "'s controlls are:", Color.BLUE,
+        gameFunctions.print_text(bigfont, 50, 25, "Instructions", Color.GREEN, screen)
+        gameFunctions.print_text(win, 10, 100, gameVariables.player_list[0] + "'s controlls are:", Color.RED,
                                  screen)
         gameFunctions.print_text(myfont, 10, 150, "The A, S, W and D Keys to move and 5 for bullets and 6 for Rocket",
                                  Color.WHITE,
                                  screen)
-        gameFunctions.print_text(myfont, 10, 250, gameVariables.player_list[1] + "'s controlls are:", Color.WHITE,
+        gameFunctions.print_text(win, 10, 250, gameVariables.player_list[1] + "'s controlls are:", Color.BLUE,
                                  screen)
         gameFunctions.print_text(myfont, 10, 300, "Arrow keys, and bullet is keypad 2, rocket is keypad 3", Color.WHITE,
                                  screen)
