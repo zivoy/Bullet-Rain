@@ -338,7 +338,7 @@ class StatusBars(pygame.sprite.Sprite):
         req = pygame.Rect(0, hight, *self.rect.size)
         self.color[3] = 150
         backroundC[3] = 150
-        self.image.fill(backroundC)
+        #self.image.fill(backroundC)
         pygame.draw.rect(self.image, self.color, req)
 
     def update(self, val):

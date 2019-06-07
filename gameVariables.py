@@ -50,3 +50,5 @@ stage_choice = 1
 
 raining = list()
 butonRel = list()
+
+rain_delay = 1500

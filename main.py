@@ -200,6 +200,11 @@ def main():  #################################################################
 
     ################################
     # gameVariables.scr = screen
+
+    rain_tick = gameVariables.rain_delay
+
+
+
     while True:
         pygame.mouse.set_visible = False
         for event in pygame.event.get():
@@ -211,6 +216,19 @@ def main():  #################################################################
                         return
                 if event.key == pygame.K_RETURN:
                     makeItRain()
+
+        rain_tick = max(0,rain_tick-1)
+
+
+
+
+        if rain_tick == 0:
+            makeItRain()
+            random_offset = randint(0, 200)
+            off_dir = random(0, 1) * 2 - 1
+            rain_tick = gameVariables.rain_delay + random_offset * off_dir
+
+
 
         avrg = gameFunctions.avreagePos(gameVariables.players.sprites())
         title = "{0}: {2} V.S. {1}: {3}".format(*gameVariables.player_list.list.keys(),
