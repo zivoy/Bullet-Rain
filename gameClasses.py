@@ -108,7 +108,15 @@ class Player(pygame.sprite.Sprite):
         statsPos = gameFunctions.placeAt((2, 10)) if self.direc == 1 else gameFunctions.placeAt((97, 10))
         self.stats = StatusBars(statsPos, gameFunctions.placeAt((2, 70)),
                                 [201, 49, 38, 60], gameVariables.player_health)
+        bulletsPos = gameFunctions.placeAt((4.2, 60)) if self.direc == 1 else gameFunctions.placeAt((94.8, 60))
+        rocketsPos = gameFunctions.placeAt((6.4, 60)) if self.direc == 1 else gameFunctions.placeAt((92.6, 60))
+        self.bulles = StatusBars(bulletsPos, gameFunctions.placeAt((2, 20)),
+                                [221, 221, 122, 60], gameVariables.clip_size)
+        self.rokes = StatusBars(rocketsPos, gameFunctions.placeAt((2, 70)),
+                                53, 186, 135, 60], 1)
         gameVariables.statuss.add(self.stats)
+        gameVariables.statuss.add(self.bulles)
+        gameVariables.statuss.add(self.rokes)
 
     def handleKeys(self, key):
         if key[self.controls["jump"]] and self.airjumps > 0 and self.jumptick == 0:  # self.airtime == 0:
@@ -161,6 +169,8 @@ class Player(pygame.sprite.Sprite):
         rocket = Bullets("rocket.png", (spawnS[0] + self.vel[0], spawnS[1]),
                          self.direc, gameVariables.rocket_damage, gameVariables.rocket_speed, 5)
         gameVariables.projectiles.add(rocket)
+        if self.rokes.val == 1:
+            self.rokes.update(0)
 
     def position(self):
         self.rect.x = self.pos[0]
@@ -251,6 +261,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, keys, time):
         self.stats.update(self.hp)
+        self.bulles.update(clip)
         if not self.dead:
             self.time = time / 1000
             self.fall = True
