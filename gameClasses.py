@@ -84,6 +84,7 @@ class Player(pygame.sprite.Sprite):
 
         self.clip = gameVariables.clip_size
         self.reloadTick = gameVariables.reload_speed
+        self.rockNums = 1
 
         self.fall = True
 
@@ -112,8 +113,8 @@ class Player(pygame.sprite.Sprite):
         rocketsPos = gameFunctions.placeAt((6.4, 60)) if self.direc == 1 else gameFunctions.placeAt((92.6, 60))
         self.bulles = StatusBars(bulletsPos, gameFunctions.placeAt((2, 20)),
                                 [221, 221, 122, 60], gameVariables.clip_size)
-        self.rokes = StatusBars(rocketsPos, gameFunctions.placeAt((2, 70)),
-                                53, 186, 135, 60], 1)
+        self.rokes = StatusBars(rocketsPos, gameFunctions.placeAt((2, 20)),
+                                [53, 186, 135, 60], self.rockNums)
         gameVariables.statuss.add(self.stats)
         gameVariables.statuss.add(self.bulles)
         gameVariables.statuss.add(self.rokes)
@@ -261,7 +262,11 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, keys, time):
         self.stats.update(self.hp)
-        self.bulles.update(clip)
+        if self.clip>0:
+            self.bulles.update(self.clip)
+        else:
+            self.bulles.update(self.reloadTick / gameVariables.reload_speed * 20)
+
         if not self.dead:
             self.time = time / 1000
             self.fall = True

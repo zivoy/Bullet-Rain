@@ -43,4 +43,4 @@ def apply():
     gameVariables.bullet_damage = diffs[data["difficulty"]]["damage"][0]
     gameVariables.rocket_damage = diffs[data["difficulty"]]["damage"][1]
     gameVariables.stage_choice = 1
-    gameVariables.img = "opt2.jpg"
+    gameVariables.img = "opt4.jpg"
