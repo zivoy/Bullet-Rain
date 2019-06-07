@@ -21,18 +21,10 @@ settings.load()
 settings.apply()
 
 
-white = (255, 255, 255)
-red = (200, 0, 0)
-green = (0, 255, 0)
-blue = (0, 0, 230)
-black = (0,0,0)
+black = Color.BLACK.value
+red = Color.RED.value
+blue = Color.BLUE.value
 
-
-
-
-BLACK = Color.BLACK.value
-RED = Color.RED.value
-BLUE = Color.BLUE.value
 # use clock to slow things down
 clock = pygame.time.Clock()
 # creates a screen
@@ -58,7 +50,7 @@ def main():  #################################################################
             break
 
         # first screen
-        screen.fill(BLACK)
+        screen.fill(black)
 
         # this is the text that appear on the intro screen askign the user for the name
         gameFunctions.print_text(titlefont, 200, 300, "Bullet-Rain", Color.RED, screen)
@@ -77,7 +69,7 @@ def main():  #################################################################
             break
 
         # first screen
-        screen.fill(BLACK)
+        screen.fill(black)
 
         # this is the text that appear on the intro screen askign the user for the name
         gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", Color.RED, screen)
@@ -170,7 +162,7 @@ def main():  #################################################################
             break
 
         # first screen
-        screen.fill(BLACK)
+        screen.fill(black)
 
         # this is the text that appear on the intro screen askign the user for the name
         gameFunctions.print_text(bigfont, 50, 25, "Instructions", Color.GREEN, screen)
@@ -225,7 +217,7 @@ def main():  #################################################################
                                                 *gameVariables.player_list.list.values())
         xPos, _ = bigfont.size(title)
         xPos = gameVariables.screenSize[0] / 2 - xPos / 2
-        screen.fill(BLACK)
+        screen.fill(black)
         stage.draw(screen, avrg)
 
         gameVariables.raining.update()
@@ -247,7 +239,7 @@ def main():  #################################################################
 
 def settingsMen():
     menu = True
-    cols = [[0, 0, 255, 255], [255, 0, 0, 255]]
+    cols = [Color.BLUE.value, Color.RED.value]
 
     sS = sM = sL = 0
     if gameVariables.settings['screen'] == "small":
@@ -317,7 +309,7 @@ def settingsMen():
         apply.update(pygame.mouse, acc)
 
         pygame.mouse.set_visible = True
-        screen.fill(BLACK)
+        screen.fill(black)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return True
