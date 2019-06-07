@@ -214,21 +214,16 @@ def main():  #################################################################
                 if event.key == pygame.K_ESCAPE:
                     if settingsMen():
                         return
-                if event.key == pygame.K_RETURN:
-                    makeItRain()
+                '''if event.key == pygame.K_RETURN:
+                    makeItRain()'''
 
-        rain_tick = max(0,rain_tick-1)
-
-
-
+        rain_tick = max(0, rain_tick-1)
 
         if rain_tick == 0:
             makeItRain()
             random_offset = randint(0, 200)
             off_dir = randint(0, 1) * 2 - 1
             rain_tick = gameVariables.rain_delay + random_offset * off_dir
-
-
 
         avrg = gameFunctions.avreagePos(gameVariables.players.sprites())
         title = "{0}: {2} V.S. {1}: {3}".format(*gameVariables.player_list.list.keys(),
