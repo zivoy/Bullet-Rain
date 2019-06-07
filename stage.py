@@ -38,7 +38,7 @@ def createStage(stage=1):
 
     for i in stages[stage - 1]:
         gameVariables.obstecls.append(i)
-        gameFunctions.fillArea(platforms, gameFunctions.loadImage("briks3.jpg", 1.2), i)
+        gameFunctions.fillArea(platforms, gameFunctions.loadImage("briks3.jpg", .1), i)
 
 
 def draw(screen, pos):
