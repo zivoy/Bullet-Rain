@@ -289,7 +289,7 @@ class Player(pygame.sprite.Sprite):
             self.respawn_tick = 0
             self.doRespawn = True
 
-        regenWait = 120
+        regenWait = 75
         if self.doRespawn and self.respawn_tick == regenWait:
             self.respawn()
             self.doRespawn = False
