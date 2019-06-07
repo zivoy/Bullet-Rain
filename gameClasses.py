@@ -83,7 +83,7 @@ class Player(pygame.sprite.Sprite):
         self.offs = [0, 23]
 
         self.clip = gameVariables.clip_size
-        self.reloadTick = gameVariables.reload_speed
+        self.reloadTick = 0  # gameVariables.reload_speed
         self.rockNums = 1
 
         self.fall = True
@@ -152,7 +152,7 @@ class Player(pygame.sprite.Sprite):
             self.spacial1()
             self.spacial1tick = 12
             self.clip = max(0, self.clip - 1)
-            self.reloadTick = gameVariables.reload_speed
+            self.reloadTick = 0
 
         if key[self.controls["special2"]] and self.spacial2tick == 0:
             self.spacial2()
@@ -262,10 +262,10 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, keys, time):
         self.stats.update(self.hp)
-        if self.clip>0:
+        if self.clip > 0:
             self.bulles.update(self.clip)
         else:
-            self.bulles.update(self.reloadTick / gameVariables.reload_speed * 20)
+            self.bulles.update(self.reloadTick / gameVariables.reload_speed * gameVariables.clip_size)
 
         if not self.dead:
             self.time = time / 1000
@@ -293,9 +293,9 @@ class Player(pygame.sprite.Sprite):
                 self.vel[1] = gameFunctions.gravity(self.u, self.airtime)
 
             if self.clip == 0:
-                self.reloadTick = max(0, self.reloadTick - 1)
+                self.reloadTick = min(gameVariables.reload_speed, self.reloadTick + 1)
 
-            if self.reloadTick == 0:
+            if self.reloadTick == gameVariables.reload_speed:
                 self.clip = gameVariables.clip_size
 
         elif keys[gameVariables.revive_key] and not self.doRespawn:
@@ -308,7 +308,7 @@ class Player(pygame.sprite.Sprite):
             self.doRespawn = False
 
         if self.doRespawn:
-            self.hp = self.respawn_tick / regenWait * 20
+            self.hp = self.respawn_tick / regenWait * gameVariables.player_health
 
         self.respawn_tick = min(regenWait, self.respawn_tick + 1)
 
