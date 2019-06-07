@@ -83,7 +83,8 @@ class Player(pygame.sprite.Sprite):
         self.offs = [0, 23]
 
         self.clip = gameVariables.clip_size
-        self.reloadTick = gameVariables.reload_speed
+        self.reloadTick = 0  # gameVariables.reload_speed
+        self.rockNums = 1
 
         self.fall = True
 
@@ -108,7 +109,15 @@ class Player(pygame.sprite.Sprite):
         statsPos = gameFunctions.placeAt((2, 10)) if self.direc == 1 else gameFunctions.placeAt((97, 10))
         self.stats = StatusBars(statsPos, gameFunctions.placeAt((2, 70)),
                                 [201, 49, 38, 60], gameVariables.player_health)
+        bulletsPos = gameFunctions.placeAt((4.2, 60)) if self.direc == 1 else gameFunctions.placeAt((94.8, 60))
+        rocketsPos = gameFunctions.placeAt((6.4, 60)) if self.direc == 1 else gameFunctions.placeAt((92.6, 60))
+        self.bulles = StatusBars(bulletsPos, gameFunctions.placeAt((2, 20)),
+                                [221, 221, 122, 60], gameVariables.clip_size)
+        self.rokes = StatusBars(rocketsPos, gameFunctions.placeAt((2, 20)),
+                                [53, 186, 135, 60], self.rockNums)
         gameVariables.statuss.add(self.stats)
+        gameVariables.statuss.add(self.bulles)
+        gameVariables.statuss.add(self.rokes)
 
     def handleKeys(self, key):
         if key[self.controls["jump"]] and self.airjumps > 0 and self.jumptick == 0:  # self.airtime == 0:
@@ -143,7 +152,7 @@ class Player(pygame.sprite.Sprite):
             self.spacial1()
             self.spacial1tick = 12
             self.clip = max(0, self.clip - 1)
-            self.reloadTick = gameVariables.reload_speed
+            self.reloadTick = 0
 
         if key[self.controls["special2"]] and self.spacial2tick == 0:
             self.spacial2()
@@ -161,6 +170,8 @@ class Player(pygame.sprite.Sprite):
         rocket = Bullets("rocket.png", (spawnS[0] + self.vel[0], spawnS[1]),
                          self.direc, gameVariables.rocket_damage, gameVariables.rocket_speed, 5)
         gameVariables.projectiles.add(rocket)
+        if self.rokes.val == 1:
+            self.rokes.update(0)
 
     def position(self):
         self.rect.x = self.pos[0]
@@ -251,6 +262,11 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, keys, time):
         self.stats.update(self.hp)
+        if self.clip > 0:
+            self.bulles.update(self.clip)
+        else:
+            self.bulles.update(self.reloadTick / gameVariables.reload_speed * gameVariables.clip_size)
+
         if not self.dead:
             self.time = time / 1000
             self.fall = True
@@ -277,9 +293,9 @@ class Player(pygame.sprite.Sprite):
                 self.vel[1] = gameFunctions.gravity(self.u, self.airtime)
 
             if self.clip == 0:
-                self.reloadTick = max(0, self.reloadTick - 1)
+                self.reloadTick = min(gameVariables.reload_speed, self.reloadTick + 1)
 
-            if self.reloadTick == 0:
+            if self.reloadTick == gameVariables.reload_speed:
                 self.clip = gameVariables.clip_size
 
         elif keys[gameVariables.revive_key] and not self.doRespawn:
@@ -292,7 +308,7 @@ class Player(pygame.sprite.Sprite):
             self.doRespawn = False
 
         if self.doRespawn:
-            self.hp = self.respawn_tick / regenWait * 20
+            self.hp = self.respawn_tick / regenWait * gameVariables.player_health
 
         self.respawn_tick = min(regenWait, self.respawn_tick + 1)
 
