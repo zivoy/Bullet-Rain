@@ -1,7 +1,7 @@
 import pygame
+from random import random, randint
 import gameVariables
 import gameFunctions
-from random import random, randint
 from enum import Enum
 
 pygame.font.init()
@@ -30,6 +30,7 @@ class Bullets(pygame.sprite.Sprite):
         turnDeg = {0: 180, 1: 0, 2: 90, 3: 270}
         self.image = gameFunctions.loadImage("projectiles/{0}".format(img), sz, turnDeg[direc])
         self.rect = self.image.get_rect()
+
 
         if direc == 0:
             self.vel = [-speed, 0]
@@ -512,3 +513,16 @@ class Rain:
 
 
 gameVariables.raining = Rain()
+
+
+def makeItRain():
+    rain_amount = gameVariables.rain_amount
+    number = randint(rain_amount-5, rain_amount+5)
+    print(number)
+    for i in range(number):
+        waitAm = randint(0, 25)
+        proj = Bullets("bullet.png", (round(random()*gameVariables.screenSize[0]), 1), 2,
+                       gameVariables.bullet_damage, gameVariables.bullet_speed, 1.3)
+        drop = RainDrop(waitAm, proj)
+        gameVariables.raining.rainDrops.append(drop)
+    gameVariables.raining.doRain = True

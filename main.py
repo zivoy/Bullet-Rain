@@ -1,8 +1,8 @@
-import stage
-import gameFunctions
-import settings
 from gameClasses import *
 import gameVariables
+import stage
+import settings
+import gameFunctions
 import pygame
 import sys
 
@@ -204,6 +204,9 @@ def main():  #################################################################
                 if event.key == pygame.K_ESCAPE:
                     if settingsMen():
                         return
+                if event.key == pygame.K_RETURN:
+                    makeItRain()
+
         avrg = gameFunctions.avreagePos(gameVariables.players.sprites())
         title = "{0}: {2} V.S. {1}: {3}".format(*gameVariables.player_list.list.keys(),
                                                 *gameVariables.player_list.list.values())
@@ -212,6 +215,7 @@ def main():  #################################################################
         screen.fill(BLACK)
         stage.draw(screen, avrg)
 
+        gameVariables.raining.update()
         gameVariables.players.update(pygame.key.get_pressed(), clock.get_time())
         gameVariables.projectiles.update()
 
@@ -259,7 +263,7 @@ def settingsMen():
     pows = MultipleOptions([powTrue, powFalse])
 
     save = ClickButton("Save Settings", gameFunctions.placeAt((30, 90)), gameFunctions.placeAt((21, 5)), cols, win,
-                       func=lambda: print(gameVariables.settings))
+                       func=lambda: settings.compose())  # print(gameVariables.settings))
     apply = ClickButton("Apply settings", gameFunctions.placeAt((55, 90)), gameFunctions.placeAt((21, 5)), cols, win,
                         func=lambda: settings.apply())
 

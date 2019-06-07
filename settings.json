@@ -1,7 +1,1 @@
-{
-  "difficulty": "medium",
-  "screen": "large",
-  "lives": 5,
-  "health per life": 20,
-  "power-ups": true
-}
+{"difficulty": "medium", "screen": "large", "lives": 5, "health per life": 20, "power-ups": false}

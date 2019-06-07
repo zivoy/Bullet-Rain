@@ -1,4 +1,4 @@
-from gameClasses import *
+from gameClasses import pygame
 import gameVariables
 
 
@@ -144,15 +144,6 @@ def flag(item1, item2, curr):
     else:
         return item1
 
-'''
-def makeItRain():
-    rain_amount = gameVariables.rain_amount
-    number = randint(rain_amount-5, rain_amount+5)
-    for i in range(number):
-        waitAm = randint(0, 25)
-        proj = Bullets("bullet.png", )
-        drop = RainDrop()
-        gameVariables.raining.rainDrops.append'''
 
 
 def setScreen(size):
