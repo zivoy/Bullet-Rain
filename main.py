@@ -196,12 +196,13 @@ def main():  #################################################################
     ################################
     # gameVariables.scr = screen
     while True:
+        pygame.mouse.set_visible = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
-                    if settings():
+                    if settingsMen():
                         return
         avrg = gameFunctions.avreagePos(gameVariables.players.sprites())
         title = "{0}: {2} V.S. {1}: {3}".format(*gameVariables.player_list.list.keys(),
@@ -227,35 +228,56 @@ def main():  #################################################################
         clock.tick(60)
 
 
-def settings():
+def settingsMen():
     menu = True
     cols = [[0, 0, 255, 255], [255, 0, 0, 255]]
 
     scrX = 19
-    screenSmall = Button("Small", gameFunctions.placeAt((scrX, 20)), gameFunctions.placeAt((15, 5)), cols, win)
-    screenMedium = Button("Medium", gameFunctions.placeAt((scrX + 17, 20)), gameFunctions.placeAt((15, 5)), cols, win)
-    screenLarge = Button("Large", gameFunctions.placeAt((scrX + 34, 20)), gameFunctions.placeAt((15, 5)), cols, win, 1)
+    screenSmall = Button("Small", gameFunctions.placeAt((scrX, 20)), gameFunctions.placeAt((15, 5)), cols, win,
+                         func=lambda: gameFunctions.setScreen("small"))
+    screenMedium = Button("Medium", gameFunctions.placeAt((scrX + 17, 20)), gameFunctions.placeAt((15, 5)), cols, win,
+                          func=lambda: gameFunctions.setScreen("medium"))
+    screenLarge = Button("Large", gameFunctions.placeAt((scrX + 34, 20)), gameFunctions.placeAt((15, 5)), cols, win, 1,
+                         func=lambda: gameFunctions.setScreen("large"))
 
     diffX = 17
-    easyDiff = Button("Easy", gameFunctions.placeAt((diffX, 30)), gameFunctions.placeAt((15, 5)), cols, win)
-    mediumDiff = Button("Medium", gameFunctions.placeAt((diffX + 17, 30)), gameFunctions.placeAt((15, 5)), cols, win, 1)
-    hardDiff = Button("Hard", gameFunctions.placeAt((diffX + 34, 30)), gameFunctions.placeAt((15, 5)), cols, win)
+    easyDiff = Button("Easy", gameFunctions.placeAt((diffX, 30)), gameFunctions.placeAt((15, 5)), cols, win,
+                      func=lambda: gameFunctions.setDiff("easy"))
+    mediumDiff = Button("Medium", gameFunctions.placeAt((diffX + 17, 30)), gameFunctions.placeAt((15, 5)), cols, win, 1,
+                        func=lambda: gameFunctions.setDiff("medium"))
+    hardDiff = Button("Hard", gameFunctions.placeAt((diffX + 34, 30)), gameFunctions.placeAt((15, 5)), cols, win,
+                      func=lambda: gameFunctions.setDiff("hard"))
 
     powX = 16
-    powTrue = Button("Yes", gameFunctions.placeAt((powX + 17, 40)), gameFunctions.placeAt((15, 5)), cols, win)
-    powFalse = Button("No", gameFunctions.placeAt((powX, 40)), gameFunctions.placeAt((15, 5)), cols, win, 1)
+    powTrue = Button("Yes", gameFunctions.placeAt((powX + 17, 40)), gameFunctions.placeAt((15, 5)), cols, win,
+                     func=lambda: gameFunctions.setPow(True))
+    powFalse = Button("No", gameFunctions.placeAt((powX, 40)), gameFunctions.placeAt((15, 5)), cols, win, 1,
+                      func=lambda: gameFunctions.setPow(False))
 
     screenSize = MultipleOptions([screenSmall, screenMedium, screenLarge])
     diffs = MultipleOptions([easyDiff, mediumDiff, hardDiff])
     pows = MultipleOptions([powTrue, powFalse])
 
-    save = ClickButton("Save Settings", gameFunctions.placeAt((30, 90)), gameFunctions.placeAt((21, 5)), cols, win)
+    save = ClickButton("Save Settings", gameFunctions.placeAt((30, 90)), gameFunctions.placeAt((21, 5)), cols, win,
+                       func=lambda: print(gameVariables.settings))
     apply = ClickButton("Apply settings", gameFunctions.placeAt((55, 90)), gameFunctions.placeAt((21, 5)), cols, win,
-                        func=lambda: print(gameVariables.settings))
+                        func=lambda: settings.apply())
 
     dele = 0
 
     while menu:
+        acc = False
+        if pygame.mouse.get_pressed()[0] and not dele > 0:
+            acc = True
+            dele = 5
+        diffs.update(pygame.mouse, acc)
+        screenSize.update(pygame.mouse, acc)
+        pows.update(pygame.mouse, acc)
+
+        save.update(pygame.mouse, acc)
+        apply.update(pygame.mouse, acc)
+
+        pygame.mouse.set_visible = True
         screen.fill(BLACK)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -264,23 +286,14 @@ def settings():
                 if event.key == pygame.K_ESCAPE:
                     menu = False
 
+            if event.type == pygame.MOUSEBUTTONUP:
+                gameVariables.butonRel.gotClicked()
+
         gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", Color.RED, screen)
 
         gameFunctions.print_text(win, *gameFunctions.placeAt((1, 20)), "Screen Size:", Color.WHITE, screen)
         gameFunctions.print_text(win, *gameFunctions.placeAt((1, 30)), "Difficulty:", Color.WHITE, screen)
         gameFunctions.print_text(win, *gameFunctions.placeAt((1, 40)), "Power ups:", Color.WHITE, screen)
-
-        acc = False
-        if pygame.mouse.get_pressed()[0] and not dele > 0:
-            acc = True
-            dele = 5
-
-        diffs.update(pygame.mouse, acc)
-        screenSize.update(pygame.mouse, acc)
-        pows.update(pygame.mouse, acc)
-
-        save.update(pygame.mouse, acc)
-        apply.update(pygame.mouse, acc)
 
         save.draw(screen)
         apply.draw(screen)

@@ -1,11 +1,11 @@
 import pygame
 import gameVariables
 import gameFunctions
+from random import random, randint
 from enum import Enum
 
 pygame.font.init()
 nams = pygame.font.SysFont("monospace", 20)
-
 
 # colors
 class Color(Enum):
@@ -76,9 +76,7 @@ class Player(pygame.sprite.Sprite):
         self.namelength, _ = nams.size(name)
         self.speed = 5
         self.jump = 10  # 6
-        self.airtime = 0
-        self.time = 0
-        self.u = 0
+        self.airtime = self.time = self.u = 0
         self.airjumps = 1
         self.jumptick = 0
         self.offs = [0, 23]
@@ -88,9 +86,7 @@ class Player(pygame.sprite.Sprite):
 
         self.fall = True
 
-        self.spacial1tick = 0
-        self.spacial2tick = 0
-        self.respawn_tick = 0
+        self.spacial1tick = self.spacial2tick = self.respawn_tick = 0
         self.doRespawn = False
 
         self.dead = False
@@ -386,10 +382,16 @@ class Button(pygame.sprite.Sprite):
         self.function = func
         self.image = pygame.Surface(size, pygame.SRCALPHA)
         self.mouse = pygame.mouse
+        gameVariables.butonRel.add(self)
+        self.rlsd = False
 
         self.rect = self.image.get_rect()
         self.rect.x = pos[0]
         self.rect.y = pos[1]
+
+    def relase(self):
+        if self.rect.collidepoint(pygame.mouse.get_pos()):
+            self.rlsd = True
 
     def messageSprite(self, col=Color.WHITE.value):
         self.image.fill(self.colors[self.curr_color])
@@ -412,7 +414,7 @@ class Button(pygame.sprite.Sprite):
             if self.rect.collidepoint(mouse.get_pos()):
                 self.flagColor()
                 self.messageSprite()
-                return self.function
+                return self.function()
         self.messageSprite()
 
 
@@ -438,35 +440,75 @@ class MultipleOptions(pygame.sprite.Group):
         self.updateList()
 
     def update(self, mouse, accept):
-        if accept:
-            for j in self.items:
-                if not self.selections[j.message]:
-                    if j.update(mouse, accept):
-                        self.selectOne(j.message)
+        #if accept:
+        for j in self.items:
+            if not self.selections[j.message]:
+                if j.update(mouse, accept):
+                    self.selectOne(j.message)
 
         return self.selections
 
 
 class ClickButton(Button):
     def __init__(self, message, pos, size, colors, font, func=lambda: True):
-        # colors[1] = colors[0]
         super().__init__(message, pos, size, colors, font, func=func)
-
-    def flagColor(self):
-        if self.mouse.get_pressed()[0]:
-            self.curr_color = 1
-
-        else:
-            self.curr_color = 0
 
     def update(self, mouse, accept):
         self.mouse = mouse
-        if accept:
-            if self.rect.collidepoint(mouse.get_pos()):
-                if self.mouse.get_pressed()[0]:
-                    self.curr_color = 1
+     #   if accept:
+        if self.rect.collidepoint(mouse.get_pos()):
+            if self.mouse.get_pressed()[0]:
+                self.curr_color = 1
                 self.messageSprite()
-                return self.function
-        if not self.mouse.get_pressed()[0]:
+            if self.rlsd:
+                self.rlsd = False
+                return self.function()
+        if not self.mouse.get_pressed()[0] or not self.rect.collidepoint(mouse.get_pos()):
             self.curr_color = 0
         self.messageSprite()
+
+
+class ClickRelese:
+    def __init__(self):
+        self.monitor = list()
+
+    def gotClicked(self):
+        for i in self.monitor:
+            i.relase()
+
+    def add(self, act):
+        self.monitor.append(act)
+
+
+gameVariables.butonRel = ClickRelese()
+
+
+class RainDrop:
+    def __init__(self, tick, drop):
+        self.tick = tick
+        self.drop = drop
+
+    def update(self):
+        self.tick = max(0, self.tick-1)
+        if self.tick == 0:
+            gameVariables.projectiles.add(self.drop)
+            return True
+        return False
+
+
+class Rain:
+    def __init__(self):
+        self.rainDrops = list()
+        self.doRain = False
+
+    def update(self):
+        if self.doRain:
+            for j, i in reversed(list(enumerate(self.rainDrops))):
+                if i.update():
+                    self.rainDrops.pop(j)
+
+        if self.rainDrops == list():
+            self.doRain = False
+
+
+gameVariables.raining = Rain()

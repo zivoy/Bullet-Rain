@@ -47,3 +47,6 @@ revive_key = pygame.K_SPACE
 rain_amount = 10
 
 stage_choice = 1
+
+raining = list()
+butonRel = list()

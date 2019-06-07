@@ -143,3 +143,28 @@ def flag(item1, item2, curr):
         return item2
     else:
         return item1
+
+'''
+def makeItRain():
+    rain_amount = gameVariables.rain_amount
+    number = randint(rain_amount-5, rain_amount+5)
+    for i in range(number):
+        waitAm = randint(0, 25)
+        proj = Bullets("bullet.png", )
+        drop = RainDrop()
+        gameVariables.raining.rainDrops.append'''
+
+
+def setScreen(size):
+    gameVariables.settings['screen'] = size
+    return True
+
+
+def setDiff(diff):
+    gameVariables.settings['difficulty'] = diff
+    return True
+
+
+def setPow(pows):
+    gameVariables.settings['power-ups'] = pows
+    return True
