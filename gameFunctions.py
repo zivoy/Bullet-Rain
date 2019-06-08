@@ -1,5 +1,6 @@
 from gameClasses import pygame
 import gameVariables
+import settings
 
 
 def loadBack(aa=True):
@@ -158,4 +159,10 @@ def setDiff(diff):
 
 def setPow(pows):
     gameVariables.settings['power-ups'] = pows
+    return True
+
+
+def saveAndApply():
+    settings.apply()
+    settings.compose()
     return True

@@ -53,3 +53,6 @@ raining = list()
 butonRel = list()
 
 rain_delay = 1500
+
+bull_size = screenSize[1] * 0.001625
+roke_size = screenSize[1] * 0.00625

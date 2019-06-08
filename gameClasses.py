@@ -1,6 +1,7 @@
 import pygame
 from random import random, randint
 import gameVariables
+import settings
 import gameFunctions
 from enum import Enum
 
@@ -163,14 +164,14 @@ class Player(pygame.sprite.Sprite):
     def spacial1(self):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
         bullet = Bullets("bullet.png", (spawnS[0] + self.vel[0], spawnS[1]),
-                         self.direc, gameVariables.bullet_damage, gameVariables.bullet_speed, 1.3)
+                         self.direc, gameVariables.bullet_damage, gameVariables.bullet_speed, gameVariables.bull_size)
         gameVariables.projectiles.add(bullet)
         # print("bam")
 
     def spacial2(self):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
         rocket = Bullets("rocket.png", (spawnS[0] + self.vel[0], spawnS[1]),
-                         self.direc, gameVariables.rocket_damage, gameVariables.rocket_speed, 5)
+                         self.direc, gameVariables.rocket_damage, gameVariables.rocket_speed, gameVariables.roke_size)
         gameVariables.projectiles.add(rocket)
 
     def position(self):
@@ -554,7 +555,7 @@ def makeItRain():
     for i in range(number):
         waitAm = randint(0, 25)
         proj = Bullets("bullet.png", (round(random()*gameVariables.screenSize[0]), 1), 2,
-                       gameVariables.bullet_damage, gameVariables.bullet_speed, 1.3)
+                       gameVariables.bullet_damage, gameVariables.bullet_speed, gameVariables.bull_size)
         drop = RainDrop(waitAm, proj)
         gameVariables.raining.rainDrops.append(drop)
     gameVariables.raining.doRain = True

@@ -1,8 +1,5 @@
 from gameClasses import *
-import gameVariables
 import stage
-import settings
-import gameFunctions
 import sys
 
 ####from fiirstclass import bla ###    Put classes here
@@ -307,11 +304,8 @@ def settingsMen():
     diffs = MultipleOptions([easyDiff, mediumDiff, hardDiff])
     pows = MultipleOptions([powTrue, powFalse])
 
-    save = ClickButton("Save Settings", gameFunctions.placeAt((30, 90)), gameFunctions.placeAt((21, 5)), cols, win,
-                       func=lambda: settings.compose())  # print(gameVariables.settings))
-    apply = ClickButton("Apply settings", gameFunctions.placeAt((55, 90)), gameFunctions.placeAt((21, 5)), cols, win,
-                        func=lambda: settings.apply())
-
+    save = ClickButton("Save and Close", gameFunctions.placeAt((40, 90)), gameFunctions.placeAt((21, 5)), cols, win,
+                       func=gameFunctions.saveAndApply)
     dele = 0
 
     while menu:
@@ -323,8 +317,8 @@ def settingsMen():
         screenSize.update(pygame.mouse, acc)
         pows.update(pygame.mouse, acc)
 
-        save.update(pygame.mouse, acc)
-        apply.update(pygame.mouse, acc)
+        if save.update(pygame.mouse, acc):
+            return True
 
         pygame.mouse.set_visible = True
         screen.fill(black)
@@ -345,7 +339,6 @@ def settingsMen():
         gameFunctions.print_text(win, *gameFunctions.placeAt((1, 40)), "Power ups:", Color.WHITE, screen)
 
         save.draw(screen)
-        apply.draw(screen)
 
         diffs.draw(screen)
         screenSize.draw(screen)

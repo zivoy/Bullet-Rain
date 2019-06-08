@@ -45,3 +45,6 @@ def apply():
     gameVariables.rain_amount = diffs[data["difficulty"]]["bullet rain"]
     gameVariables.stage_choice = 1
     gameVariables.img = "opt4.jpg"
+    gameVariables.bull_size = gameVariables.screenSize[1] * 0.001625
+    gameVariables.roke_size = gameVariables.screenSize[1] * 0.00625
+    #stage.createStage(gameVariables.stage_choice)
