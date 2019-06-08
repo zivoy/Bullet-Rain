@@ -3,7 +3,7 @@ import gameVariables
 import stage
 import settings
 import gameFunctions
-import pygame
+from pygame import freetype
 import sys
 
 ####from fiirstclass import bla ###    Put classes here
@@ -16,7 +16,7 @@ bigfont = pygame.font.SysFont("monospace", 40)
 myfont = pygame.font.SysFont("monospace", 25)
 lost = pygame.font.SysFont("monospace", 20)
 win = pygame.font.SysFont("monospace", 30)
-warning = pygame.font.Font("Commodore-64.ttf", 200)
+warning = pygame.freetype.Font("Commodore-64.ttf", 200)
 
 settings.load()
 settings.apply()
@@ -204,7 +204,7 @@ def main():  #################################################################
 
     rain_tick = gameVariables.rain_delay
 
-
+    warningMsg = warning.render("Rain incoming!!", Color.RED.value)
 
     while True:
         pygame.mouse.set_visible = False
@@ -247,7 +247,8 @@ def main():  #################################################################
         gameFunctions.print_text(bigfont, xPos, 15, title, Color.WHITE, screen)
 
         if 50 < rain_tick < 200:
-            gameFunctions.print_text(warning, *gameFunctions.placeAt((30, 45)), u"Rain incoming!!", Color.RED, screen)
+            screen.blit(warningMsg[0], gameFunctions.placeAt((30, 45)))
+            #gameFunctions.print_text(warning, *gameFunctions.placeAt((30, 45)), u"Rain incoming!!", Color.RED, screen)
 
         pygame.display.update()
         pygame.display.flip()

@@ -113,9 +113,9 @@ class Player(pygame.sprite.Sprite):
         bulletsPos = gameFunctions.placeAt((4.2, 60)) if self.direc == 1 else gameFunctions.placeAt((94.8, 60))
         rocketsPos = gameFunctions.placeAt((6.4, 60)) if self.direc == 1 else gameFunctions.placeAt((92.6, 60))
         self.bulles = StatusBars(bulletsPos, gameFunctions.placeAt((2, 20)),
-                                [221, 221, 122, 60], gameVariables.clip_size)
+                                [221, 221, 122, 60], gameVariables.clip_size, True)
         self.rokes = StatusBars(rocketsPos, gameFunctions.placeAt((2, 20)),
-                                [53, 186, 135, 60], self.rockNums)
+                                [53, 186, 135, 60], self.rockNums, True)
         gameVariables.statuss.add(self.stats)
         gameVariables.statuss.add(self.bulles)
         gameVariables.statuss.add(self.rokes)
@@ -252,7 +252,11 @@ class Player(pygame.sprite.Sprite):
             gameVariables.player_list.playerScore(openet, curr + 1)
             self.clip = gameVariables.clip_size
             self.spacial1tick = 0
-            self.spacial2tick = 0
+
+            self.clip = gameVariables.clip_size
+            self.reloadTick = 0
+            self.spacial2tick = gameVariables.rocket_reload
+            self.rockNums = 1
 
             self.reImage(self.deadImg)
             self.dead = True
@@ -330,7 +334,7 @@ class Player(pygame.sprite.Sprite):
 
 
 class StatusBars(pygame.sprite.Sprite):
-    def __init__(self, pos, size, color, maxVl, revs=True):
+    def __init__(self, pos, size, color, maxVl, beck=False, revs=True):
         super().__init__()
         self.color = color
         self.val = 0
@@ -339,16 +343,18 @@ class StatusBars(pygame.sprite.Sprite):
         self.image = pygame.Surface(size, pygame.SRCALPHA)
         self.rect = self.image.get_rect()
         self.rect.topleft = pos
+        self.beck = beck
         self.draw()
 
     def draw(self):
         self.image.fill([0, 0, 0, 0])
-        backroundC = list(map(lambda x: max(0, x - 40), self.color))
+        backroundC = list(map(lambda x: max(0, x - 70), self.color))
         hight = self.val * self.rect.h / self.max
         req = pygame.Rect(0, hight, *self.rect.size)
         self.color[3] = 150
         backroundC[3] = 150
-        #self.image.fill(backroundC)
+        if self.beck:
+            self.image.fill(backroundC)
         pygame.draw.rect(self.image, self.color, req)
 
     def update(self, val):
