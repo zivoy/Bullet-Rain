@@ -3,7 +3,6 @@ import gameVariables
 import stage
 import settings
 import gameFunctions
-from pygame import freetype
 import sys
 
 ####from fiirstclass import bla ###    Put classes here
@@ -11,12 +10,12 @@ import sys
 pygame.init()
 
 # These are some fonts that I made up with differ sizes for different events such as when you win, lose, etc.
-titlefont = pygame.font.Font("kunstler.ttf", 200)
+titlefont = pygame.font.Font("./kunstler.ttf", 200)
 bigfont = pygame.font.SysFont("monospace", 40)
 myfont = pygame.font.SysFont("monospace", 25)
 lost = pygame.font.SysFont("monospace", 20)
 win = pygame.font.SysFont("monospace", 30)
-warning = pygame.freetype.Font("Commodore-64.ttf", 200)
+warning = pygame.font.Font("vgafix.fon", 36)
 
 settings.load()
 settings.apply()
@@ -204,7 +203,9 @@ def main():  #################################################################
 
     rain_tick = gameVariables.rain_delay
 
-    warningMsg = warning.render("Rain incoming!!", Color.RED.value)
+    warningMsg = warning.render("Rain incoming!!", False, Color.RED.value)
+    warningMsg = pygame.transform.scale(warningMsg, list(map(lambda x: x*round(gameVariables.screenSize[0]/125),
+                                                             warningMsg.get_size())))
 
     while True:
         pygame.mouse.set_visible = False
@@ -247,8 +248,7 @@ def main():  #################################################################
         gameFunctions.print_text(bigfont, xPos, 15, title, Color.WHITE, screen)
 
         if 50 < rain_tick < 200:
-            screen.blit(warningMsg[0], gameFunctions.placeAt((30, 45)))
-            #gameFunctions.print_text(warning, *gameFunctions.placeAt((30, 45)), u"Rain incoming!!", Color.RED, screen)
+            screen.blit(warningMsg, gameFunctions.placeAt((3, 35)))
 
         pygame.display.update()
         pygame.display.flip()
