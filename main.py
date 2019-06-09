@@ -81,7 +81,7 @@ def main():  #################################################################
         gameFunctions.print_text(myfont, 10, 250, "In this game there are power-ups and ledges to jump to", Color.WHITE,
                                  screen)
         gameFunctions.print_text(myfont, 10, 300, "Good luck", Color.WHITE, screen)
-        gameFunctions.print_text(myfont, 10, 350, "The player who reaches five points first wins!", Color.RED, screen)
+        gameFunctions.print_text(myfont, 10, 350, "The Player with the most points wins!!!", Color.RED, screen)
         gameFunctions.print_text(myfont, 10, 400, "But before playing we need to take you to some other screens.",
                                  Color.WHITE, screen)
         gameFunctions.print_text(myfont, 10, 450, "Please press enter to continue.", Color.WHITE, screen)
@@ -166,14 +166,14 @@ def main():  #################################################################
 
         # this is the text that appear on the intro screen askign the user for the name
         gameFunctions.print_text(bigfont, 50, 25, "Instructions", Color.GREEN, screen)
-        gameFunctions.print_text(win, 10, 100, gameVariables.player_list[0] + "'s controlls are:", Color.RED,
+        gameFunctions.print_text(win, 10, 100, gameVariables.player_list[0] + "'s controls are:", Color.RED,
                                  screen)
-        gameFunctions.print_text(myfont, 10, 150, "The A, S, W and D Keys to move and 5 for bullets and 6 for Rocket",
+        gameFunctions.print_text(myfont, 10, 150, "The A, S, W and D Keys to move, use 5 for bullets and 6 for rocket",
                                  Color.WHITE,
                                  screen)
-        gameFunctions.print_text(win, 10, 250, gameVariables.player_list[1] + "'s controlls are:", Color.BLUE,
+        gameFunctions.print_text(win, 10, 250, gameVariables.player_list[1] + "'s controls are:", Color.BLUE,
                                  screen)
-        gameFunctions.print_text(myfont, 10, 300, "Arrow keys, and bullet is keypad 2, rocket is keypad 3", Color.WHITE,
+        gameFunctions.print_text(myfont, 10, 300, "Arrow keys, use keypad 2 for bullets, keypad 3 for rocket", Color.WHITE,
                                  screen)
         gameFunctions.print_text(myfont, 10, 350,
                                  "Both players have a mid air jump that cools down when they hit the ground", Color.RED,
