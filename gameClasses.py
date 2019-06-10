@@ -81,30 +81,39 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, playerSpr, direc, controls, name, pos, sz=.25):
         super().__init__()
         # player variables
+        # velocity and position
         self.vel = [0, 0]
         self.pos = list(pos)
         self.startpos = pos
+
+        # hp and name
         self.hp = gameVariables.player_health
         self.direc = 0 if direc == "left" else 1
         self.name = name
         self.namelength, _ = nams.size(name)
-        self.speed = 5
-        self.jump = 10  # 6
+
+        # speed and jump power
+        self.speed = 5 * gameVariables.screenSize[0] / 1250
+        self.jump = 10 * gameVariables.screenSize[1] / 800
         self.airtime = self.time = self.u = 0
         self.airjumps = 1
         self.jumptick = 0
         self.offs = [0, 23]
 
+        # ammo
         self.clip = gameVariables.clip_size
         self.reloadTick = 0  # gameVariables.reload_speed
         self.rockNums = 1
 
+        # gravity
         self.fall = True
 
+        # timers
         self.spacial1tick = self.respawn_tick = 0
         self.doRespawn = False
         self.spacial2tick = gameVariables.rocket_reload
 
+        # is dead
         self.dead = False
 
         # player images
@@ -112,15 +121,19 @@ class Player(pygame.sprite.Sprite):
                            gameFunctions.loadImage("{0}/right.png".format(playerSpr), sz)]
         self.deadImg = gameFunctions.loadImage("{0}/dead.png".format(playerSpr), sz)
 
+        # controls
         self.controls = controls
 
+        # image
         self.image = pygame.image
         self.rect = pygame.rect
         self.colider = pygame.rect
         self.reImage()
 
+        # position
         self.position()
 
+        # hp and ammo bars
         statsPos = gameFunctions.placeAt((2, 10)) if self.direc == 1 else gameFunctions.placeAt((97, 10))
         self.stats = StatusBars(statsPos, gameFunctions.placeAt((2, 70)),
                                 [201, 49, 38, 60], gameVariables.player_health)
@@ -136,6 +149,7 @@ class Player(pygame.sprite.Sprite):
 
     # key handler
     def handleKeys(self, key):
+        # handler for jump key
         if key[self.controls["jump"]] and self.airjumps > 0 and self.jumptick == 0:  # self.airtime == 0:
             self.vel[1] = -self.jump
             self.u = -self.jump
@@ -145,18 +159,21 @@ class Player(pygame.sprite.Sprite):
             if self.airtime > 0:
                 self.airjumps -= 1
 
+        # handler fot moving right
         if key[self.controls["right"]]:
             self.vel[0] = self.speed
             if self.direc != 1:
                 self.direc = 1
                 self.reImage()
 
+        # handler for moving left
         if key[self.controls["left"]]:
             self.vel[0] = -self.speed
             if self.direc != 0:
                 self.direc = 0
                 self.reImage()
 
+        # handler for sneaking
         if key[self.controls["sneak"]]:
             self.speed = 2
             self.jump = 5
@@ -164,12 +181,14 @@ class Player(pygame.sprite.Sprite):
             self.speed = 5
             self.jump = 10
 
+        # handler for bullets
         if key[self.controls["special1"]] and self.spacial1tick == 0 and self.clip > 0:
             self.spacial1()
             self.spacial1tick = 12
             self.clip = max(0, self.clip - 1)
             self.reloadTick = 0
 
+        # handler for rockets
         if key[self.controls["special2"]] and self.spacial2tick == 250 and self.rockNums > 0:
             self.spacial2()
             self.rockNums = max(0, self.rockNums - 1)
@@ -177,7 +196,9 @@ class Player(pygame.sprite.Sprite):
 
     # attack 1 bullet
     def spacial1(self):
+        # spawn direction
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
+        # make bullet and add to projectile sprite class
         bullet = Bullets("bullet.png", (spawnS[0] + self.vel[0], spawnS[1]),
                          self.direc, gameVariables.bullet_damage, gameVariables.bullet_speed, gameVariables.bull_size)
         gameVariables.projectiles.add(bullet)
@@ -185,7 +206,9 @@ class Player(pygame.sprite.Sprite):
 
     # attack 2 rocket
     def spacial2(self):
+        # spawn direction
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
+        # spawn rocket and add to projectile class
         rocket = Bullets("rocket.png", (spawnS[0] + self.vel[0], spawnS[1]),
                          self.direc, gameVariables.rocket_damage, gameVariables.rocket_speed, gameVariables.roke_size)
         gameVariables.projectiles.add(rocket)
@@ -199,36 +222,48 @@ class Player(pygame.sprite.Sprite):
 
     # change the player image
     def reImage(self, image=None):
+        # if no image was specified set the image as the side
         if image is None:
             image = self.directions[self.direc]
+        # if the name is bigger then the sprite image create an offset
         if image.get_size()[0] < self.namelength:
             self.offs[0] = (self.namelength - image.get_size()[0]) / 2
+        # set the size as ths the bigger one in case the name is smaller then the image
         bonds = [max(self.namelength, image.get_size()[0]),
                  image.get_size()[1] + self.offs[1]]
+        # set the image as an empty surface and blit image and name
         self.image = pygame.Surface(bonds, pygame.SRCALPHA)
         self.image.blit(image, self.offs)
         gameFunctions.print_text(nams, bonds[0] / 2 - self.namelength / 2, 0, self.name, Color.WHITE, self.image)
 
+        # get rect and collider rect
         self.rect = self.image.get_rect()
         self.colider = image.get_rect()
+        # set position
         self.position()
 
     # handles collisions of player
     def colideIn(self):
+        # safe zone for no conflicts in collider
         saf = 13
+        # update position and get the starting coords for colliders
         self.position()
         coordsX = self.colider.topright if self.vel[0] > 0 else self.colider.topleft
         coordsY = self.colider.bottomleft if self.vel[1] > 0 else self.colider.topleft
 
+        # determine side of collider
         xSide = False if self.vel[0] > 0 else True
         ySide = False if self.vel[1] > 0 else True
 
+        # create x and y colliders
         colliders = [pygame.Rect(coordsX[0], coordsX[1] + saf, self.vel[0], self.colider.h - saf * 2),
                      pygame.Rect(int(coordsY[0] + saf / 2), coordsY[1], self.colider.w - saf, self.vel[1])]
 
+        # create a colider for gravity
         flors = gameFunctions.drawRectangle((self.colider.bottomleft[0] + 5, self.colider.bottomleft[1]),
                                             (self.colider.bottomright[0] - 5, self.colider.bottomright[1] + 1), False)
 
+        # this part displays the colliders for testing purposes
         """
         #for testing purposes
         for scan in colliders:
@@ -239,6 +274,7 @@ class Player(pygame.sprite.Sprite):
             pygame.draw.rect(gameVariables.scr, [255, 255, 255], flors)
         """
 
+        # for every obstacle test for collision
         for obstecles in gameVariables.obstecls:
             if colliders[0].colliderect(obstecles) and colliders[0].w != 0:
                 offSide = 0 if xSide else self.colider.w
@@ -254,17 +290,21 @@ class Player(pygame.sprite.Sprite):
                 self.airtime = 0.001
                 self.u = 0
 
+            # check if touching ground
             if flors.colliderect(obstecles):
                 self.airjumps = 1
                 self.fall = False
+        # update position
         self.position()
 
+    # checks if player got hit by any projectile
     def gotHit(self):
         for projectile in gameVariables.projectiles:
             if self.colider.colliderect(projectile.rect):
                 self.hp -= projectile.damage
                 projectile.kill()
 
+    # check if player died and increase score for opponent
     def life(self):
         if self.hp <= 0:
             openet = gameVariables.player_list.opponent(self.name)
@@ -284,68 +324,91 @@ class Player(pygame.sprite.Sprite):
         '''if gameVariables.score[self.name] <= 0:
             self.kill()'''
 
+    # update function
     def update(self, keys, time):
+        # update hp bar
         self.stats.update(self.hp)
+        # if not out of ammo update ammo bar else reload bar
         if self.clip > 0:
             self.bulles.update(self.clip)
         else:
             self.bulles.update(self.reloadTick / gameVariables.reload_speed * gameVariables.clip_size)
 
+        # if rocket not fired update bar else reload
         if self.rockNums > 0:
             self.rokes.update(self.rockNums)
         else:
             self.rokes.update(self.spacial2tick / gameVariables.rocket_reload)
 
+        # if player not dead
         if not self.dead:
+            # update player time
             self.time = time / 1000
+            # assume player is falling
             self.fall = True
+            # handle keys
             self.handleKeys(keys)
 
+            # handle collisions
             self.colideIn()
 
+            # update position and velocity
             self.pos = list(map(lambda x, y: int(x + y), self.pos, self.vel))
             self.vel[0] = gameFunctions.decel(self.vel[0])
 
+            # handle collisons again
             self.colideIn()
 
-            self.position()
-
+            # decrease jump tick and attack 1 tick
             self.jumptick = max(0, self.jumptick - 1)
             self.spacial1tick = max(0, self.spacial1tick - 1)
 
+            # check if player got hit or is dead
             self.gotHit()
             self.life()
 
+            # if the player is falling accelerate it
             if self.fall:
                 self.airtime += self.time
                 self.vel[1] = gameFunctions.gravity(self.u, self.airtime)
 
+            # if out of ammo start reload timer
             if self.clip == 0:
                 self.reloadTick = min(gameVariables.reload_speed, self.reloadTick + 1)
 
+            # if out of rockets start reload timer
             if self.rockNums == 0:
                 self.spacial2tick = min(250, self.spacial2tick + 1)
 
+            # if rocket reload timer is done reload rockets
             if self.spacial2tick == gameVariables.rocket_reload:
                 self.rockNums = 1
 
+            # if ammo reload timer is done reload bullets
             if self.reloadTick == gameVariables.reload_speed:
                 self.clip = gameVariables.clip_size
 
+        # start respawn timer if dead
         elif not self.doRespawn:
             self.respawn_tick = 0
             self.doRespawn = True
 
+        # respawn delay
         regenWait = 75
+
+        # if respawn timer is done respawn
         if self.doRespawn and self.respawn_tick == regenWait:
             self.respawn()
             self.doRespawn = False
 
+        # regen hp if dead
         if self.doRespawn:
             self.hp = self.respawn_tick / regenWait * gameVariables.player_health
 
+        # increase respawn tick
         self.respawn_tick = min(regenWait, self.respawn_tick + 1)
 
+    # respawn function
     def respawn(self):
         self.dead = False
         self.reImage()
