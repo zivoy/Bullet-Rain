@@ -80,6 +80,7 @@ class Bullets(pygame.sprite.Sprite):
 class Player(pygame.sprite.Sprite):
     def __init__(self, playerSpr, direc, controls, name, pos, sz=.25):
         super().__init__()
+        # player variables
         self.vel = [0, 0]
         self.pos = list(pos)
         self.startpos = pos
@@ -106,6 +107,7 @@ class Player(pygame.sprite.Sprite):
 
         self.dead = False
 
+        # player images
         self.directions = [gameFunctions.loadImage("{0}/left.png".format(playerSpr), sz),
                            gameFunctions.loadImage("{0}/right.png".format(playerSpr), sz)]
         self.deadImg = gameFunctions.loadImage("{0}/dead.png".format(playerSpr), sz)
@@ -132,6 +134,7 @@ class Player(pygame.sprite.Sprite):
         gameVariables.statuss.add(self.bulles)
         gameVariables.statuss.add(self.rokes)
 
+    # key handler
     def handleKeys(self, key):
         if key[self.controls["jump"]] and self.airjumps > 0 and self.jumptick == 0:  # self.airtime == 0:
             self.vel[1] = -self.jump
@@ -172,6 +175,7 @@ class Player(pygame.sprite.Sprite):
             self.rockNums = max(0, self.rockNums - 1)
             self.spacial2tick = 0
 
+    # attack 1 bullet
     def spacial1(self):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
         bullet = Bullets("bullet.png", (spawnS[0] + self.vel[0], spawnS[1]),
@@ -179,18 +183,21 @@ class Player(pygame.sprite.Sprite):
         gameVariables.projectiles.add(bullet)
         # print("bam")
 
+    # attack 2 rocket
     def spacial2(self):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
         rocket = Bullets("rocket.png", (spawnS[0] + self.vel[0], spawnS[1]),
                          self.direc, gameVariables.rocket_damage, gameVariables.rocket_speed, gameVariables.roke_size)
         gameVariables.projectiles.add(rocket)
 
+    # set position of the player from cord
     def position(self):
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
         self.colider.x = self.pos[0] + self.offs[0]
         self.colider.y = self.pos[1] + self.offs[1]
 
+    # change the player image
     def reImage(self, image=None):
         if image is None:
             image = self.directions[self.direc]
@@ -206,6 +213,7 @@ class Player(pygame.sprite.Sprite):
         self.colider = image.get_rect()
         self.position()
 
+    # handles collisions of player
     def colideIn(self):
         saf = 13
         self.position()
@@ -521,6 +529,7 @@ class ClickButton(Button):
     def __init__(self, message, pos, size, colors, font, func=lambda: True):
         super().__init__(message, pos, size, colors, font, func=func)
 
+    # handles clicks on button
     def update(self, mouse, accept):
         self.mouse = mouse
         #   if accept:
@@ -536,26 +545,32 @@ class ClickButton(Button):
         self.messageSprite()
 
 
+# class for handling the release of mouse
 class ClickRelese:
     def __init__(self):
         self.monitor = list()
 
+    # activates button on release
     def gotClicked(self):
         for i in self.monitor:
             i.relase()
 
+    # add button to buttons to monitor
     def add(self, act):
         self.monitor.append(act)
 
 
+# set butonRel in gameVariables to release handler
 gameVariables.butonRel = ClickRelese()
 
 
+# handler for raindrops
 class RainDrop:
     def __init__(self, tick, drop):
         self.tick = tick
         self.drop = drop
 
+    # decrease bullet tick and when zero summon bullet
     def update(self):
         self.tick = max(0, self.tick - 1)
         if self.tick == 0:
@@ -564,11 +579,13 @@ class RainDrop:
         return False
 
 
+# handler for rain
 class Rain:
     def __init__(self):
         self.rainDrops = list()
         self.doRain = False
 
+    # remove raindrops from list that needs to be summoned when summoned
     def update(self):
         if self.doRain:
             for j, i in reversed(list(enumerate(self.rainDrops))):
@@ -579,9 +596,11 @@ class Rain:
             self.doRain = False
 
 
+# set raining in gameVariables to rain handler
 gameVariables.raining = Rain()
 
 
+# function that starts the rain
 def makeItRain():
     rain_amount = gameVariables.rain_amount
     number = randint(rain_amount - 5, rain_amount + 5)
@@ -594,6 +613,8 @@ def makeItRain():
         gameVariables.raining.rainDrops.append(drop)
     gameVariables.raining.doRain = True
 
+
+# some weird stuff
 class shield:
     def __init__(self):
         self.sheild = gameFunctions()

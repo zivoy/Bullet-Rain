@@ -15,7 +15,7 @@ player2_keys = [pygame.K_UP, pygame.K_DOWN, pygame.K_RIGHT, pygame.K_LEFT, pygam
 player1_controls = dict(zip(actions, player1_keys))
 player2_controls = dict(zip(actions, player2_keys))
 
-gravity = 15
+gravity = 15 * screenSize[1] / 800
 
 obstecls = list()
 
