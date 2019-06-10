@@ -559,3 +559,52 @@ def makeItRain():
         drop = RainDrop(waitAm, proj)
         gameVariables.raining.rainDrops.append(drop)
     gameVariables.raining.doRain = True
+
+class shield:
+    def __init__(self):
+        self.sheild = gameFunctions()
+        self.sheild = False
+
+    def __init__(self, direc, controls, pos, sz = 12.5):
+        super().__init__()
+        self.vel = [0, 0]
+        self.pos = list(pos)
+        self.startpos = pos
+        self.hp = gameVariables.player_health
+        self.direc = 0 if direc == "left" else 1
+        self.speed = 5
+        self.jump = 10  # 6
+        self.airtime = self.time = self.u = 0
+        self.airjumps = 1
+        self.jumptick = 0
+        self.offs = [0, 23]
+
+
+        self.fall = True
+
+
+        self.dead = False
+
+        self.directions = [gameFunctions.loadImage("{0}/leftshield.png".format(shieldSpr), sz),
+                           gameFunctions.loadImage("{0}/rightshield.png".format(shieldSpr), sz)]
+        self.controls = controls
+
+        self.image = pygame.image
+        self.rect = pygame.rect
+        self.colider = pygame.rect
+        self.reImage()
+
+        self.position()
+
+        statsPos = gameFunctions.placeAt((2, 10)) if self.direc == 1 else gameFunctions.placeAt((97, 10))
+        self.stats = StatusBars(statsPos, gameFunctions.placeAt((2, 70)),
+                                [201, 49, 38, 60], gameVariables.player_health)
+        bulletsPos = gameFunctions.placeAt((4.2, 60)) if self.direc == 1 else gameFunctions.placeAt((94.8, 60))
+        rocketsPos = gameFunctions.placeAt((6.4, 60)) if self.direc == 1 else gameFunctions.placeAt((92.6, 60))
+        self.bulles = StatusBars(bulletsPos, gameFunctions.placeAt((2, 20)),
+                                [221, 221, 122, 60], gameVariables.clip_size, True)
+        self.rokes = StatusBars(rocketsPos, gameFunctions.placeAt((2, 20)),
+                                [53, 186, 135, 60], self.rockNums, True)
+        gameVariables.statuss.add(self.stats)
+        gameVariables.statuss.add(self.bulles)
+        gameVariables.statuss.add(self.rokes)
