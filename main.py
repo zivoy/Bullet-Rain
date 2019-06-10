@@ -247,9 +247,37 @@ def main():  #################################################################
         if 50 < rain_tick < 200:
             screen.blit(warningMsg, gameFunctions.placeAt((3, 35)))
 
+        if won():
+            break
+
         pygame.display.update()
         pygame.display.flip()
         clock.tick(60)
+
+
+def won():
+    wonGm = False
+    for i in range(2):
+        if gameVariables.player_list.score[i] >= gameVariables.player_lives:
+            wonGm = True
+            winner = gameVariables.player_list[i]
+            break
+
+    while wonGm:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return True
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_ESCAPE:
+                    wonGm = False
+                    for i in gameVariables.players.sprites():
+                        i.respawn()
+                    gameVariables.player_list.score = [0, 0]
+
+        gameFunctions.wonMsg(winner, screen, warning, Color.BLACK)
+
+        pygame.display.flip()
+        clock.tick(30)
 
 
 def settingsMen():
