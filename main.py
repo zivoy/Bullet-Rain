@@ -288,21 +288,8 @@ def settingsMen():
     hardDiff = Button("Hard", gameFunctions.placeAt((diffX + 34, 30)), gameFunctions.placeAt((15, 5)), cols, win, dH,
                       func=lambda: gameFunctions.setDiff("hard"))
 
-    pY = pN = 0
-    if gameVariables.settings['power-ups']:
-        pY = 1
-    else:
-        pN = 1
-
-    powX = 16
-    powTrue = Button("Yes", gameFunctions.placeAt((powX + 17, 40)), gameFunctions.placeAt((15, 5)), cols, win, pY,
-                     func=lambda: gameFunctions.setPow(True))
-    powFalse = Button("No", gameFunctions.placeAt((powX, 40)), gameFunctions.placeAt((15, 5)), cols, win, pN,
-                      func=lambda: gameFunctions.setPow(False))
-
     screenSize = MultipleOptions([screenSmall, screenMedium, screenLarge])
     diffs = MultipleOptions([easyDiff, mediumDiff, hardDiff])
-    pows = MultipleOptions([powTrue, powFalse])
 
     save = ClickButton("Save and Close", gameFunctions.placeAt((40, 90)), gameFunctions.placeAt((21, 5)), cols, win,
                        func=gameFunctions.saveAndApply)
@@ -315,7 +302,6 @@ def settingsMen():
             dele = 5
         diffs.update(pygame.mouse, acc)
         screenSize.update(pygame.mouse, acc)
-        pows.update(pygame.mouse, acc)
 
         if save.update(pygame.mouse, acc):
             return True
@@ -336,13 +322,11 @@ def settingsMen():
 
         gameFunctions.print_text(win, *gameFunctions.placeAt((1, 20)), "Screen Size:", Color.WHITE, screen)
         gameFunctions.print_text(win, *gameFunctions.placeAt((1, 30)), "Difficulty:", Color.WHITE, screen)
-        gameFunctions.print_text(win, *gameFunctions.placeAt((1, 40)), "Power ups:", Color.WHITE, screen)
 
         save.draw(screen)
 
         diffs.draw(screen)
         screenSize.draw(screen)
-        pows.draw(screen)
 
         pygame.display.flip()
 
