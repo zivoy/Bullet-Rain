@@ -35,7 +35,6 @@ def apply():
     gameVariables.screenSize = screenSizes[data["screen"].lower()]
     gameVariables.player_lives = data["lives"]
     gameVariables.player_health = data["health per life"]
-    gameVariables.power_ups = data["power-ups"]
     gameVariables.bullet_speed = diffs[data["difficulty"]]["projectile"][0]
     gameVariables.rocket_speed = diffs[data["difficulty"]]["projectile"][1]
     gameVariables.clip_size = diffs[data["difficulty"]]["clip"][0]
@@ -47,4 +46,3 @@ def apply():
     gameVariables.img = "opt4.jpg"
     gameVariables.bull_size = gameVariables.screenSize[1] * 0.001625
     gameVariables.roke_size = gameVariables.screenSize[1] * 0.00625
-    #stage.createStage(gameVariables.stage_choice)
