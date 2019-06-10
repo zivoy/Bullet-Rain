@@ -166,3 +166,12 @@ def saveAndApply():
     settings.apply()
     settings.compose()
     return True
+
+
+def wonMsg(player, screen, font, color):
+    message = "{0} won the game".format(player)
+    tX, tY = font.size(message)
+    posX, posY = placeAt((50, 50))
+    posX -= tX/2
+    posY -= tY/2
+    print_text(font, posX, posY, message, color, screen)

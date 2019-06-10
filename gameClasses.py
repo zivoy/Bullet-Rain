@@ -1,3 +1,4 @@
+# imports
 import pygame
 from random import random, randint
 import gameVariables
@@ -5,10 +6,12 @@ import settings
 import gameFunctions
 from enum import Enum
 
+# init and declare a font for names
 pygame.font.init()
 nams = pygame.font.SysFont("monospace", 20)
 
-# colors
+
+# Class that stores colors to make sure all colors are the same
 class Color(Enum):
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
@@ -20,19 +23,21 @@ class Color(Enum):
     LIGHT_GRAY = (30, 30, 30)
 
 
+# Class that handles projectiles
 class Bullets(pygame.sprite.Sprite):
     def __init__(self, img, pos, direc, damage, speed, sz=1.0):
         super().__init__()
-        self.pos = list(pos)
-        self.vel = [0, 0]
-        self.damage = damage
-        self.direc = direc  # 0 left, 1 right, 2 down, 3 up
+        self.pos = list(pos)    # initial position
+        self.vel = [0, 0]       # projectiles velocity
+        self.damage = damage    # damage that projectile deals
+        self.direc = direc      # 0 left, 1 right, 2 down, 3 up
 
+        # load image
         turnDeg = {0: 180, 1: 0, 2: 270, 3: 90}
         self.image = gameFunctions.loadImage("projectiles/{0}".format(img), sz, turnDeg[direc])
         self.rect = self.image.get_rect()
 
-
+        # set velocity
         if direc == 0:
             self.vel = [-speed, 0]
             self.pos[0] -= self.rect.w
@@ -44,28 +49,34 @@ class Bullets(pygame.sprite.Sprite):
             self.vel = [0, -speed]
             self.pos[1] -= self.rect.h
 
+        # set position of projectile
         self.position()
 
+    # checks for collision with obstacles
     def collide(self):
         for obstecles in gameVariables.obstecls:
             if self.rect.colliderect(obstecles):
                 self.kill()
 
+    # set the position of rect to the pos
     def position(self):
         self.rect.x = self.pos[0]
         self.rect.y = self.pos[1]
 
+    # update function
     def update(self):
+        # apply velocity to position
         self.pos = list(map(lambda x, y: int(x + y), self.pos, self.vel))
+        # check for collisions
         self.collide()
+        # update position
         self.position()
-
-
-####################################****#################################************************
 
 
 #######################################################################################
 
+
+# player class
 class Player(pygame.sprite.Sprite):
     def __init__(self, playerSpr, direc, controls, name, pos, sz=.25):
         super().__init__()
@@ -114,7 +125,7 @@ class Player(pygame.sprite.Sprite):
         bulletsPos = gameFunctions.placeAt((4.2, 60)) if self.direc == 1 else gameFunctions.placeAt((94.8, 60))
         rocketsPos = gameFunctions.placeAt((6.4, 60)) if self.direc == 1 else gameFunctions.placeAt((92.6, 60))
         self.bulles = StatusBars(bulletsPos, gameFunctions.placeAt((2, 20)),
-                                [221, 221, 122, 60], gameVariables.clip_size, True)
+                                 [221, 221, 122, 60], gameVariables.clip_size, True)
         self.rokes = StatusBars(rocketsPos, gameFunctions.placeAt((2, 20)),
                                 [53, 186, 135, 60], self.rockNums, True)
         gameVariables.statuss.add(self.stats)
@@ -334,19 +345,21 @@ class Player(pygame.sprite.Sprite):
         self.pos = list(self.startpos)
 
 
+# class for creating status bars
 class StatusBars(pygame.sprite.Sprite):
     def __init__(self, pos, size, color, maxVl, beck=False, revs=True):
         super().__init__()
-        self.color = color
-        self.val = 0
-        self.revs = revs
-        self.max = maxVl
-        self.image = pygame.Surface(size, pygame.SRCALPHA)
-        self.rect = self.image.get_rect()
-        self.rect.topleft = pos
-        self.beck = beck
-        self.draw()
+        self.color = color                                  # color of bar
+        self.val = 0                                        # value
+        self.revs = revs                                    # reverse direction
+        self.max = maxVl                                    # max possible value
+        self.image = pygame.Surface(size, pygame.SRCALPHA)  # create surface
+        self.rect = self.image.get_rect()                   # get rect of surface
+        self.rect.topleft = pos                             # set position of rect
+        self.beck = beck                                    # render back
+        self.draw()                                         # draw bar on surface
 
+    # function for drawing bar
     def draw(self):
         self.image.fill([0, 0, 0, 0])
         backroundC = list(map(lambda x: max(0, x - 70), self.color))
@@ -358,6 +371,7 @@ class StatusBars(pygame.sprite.Sprite):
             self.image.fill(backroundC)
         pygame.draw.rect(self.image, self.color, req)
 
+    # update bar and draw it
     def update(self, val):
         if self.revs:
             self.val = val * -1 + self.max
@@ -366,18 +380,21 @@ class StatusBars(pygame.sprite.Sprite):
         self.draw()
 
 
+# function that keeps player name and score
 class PlayerList:
     def __init__(self, player1, player2, scoreStart=0):
-        self.player1 = player1
-        self.player2 = player2
-        self.score = [scoreStart, scoreStart]
+        self.player1 = player1                  # player 1 name
+        self.player2 = player2                  # player 2 name
+        self.score = [scoreStart, scoreStart]   # player scores
 
+    # return name from id
     def __getitem__(self, val):
         if val == 0:
             return self.player1
         else:
             return self.player2
 
+    # if .list is added to the end it returns dict with names and scores
     def __getattr__(self, item):
         if item == "list":
             return {self.player1: self.score[0], self.player2: self.score[1]}
@@ -385,14 +402,17 @@ class PlayerList:
             if isinstance(self, item):
                 return self.item
 
+    # returns opponent given name
     def opponent(self, player):
         return {self.player2: self.player1,
                 self.player1: self.player2}[player]
 
+    # returns id given name
     def index(self, player):
         return {self.player1: 0,
                 self.player2: 1}[player]
 
+    # set/get score given name
     def playerScore(self, player, setTo=None):
         if setTo is not None:
             self.score[self.index(player)] = setTo
@@ -400,14 +420,17 @@ class PlayerList:
             return self.score[self.index(player)]
 
 
+# unfinished callas for buttons for rebinding keys
 class RebindButton:
     def __init__(self, key, player):
         pass
 
 
+# toggle button class
 class Button(pygame.sprite.Sprite):
     def __init__(self, message, pos, size, colors, font, deful=0, func=lambda: True):
         super().__init__()
+        # button variables
         self.font = font
         self.message = message
         self.colors = colors
@@ -423,10 +446,12 @@ class Button(pygame.sprite.Sprite):
         self.rect.x = pos[0]
         self.rect.y = pos[1]
 
+    # checks for when click was released
     def relase(self):
         if self.rect.collidepoint(pygame.mouse.get_pos()):
             self.rlsd = True
 
+    # draw button surface
     def messageSprite(self, col=Color.WHITE.value):
         self.image.fill(self.colors[self.curr_color])
         xTx, yTx = self.font.size(self.message)
@@ -436,14 +461,18 @@ class Button(pygame.sprite.Sprite):
         text_image = self.font.render(self.message, True, col)
         self.image.blit(text_image, (xTx, yTx))
 
+    # toggle the color of button
     def flagColor(self):
         self.curr_color = gameFunctions.flag(0, 1, self.curr_color)
 
+    # draw button on screen
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
+    # update button
     def update(self, mouse, accept):
         self.mouse = mouse
+        # check for click
         if accept:
             if self.rect.collidepoint(mouse.get_pos()):
                 self.flagColor()
@@ -452,6 +481,7 @@ class Button(pygame.sprite.Sprite):
         self.messageSprite()
 
 
+# class for handling multiple choice buttons
 class MultipleOptions(pygame.sprite.Group):
     def __init__(self, objects):
         super().__init__()
@@ -463,18 +493,21 @@ class MultipleOptions(pygame.sprite.Group):
         for i in self.sprites():
             i.update([0, 0], False)
 
+    # make a updates list of the state of each button
     def updateList(self):
         for i in self.items:
             self.selections[i.message] = bool(i.curr_color)
 
+    # make sure only one button is selected
     def selectOne(self, pressed):
         for i in self.items:
             if i.message != pressed:
                 i.curr_color = 0
         self.updateList()
 
+    # update all buttons
     def update(self, mouse, accept):
-        #if accept:
+        # if accept:
         for j in self.items:
             if not self.selections[j.message]:
                 if j.update(mouse, accept):
@@ -483,13 +516,14 @@ class MultipleOptions(pygame.sprite.Group):
         return self.selections
 
 
+# class for click buttons
 class ClickButton(Button):
     def __init__(self, message, pos, size, colors, font, func=lambda: True):
         super().__init__(message, pos, size, colors, font, func=func)
 
     def update(self, mouse, accept):
         self.mouse = mouse
-     #   if accept:
+        #   if accept:
         if self.rect.collidepoint(mouse.get_pos()):
             if self.mouse.get_pressed()[0]:
                 self.curr_color = 1
@@ -523,7 +557,7 @@ class RainDrop:
         self.drop = drop
 
     def update(self):
-        self.tick = max(0, self.tick-1)
+        self.tick = max(0, self.tick - 1)
         if self.tick == 0:
             gameVariables.projectiles.add(self.drop)
             return True
@@ -550,12 +584,61 @@ gameVariables.raining = Rain()
 
 def makeItRain():
     rain_amount = gameVariables.rain_amount
-    number = randint(rain_amount-5, rain_amount+5)
+    number = randint(rain_amount - 5, rain_amount + 5)
     print(number)
     for i in range(number):
         waitAm = randint(0, 25)
-        proj = Bullets("bullet.png", (round(random()*gameVariables.screenSize[0]), 1), 2,
+        proj = Bullets("bullet.png", (round(random() * gameVariables.screenSize[0]), 1), 2,
                        gameVariables.bullet_damage, gameVariables.bullet_speed, gameVariables.bull_size)
         drop = RainDrop(waitAm, proj)
         gameVariables.raining.rainDrops.append(drop)
     gameVariables.raining.doRain = True
+
+class shield:
+    def __init__(self):
+        self.sheild = gameFunctions()
+        self.sheild = False
+
+    def __init__(self, direc, controls, pos, sz = 12.5):
+        super().__init__()
+        self.vel = [0, 0]
+        self.pos = list(pos)
+        self.startpos = pos
+        self.hp = gameVariables.player_health
+        self.direc = 0 if direc == "left" else 1
+        self.speed = 5
+        self.jump = 10  # 6
+        self.airtime = self.time = self.u = 0
+        self.airjumps = 1
+        self.jumptick = 0
+        self.offs = [0, 23]
+
+
+        self.fall = True
+
+
+        self.dead = False
+
+        self.directions = [gameFunctions.loadImage("{0}/leftshield.png".format(shieldSpr), sz),
+                           gameFunctions.loadImage("{0}/rightshield.png".format(shieldSpr), sz)]
+        self.controls = controls
+
+        self.image = pygame.image
+        self.rect = pygame.rect
+        self.colider = pygame.rect
+        self.reImage()
+
+        self.position()
+
+        statsPos = gameFunctions.placeAt((2, 10)) if self.direc == 1 else gameFunctions.placeAt((97, 10))
+        self.stats = StatusBars(statsPos, gameFunctions.placeAt((2, 70)),
+                                [201, 49, 38, 60], gameVariables.player_health)
+        bulletsPos = gameFunctions.placeAt((4.2, 60)) if self.direc == 1 else gameFunctions.placeAt((94.8, 60))
+        rocketsPos = gameFunctions.placeAt((6.4, 60)) if self.direc == 1 else gameFunctions.placeAt((92.6, 60))
+        self.bulles = StatusBars(bulletsPos, gameFunctions.placeAt((2, 20)),
+                                [221, 221, 122, 60], gameVariables.clip_size, True)
+        self.rokes = StatusBars(rocketsPos, gameFunctions.placeAt((2, 20)),
+                                [53, 186, 135, 60], self.rockNums, True)
+        gameVariables.statuss.add(self.stats)
+        gameVariables.statuss.add(self.bulles)
+        gameVariables.statuss.add(self.rokes)
