@@ -313,7 +313,7 @@ class Player(pygame.sprite.Sprite):
             if self.reloadTick == gameVariables.reload_speed:
                 self.clip = gameVariables.clip_size
 
-        elif not self.doRespawn:  #  elif keys[gameVariables.revive_key] and not self.doRespawn:
+        elif not self.doRespawn:
             self.respawn_tick = 0
             self.doRespawn = True
 
