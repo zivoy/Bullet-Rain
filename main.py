@@ -368,6 +368,7 @@ def settingsMen():
 
         save.draw(screen)
 
+
         diffs.draw(screen)
         screenSize.draw(screen)
         pows.draw(screen)
