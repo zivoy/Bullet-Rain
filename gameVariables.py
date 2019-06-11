@@ -3,7 +3,6 @@ from gameClasses import pygame
 
 # sets screen size
 screenSize = [800, 800]
-
 # sets the stage
 stage = pygame.image
 
