@@ -4,8 +4,10 @@ import gameVariables
 from gameFunctions import placeAt
 
 
+# create a stage from given default is option 1
 def createStage(stage=1):
     global platforms
+    # stages
     stages = [[gameFunctions.drawRectangle(placeAt((20, 30)), placeAt((40, 35))),
                gameFunctions.drawRectangle(placeAt((60, 30)), placeAt((80, 35))),
                gameFunctions.drawRectangle(placeAt((45, 59)), placeAt((65, 56))),
@@ -25,22 +27,27 @@ def createStage(stage=1):
                gameFunctions.drawRectangle(placeAt((30, 60)), placeAt((32, 100))),
                gameFunctions.drawRectangle(placeAt((25, 75)), placeAt((32.5, 72.5)))]]
 
+    # surface
     platforms = pygame.Surface(gameVariables.screenSize, pygame.SRCALPHA)
 
+    # bounds
     floors = [gameFunctions.drawRectangle(placeAt((0, 10)), placeAt((100, 0))),
               gameFunctions.drawRectangle(placeAt((-5, 0)), placeAt((0, 100))),
               gameFunctions.drawRectangle(placeAt((105, 0)), placeAt((100, 100))),
               gameFunctions.drawRectangle(placeAt((0, 105)), placeAt((100, 100)))]
 
+    # load bounds
     for i in floors:
         gameVariables.obstecls.append(i)
         gameFunctions.fillArea(platforms, gameFunctions.loadImage("ground3.jpg", .4), i)
 
+    # platforms
     for i in stages[stage - 1]:
         gameVariables.obstecls.append(i)
         gameFunctions.fillArea(platforms, gameFunctions.loadImage("briks.jpg", .9), i)
 
 
+# draw background and stage on it
 def draw(screen, pos):
     gameFunctions.paralaxBack(screen, pos)
     screen.blit(platforms, (0, 0))

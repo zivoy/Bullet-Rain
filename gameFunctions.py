@@ -3,12 +3,15 @@ import gameVariables
 import settings
 
 
+# scale and load image for background
 def loadBack(aa=True):
+    # get image size
     sz = loadImage(gameVariables.img).get_size()
     szc = list(sz)
     szd = szc.copy()
     mul = 1
 
+    # scale image
     if list(map(lambda x: sz[x] < gameVariables.screenSize[x], range(2))):
         for i in range(2):
             if szd[i] > gameVariables.screenSize[i]:
@@ -21,9 +24,11 @@ def loadBack(aa=True):
             mul = (gameVariables.screenSize[i] / sz[i]) * 1.1
             szc = list(map(lambda x: x * mul, sz))
 
+    # load image
     gameVariables.stage = loadImage(gameVariables.img, mul, aaScale=aa)
 
 
+# draw the image in paralax
 def paralaxBack(screen, pos):
     if gameVariables.stage == pygame.image:
         loadBack(True)
@@ -47,6 +52,7 @@ def print_text(font, x, y, text, color, screen):
 #########
 
 
+# load image with options to scale
 def loadImage(img, scl=1, rot=0, aaScale=True):
     imge = pygame.image.load("images/{}".format(img)).convert_alpha()
     if aaScale:
@@ -58,6 +64,7 @@ def loadImage(img, scl=1, rot=0, aaScale=True):
     return imge
 
 
+# function for typing text
 def typeing(key, varb):
     if chr(key).lower() in gameVariables.keys and len(varb) < 16:
         varb += chr(key)
@@ -67,6 +74,7 @@ def typeing(key, varb):
     return varb.upper()
 
 
+# returns a rect given start pos and end pos
 def drawRectangle(startPos, endPos, inv=True):
     if inv:
         startPos = invCord(startPos)
@@ -83,12 +91,14 @@ def drawRectangle(startPos, endPos, inv=True):
     return pygame.Rect(xStart, yStart, xEnd, yEnd)
 
 
+# invert y coord
 def invCord(cords):
     ret = list(cords)
     ret[1] = -(cords[1] - gameVariables.screenSize[1])
     return tuple(ret)
 
 
+# fill an area of a rect with a repeting image
 def fillArea(screen, img, rect):
     # pygame.draw.rect(screen, [63, 64, 65], rect)
     platform = pygame.Surface([abs(rect.w), abs(rect.h)], pygame.SRCALPHA)
@@ -101,10 +111,12 @@ def fillArea(screen, img, rect):
     screen.blit(platform, (rect.x, rect.y))
 
 
+# given the percentage of the screen return coords
 def placeAt(percent):
     return int(gameVariables.screenSize[0] * percent[0] / 100), int(gameVariables.screenSize[1] * percent[1] / 100)
 
 
+# function to handle deceleration
 def decel(val, rate=.5):
     neg = -1 if val < 0 else 1
 
@@ -114,6 +126,7 @@ def decel(val, rate=.5):
         return 0
 
 
+# returns the average pos of coords
 def avreagePos(sprites):
     x = list()
     y = list()
@@ -123,14 +136,17 @@ def avreagePos(sprites):
     return avrage(x), avrage(y)
 
 
+# does average
 def avrage(items):
     return sum(items) / len(items)
 
 
+# function that calculate velocity due to gravity
 def gravity(initalVel, airtime):
     return initalVel + gameVariables.gravity * airtime
 
 
+# function that makes sure that a rect will always be positive
 def positiveBox(start, gofor):
     if gofor < 0:
         start += gofor
@@ -139,6 +155,7 @@ def positiveBox(start, gofor):
         return start, gofor
 
 
+# toggle function
 def flag(item1, item2, curr):
     if curr == item1:
         return item2
@@ -146,32 +163,36 @@ def flag(item1, item2, curr):
         return item1
 
 
-
+# set the screen size
 def setScreen(size):
     gameVariables.settings['screen'] = size
     return True
 
 
+# set the difficulty
 def setDiff(diff):
     gameVariables.settings['difficulty'] = diff
     return True
 
 
+# set the use of power ups
 def setPow(pows):
     gameVariables.settings['power-ups'] = pows
     return True
 
 
+# apply and save settings
 def saveAndApply():
     settings.apply()
     settings.compose()
     return True
 
 
+# won message screen
 def wonMsg(player, screen, font, color):
     message = "{0} won the game".format(player)
     tX, tY = font.size(message)
     posX, posY = placeAt((50, 50))
-    posX -= tX/2
-    posY -= tY/2
+    posX -= tX / 2
+    posY -= tY / 2
     print_text(font, posX, posY, message, color, screen)

@@ -27,10 +27,10 @@ class Color(Enum):
 class Bullets(pygame.sprite.Sprite):
     def __init__(self, img, pos, direc, damage, speed, sz=1.0):
         super().__init__()
-        self.pos = list(pos)    # initial position
-        self.vel = [0, 0]       # projectiles velocity
-        self.damage = damage    # damage that projectile deals
-        self.direc = direc      # 0 left, 1 right, 2 down, 3 up
+        self.pos = list(pos)  # initial position
+        self.vel = [0, 0]  # projectiles velocity
+        self.damage = damage  # damage that projectile deals
+        self.direc = direc  # 0 left, 1 right, 2 down, 3 up
 
         # load image
         turnDeg = {0: 180, 1: 0, 2: 270, 3: 90}
@@ -420,15 +420,15 @@ class Player(pygame.sprite.Sprite):
 class StatusBars(pygame.sprite.Sprite):
     def __init__(self, pos, size, color, maxVl, beck=False, revs=True):
         super().__init__()
-        self.color = color                                  # color of bar
-        self.val = 0                                        # value
-        self.revs = revs                                    # reverse direction
-        self.max = maxVl                                    # max possible value
+        self.color = color  # color of bar
+        self.val = 0  # value
+        self.revs = revs  # reverse direction
+        self.max = maxVl  # max possible value
         self.image = pygame.Surface(size, pygame.SRCALPHA)  # create surface
-        self.rect = self.image.get_rect()                   # get rect of surface
-        self.rect.topleft = pos                             # set position of rect
-        self.beck = beck                                    # render back
-        self.draw()                                         # draw bar on surface
+        self.rect = self.image.get_rect()  # get rect of surface
+        self.rect.topleft = pos  # set position of rect
+        self.beck = beck  # render back
+        self.draw()  # draw bar on surface
 
     # function for drawing bar
     def draw(self):
@@ -454,9 +454,9 @@ class StatusBars(pygame.sprite.Sprite):
 # function that keeps player name and score
 class PlayerList:
     def __init__(self, player1, player2, scoreStart=0):
-        self.player1 = player1                  # player 1 name
-        self.player2 = player2                  # player 2 name
-        self.score = [scoreStart, scoreStart]   # player scores
+        self.player1 = player1  # player 1 name
+        self.player2 = player2  # player 2 name
+        self.score = [scoreStart, scoreStart]  # player scores
 
     # return name from id
     def __getitem__(self, val):
@@ -683,7 +683,7 @@ class shield:
         self.sheild = gameFunctions()
         self.sheild = False
 
-    def __init__(self, direc, controls, pos, sz = 12.5):
+    def __init__(self, direc, controls, pos, sz=12.5):
         super().__init__()
         self.vel = [0, 0]
         self.pos = list(pos)
@@ -697,9 +697,7 @@ class shield:
         self.jumptick = 0
         self.offs = [0, 23]
 
-
         self.fall = True
-
 
         self.dead = False
 
@@ -720,7 +718,7 @@ class shield:
         bulletsPos = gameFunctions.placeAt((4.2, 60)) if self.direc == 1 else gameFunctions.placeAt((94.8, 60))
         rocketsPos = gameFunctions.placeAt((6.4, 60)) if self.direc == 1 else gameFunctions.placeAt((92.6, 60))
         self.bulles = StatusBars(bulletsPos, gameFunctions.placeAt((2, 20)),
-                                [221, 221, 122, 60], gameVariables.clip_size, True)
+                                 [221, 221, 122, 60], gameVariables.clip_size, True)
         self.rokes = StatusBars(rocketsPos, gameFunctions.placeAt((2, 20)),
                                 [53, 186, 135, 60], self.rockNums, True)
         gameVariables.statuss.add(self.stats)
