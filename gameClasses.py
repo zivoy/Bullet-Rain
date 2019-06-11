@@ -21,6 +21,7 @@ class Color(Enum):
     GREEN = (0, 255, 0)
     BLUE = (0, 0, 230)
     LIGHT_GRAY = (30, 30, 30)
+    GOLD = (185, 191, 21)
 
 
 # Class that handles projectiles
@@ -245,7 +246,7 @@ class Player(pygame.sprite.Sprite):
     # handles collisions of player
     def colideIn(self):
         # safe zone for no conflicts in collider
-        saf = 13
+        saf = 13 * round(gameVariables.screenSize[1] / 800)
         # update position and get the starting coords for colliders
         self.position()
         coordsX = self.colider.topright if self.vel[0] > 0 else self.colider.topleft

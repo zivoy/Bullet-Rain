@@ -191,8 +191,7 @@ def saveAndApply():
 # won message screen
 def wonMsg(player, screen, font, color):
     message = "{0} won the game".format(player)
-    tX, tY = font.size(message)
-    posX, posY = placeAt((50, 50))
-    posX -= tX / 2
-    posY -= tY / 2
-    print_text(font, posX, posY, message, color, screen)
+    winMsg = font.render(message, False, color.value)
+    winMsg = pygame.transform.scale(winMsg, list(map(lambda x: x * round(gameVariables.screenSize[0] / 150),
+                                                     winMsg.get_size())))
+    screen.blit(winMsg, placeAt((9, 42)))

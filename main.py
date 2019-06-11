@@ -296,15 +296,22 @@ def main():  #################################################################
         clock.tick(60)
 
 
+winner = False
+
+
 # winning message
 def won():
-    global rain_tick
+    global rain_tick, winner
     wonGm = False
-    for i in range(2):
-        if gameVariables.player_list.score[i] > gameVariables.player_lives:
-            wonGm = True
-            winner = gameVariables.player_list[i]
-            break
+
+    if winner:
+        wonGm = True
+
+    if not winner:
+        for i in range(2):
+            if gameVariables.player_list.score[i] >= gameVariables.player_lives:
+                winner = gameVariables.player_list[i]
+                break
 
     while wonGm:
         for event in pygame.event.get():
@@ -313,6 +320,7 @@ def won():
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
                     wonGm = False
+                    winner = False
                     for i in gameVariables.players.sprites():
                         i.respawn()
                     for i in gameVariables.projectiles:
@@ -322,7 +330,7 @@ def won():
                     gameVariables.player_list.score = [0, 0]
 
         # display message
-        gameFunctions.wonMsg(winner, screen, winfont, Color.RED)
+        gameFunctions.wonMsg(winner, screen, winfont, Color.GOLD)
 
         # update screen
         pygame.display.flip()
