@@ -46,8 +46,8 @@ def apply():
     gameVariables.screenSize = screenSizes[data["screen"].lower()]
     gameVariables.player_lives = data["lives"]
     gameVariables.player_health = data["health per life"]
-    gameVariables.bullet_speed = diffs[data["difficulty"]]["projectile"][0]
-    gameVariables.rocket_speed = diffs[data["difficulty"]]["projectile"][1]
+    gameVariables.bullet_speed = diffs[data["difficulty"]]["projectile"][0] * gameVariables.screenSize[0] / 1250
+    gameVariables.rocket_speed = diffs[data["difficulty"]]["projectile"][1] * gameVariables.screenSize[0] / 1250
     gameVariables.clip_size = diffs[data["difficulty"]]["clip"][0]
     gameVariables.reload_speed = diffs[data["difficulty"]]["clip"][1]
     gameVariables.bullet_damage = diffs[data["difficulty"]]["damage"][0]
@@ -57,3 +57,4 @@ def apply():
     gameVariables.img = "opt4.jpg"
     gameVariables.bull_size = gameVariables.screenSize[1] * 0.001625
     gameVariables.roke_size = gameVariables.screenSize[1] * 0.00625
+    gameVariables.gravity = 15 * gameVariables.screenSize[1] / 800
