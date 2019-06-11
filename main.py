@@ -82,7 +82,7 @@ def main():  #################################################################
         gameFunctions.print_text(myfont, 10, 150, "Each player is a character in the world of Rain.", Color.WHITE,
                                  screen)
         gameFunctions.print_text(myfont, 10, 200, "the game is a PVP game last man standing", Color.WHITE, screen)
-        gameFunctions.print_text(myfont, 10, 250, "In this game there are power-ups and ledges to jump to", Color.WHITE,
+        gameFunctions.print_text(myfont, 10, 250, "In this game there are ledges to jump to bullets to dodge, and a rain to fear.", Color.WHITE,
                                  screen)
         gameFunctions.print_text(myfont, 10, 300, "Good luck", Color.WHITE, screen)
         gameFunctions.print_text(myfont, 10, 350, "The Player with the most points wins!!!", Color.RED, screen)
