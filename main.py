@@ -31,6 +31,7 @@ screen = pygame.display.set_mode(gameVariables.screenSize)
 # Title of the game
 pygame.display.set_caption("Bullet Rain")
 
+rain_tick = gameVariables.rain_delay
 
 #################################################
 
@@ -218,6 +219,7 @@ def main():  #################################################################
     ################################
     # gameVariables.scr = screen
 
+    global rain_tick
     # set rain timer
     rain_tick = gameVariables.rain_delay
 
@@ -226,8 +228,13 @@ def main():  #################################################################
     warningMsg = pygame.transform.scale(warningMsg, list(map(lambda x: x*round(gameVariables.screenSize[0]/125),
                                                              warningMsg.get_size())))
 
+
     # main loop
     while True:
+        # show won message if a player has won
+        if won():
+            break
+
         pygame.mouse.set_visible = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -281,10 +288,6 @@ def main():  #################################################################
         if 50 < rain_tick < 200:
             screen.blit(warningMsg, gameFunctions.placeAt((3, 35)))
 
-        # show won message if a player has won
-        if won():
-            break
-
         # refresh and update screen
         pygame.display.update()
         pygame.display.flip()
@@ -294,9 +297,10 @@ def main():  #################################################################
 
 # winning message
 def won():
+    global rain_tick
     wonGm = False
     for i in range(2):
-        if gameVariables.player_list.score[i] >= gameVariables.player_lives:
+        if gameVariables.player_list.score[i] > gameVariables.player_lives:
             wonGm = True
             winner = gameVariables.player_list[i]
             break
@@ -310,10 +314,13 @@ def won():
                     wonGm = False
                     for i in gameVariables.players.sprites():
                         i.respawn()
+                    for i in gameVariables.projectiles:
+                        i.kill()
+                    rain_tick = gameVariables.rain_delay
                     gameVariables.player_list.score = [0, 0]
 
         # display message
-        gameFunctions.wonMsg(winner, screen, warning, Color.BLACK)
+        gameFunctions.wonMsg(winner, screen, bigfont, Color.BLACK)
 
         # update screen
         pygame.display.flip()
@@ -395,7 +402,7 @@ def settingsMen():
         # welcome message
         gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", Color.RED, screen)
 
-        # instractual messages
+        # instinctual messages
         gameFunctions.print_text(win, *gameFunctions.placeAt((1, 20)), "Screen Size:", Color.WHITE, screen)
         gameFunctions.print_text(win, *gameFunctions.placeAt((1, 30)), "Difficulty:", Color.WHITE, screen)
 
