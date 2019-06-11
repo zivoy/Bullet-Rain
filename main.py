@@ -8,7 +8,7 @@ pygame.init()
 
 # These are some fonts that I made up with differ sizes for different events such as when you win, lose, etc.
 titlefont = pygame.font.Font("./kunstler.ttf", 200)
-winfont = pygame.font.Font('vgafix.fon', 100)
+#winfont = pygame.font.Font('monospace.fon', 36)
 bigfont = pygame.font.SysFont("monospace", 40)
 myfont = pygame.font.SysFont("monospace", 25)
 lost = pygame.font.SysFont("monospace", 20)
@@ -322,7 +322,7 @@ def won():
                     gameVariables.player_list.score = [0, 0]
 
         # display message
-        gameFunctions.wonMsg(winner, screen, winfont, Color.RED)
+        gameFunctions.wonMsg(winner, screen, bigfont, Color.RED)
 
         # update screen
         pygame.display.flip()
