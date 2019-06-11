@@ -77,7 +77,7 @@ def main():  #################################################################
         screen.fill(black)
 
         # this is the text that appear on the intro screen askign the user for the name
-        gameFunctions.print_text(bigfont, 50, 25, "Hello and Welcome to Bullet-Rain!", Color.RED, screen)
+        gameFunctions.print_text(bigfont, 300, 50, "Hello and Welcome to Bullet-Rain!", Color.RED, screen)
         gameFunctions.print_text(win, 10, 100, "This is a two-player game and here are the instructions:", Color.BLUE,
                                  screen)
         gameFunctions.print_text(myfont, 10, 150, "Each player is a character in the world of Rain.", Color.WHITE,

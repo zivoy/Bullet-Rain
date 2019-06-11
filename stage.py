@@ -39,12 +39,12 @@ def createStage(stage=1):
     # load bounds
     for i in floors:
         gameVariables.obstecls.append(i)
-        gameFunctions.fillArea(platforms, gameFunctions.loadImage("ground3.jpg", .4), i)
+        gameFunctions.fillArea(platforms, gameFunctions.loadImage("ground3.jpg", .9), i)
 
     # platforms
     for i in stages[stage - 1]:
         gameVariables.obstecls.append(i)
-        gameFunctions.fillArea(platforms, gameFunctions.loadImage("briks.jpg", .10), i)
+        gameFunctions.fillArea(platforms, gameFunctions.loadImage("walls3.jpg", .1), i)
 
 
 # draw background and stage on it
