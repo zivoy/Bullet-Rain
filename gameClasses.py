@@ -667,7 +667,7 @@ gameVariables.raining = Rain()
 def makeItRain():
     rain_amount = gameVariables.rain_amount
     number = randint(rain_amount - 5, rain_amount + 5)
-    print(number)
+#    print(number)
     for i in range(number):
         waitAm = randint(0, 25)
         proj = Bullets("bullet.png", (round(random() * gameVariables.screenSize[0]), 1), 2,

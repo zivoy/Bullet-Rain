@@ -34,8 +34,7 @@ pygame.display.set_caption("Bullet Rain")
 
 #################################################
 
-
-# main loop function
+#Creats game loop for the first screen
 def main():  #################################################################
     # variable for leaving
     leave = False
@@ -59,7 +58,7 @@ def main():  #################################################################
 
         # update screen
         pygame.display.flip()
-
+    # Creats game loop for the second screen
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -98,6 +97,7 @@ def main():  #################################################################
     # makes a variable where I will record the keys pressed by the user when typing the name
     gameVariables.player_list = PlayerList("", "", 0)
 
+    # Creates game loop for the first player screen
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -198,7 +198,7 @@ def main():  #################################################################
         # update screen
         pygame.display.flip()
 
-    ###################################++++++++++++++++++++++++++++++++######################
+    ###############################################################################
 
     # create stage
     stage.createStage(gameVariables.stage_choice)

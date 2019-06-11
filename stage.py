@@ -7,7 +7,7 @@ from gameFunctions import placeAt
 # create a stage from given default is option 1
 def createStage(stage=1):
     global platforms
-    # stages
+    # stages/brick platforms
     stages = [[gameFunctions.drawRectangle(placeAt((20, 30)), placeAt((40, 35))),
                gameFunctions.drawRectangle(placeAt((60, 30)), placeAt((80, 35))),
                gameFunctions.drawRectangle(placeAt((45, 59)), placeAt((65, 56))),
