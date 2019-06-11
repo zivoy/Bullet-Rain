@@ -317,6 +317,7 @@ def won():
                     for i in gameVariables.projectiles:
                         i.kill()
                     rain_tick = gameVariables.rain_delay
+                    gameVariables.raining.rainDrops = list()
                     gameVariables.player_list.score = [0, 0]
 
         # display message
