@@ -17,7 +17,7 @@ warning = pygame.font.Font("vgafix.fon", 36)
 settings.load()
 settings.apply()
 
-
+#rgb colors
 black = Color.BLACK.value
 red = Color.RED.value
 blue = Color.BLUE.value
@@ -32,7 +32,7 @@ pygame.display.set_caption("Bullet Rain")
 
 #################################################
 
-
+#Creats game loop for the first screen
 def main():  #################################################################
     leave = False
     while True:
@@ -53,7 +53,7 @@ def main():  #################################################################
         gameFunctions.print_text(titlefont, 200, 300, "Bullet-Rain", Color.RED, screen)
 
         pygame.display.flip()
-
+    # Creats game loop for the second screen
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -66,6 +66,9 @@ def main():  #################################################################
             break
 
         # first screen
+
+
+
         screen.fill(black)
 
         # this is the text that appear on the intro screen askign the user for the name
@@ -89,7 +92,7 @@ def main():  #################################################################
 
     # makes a variable where I will record the keys pressed by the user when typing the name
     gameVariables.player_list = PlayerList("", "", 0)
-
+    # Creates game loop for the first player screen
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

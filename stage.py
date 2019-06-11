@@ -6,6 +6,7 @@ from gameFunctions import placeAt
 
 def createStage(stage=1):
     global platforms
+#creates the brick platforms
     stages = [[gameFunctions.drawRectangle(placeAt((20, 30)), placeAt((40, 35))),
                gameFunctions.drawRectangle(placeAt((60, 30)), placeAt((80, 35))),
                gameFunctions.drawRectangle(placeAt((45, 59)), placeAt((65, 56))),
@@ -27,6 +28,7 @@ def createStage(stage=1):
 
     platforms = pygame.Surface(gameVariables.screenSize, pygame.SRCALPHA)
 
+    
     floors = [gameFunctions.drawRectangle(placeAt((0, 10)), placeAt((100, 0))),
               gameFunctions.drawRectangle(placeAt((-5, 0)), placeAt((0, 100))),
               gameFunctions.drawRectangle(placeAt((105, 0)), placeAt((100, 100))),
