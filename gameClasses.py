@@ -176,11 +176,11 @@ class Player(pygame.sprite.Sprite):
 
         # handler for sneaking
         if key[self.controls["sneak"]]:
-            self.speed = 2 * round(gameVariables.screenSize[0] / 1250)
-            self.jump = 5 * round(gameVariables.screenSize[1] / 800)
+            self.speed = 2 * gameVariables.screenSize[0] / 1250
+            self.jump = 5 * gameVariables.screenSize[1] / 800
         else:
-            self.speed = 5 * round(gameVariables.screenSize[0] / 1250)
-            self.jump = 10 * round(gameVariables.screenSize[1] / 800)
+            self.speed = 5 * gameVariables.screenSize[0] / 1250
+            self.jump = 10 * gameVariables.screenSize[1] / 800
 
         # handler for bullets
         if key[self.controls["special1"]] and self.spacial1tick == 0 and self.clip > 0:
