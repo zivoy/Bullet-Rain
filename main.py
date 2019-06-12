@@ -85,7 +85,7 @@ def main():  #################################################################
         gameFunctions.print_text(myfont, 10, 250, "In this game there are ledges to jump to bullets to dodge, and a rain to fear.", Color.WHITE,
                                  screen)
         gameFunctions.print_text(myfont, 10, 300, "Good luck", Color.WHITE, screen)
-        gameFunctions.print_text(myfont, 10, 350, "The Player with the most points wins!!!", Color.RED, screen)
+        gameFunctions.print_text(myfont, 10, 350, "The Player who scores 15 eliminations first wins!!!", Color.RED, screen)
         gameFunctions.print_text(myfont, 10, 400, "But before playing we need to take you to some other screens.",
                                  Color.WHITE, screen)
         gameFunctions.print_text(myfont, 10, 450, "Please press enter to continue.", Color.WHITE, screen)
