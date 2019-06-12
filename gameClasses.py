@@ -8,7 +8,7 @@ from enum import Enum
 
 # init and declare a font for names
 pygame.font.init()
-nams = pygame.font.SysFont("monospace", 20 * round(gameVariables.screenSize[0] / 1250))
+nams = pygame.font.SysFont("monospace", 20)
 
 
 # Class that stores colors to make sure all colors are the same
