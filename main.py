@@ -9,7 +9,7 @@ settings.load()
 settings.apply()
 
 pygame.init()
-pygame.mixer.init(22050, 16, 2, 1024)
+pygame.mixer.init(22050, 16, 60, 1024)
 # init sound and pygame
 
 # These are some fonts that I made up with differ sizes for different events such as when you win, lose, etc.
@@ -24,6 +24,8 @@ sound = pygame.mixer.Sound("sounds/{0}.wav".format("GunShot2"))
 gameVariables.soundList["bulletSound"] = sound
 sound = pygame.mixer.Sound("sounds/{0}.wav".format("RocketSound"))
 gameVariables.soundList["rocketSound"] = sound
+sound = pygame.mixer.Sound("sounds/{0}.wav".format("GunShot"))
+gameVariables.soundList["daRanSound"] = sound
 # load sounds
 
 pygame.mixer.music.load('sounds/{0}.mp3'.format("hitman"))

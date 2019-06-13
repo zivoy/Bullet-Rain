@@ -28,6 +28,8 @@ class Color(Enum):
 class Bullets(pygame.sprite.Sprite):
     def __init__(self, img, pos, direc, damage, speed, sz=1.0, sound=None):
         super().__init__()
+        if sound is not None:
+            pygame.mixer.Sound.play(sound)
         self.pos = list(pos)  # initial position
         self.vel = [0, 0]  # projectiles velocity
         self.damage = damage  # damage that projectile deals
@@ -52,9 +54,6 @@ class Bullets(pygame.sprite.Sprite):
 
         # set position of projectile
         self.position()
-
-        if sound is not None:
-            pygame.mixer.Sound.play(sound)
 
     # checks for collision with obstacles
     def collide(self):
@@ -644,6 +643,7 @@ class RainDrop:
         self.tick = max(0, self.tick - 1)
         if self.tick == 0:
             gameVariables.projectiles.add(self.drop)
+            pygame.mixer.Sound.play(gameVariables.soundList["daRanSound"])
             return True
         return False
 
