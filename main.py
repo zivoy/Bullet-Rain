@@ -20,13 +20,13 @@ lost = pygame.font.SysFont("monospace", round(20 * gameVariables.screenSize[0] /
 win = pygame.font.SysFont("monospace", round(30 * gameVariables.screenSize[0] / 1250))
 warning = pygame.font.Font("vgafix.fon", 36)
 
-sound = pygame.mixer.Sound("sounds/{0}".format("soundbulletthing.wav"))
+sound = pygame.mixer.Sound("sounds/{0}.wav".format("GunShot"))
 gameVariables.soundList["bulletSound"] = sound
-sound = pygame.mixer.Sound("sounds/{0}".format("soundrocketthing.wav"))
+sound = pygame.mixer.Sound("sounds/{0}.wav".format("soundrocketthing"))
 gameVariables.soundList["rocketSound"] = sound
 # load sounds
 
-pygame.mixer.music.load('sounds/musicgoeshere.wav')
+pygame.mixer.music.load('sounds/{0}.wav'.format("music here"))
 # load game music
 
 # call colors into variables
