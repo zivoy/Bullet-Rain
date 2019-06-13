@@ -9,6 +9,8 @@ settings.load()
 settings.apply()
 
 pygame.init()
+pygame.mixer.init(22050, 16, 2, 1024)
+# init sound and pygame
 
 # These are some fonts that I made up with differ sizes for different events such as when you win, lose, etc.
 titlefont = pygame.font.Font("./kunstler.ttf", round(200 * gameVariables.screenSize[0] / 1250))
@@ -17,6 +19,15 @@ myfont = pygame.font.SysFont("monospace", round(25 * gameVariables.screenSize[0]
 lost = pygame.font.SysFont("monospace", round(20 * gameVariables.screenSize[0] / 1250))
 win = pygame.font.SysFont("monospace", round(30 * gameVariables.screenSize[0] / 1250))
 warning = pygame.font.Font("vgafix.fon", 36)
+
+sound = pygame.mixer.Sound("sounds/{0}".format("soundbulletthing.wav"))
+gameVariables.soundList["bulletSound"] = sound
+sound = pygame.mixer.Sound("sounds/{0}".format("soundrocketthing.wav"))
+gameVariables.soundList["rocketSound"] = sound
+# load sounds
+
+pygame.mixer.music.load('sounds/musicgoeshere.wav')
+# load game music
 
 # call colors into variables
 black = Color.BLACK.value
@@ -119,7 +130,7 @@ def main():  #################################################################
         # this is the text that appear on the intro screen askign the user for the name
         gameFunctions.print_text(win, 10, 25, "The first thing you need to do is to enter your names...", Color.YELLOW,
                                  screen)
-        gameFunctions.print_text(win, 10, 175, "Player 1 shall be known as ",Color.YELLOW, screen)
+        gameFunctions.print_text(win, 10, 175, "Player 1 shall be known as ", Color.YELLOW, screen)
         gameFunctions.print_text(lost, 10, 225, "Enter Your Name", Color.WHITE, screen)
         gameFunctions.print_text(bigfont, 10, 250, gameVariables.player_list.player1, Color.GREEN, screen)
 
@@ -227,7 +238,9 @@ def main():  #################################################################
     warningMsg = warning.render("Rain incoming!!", False, Color.RED.value)
     warningMsg = pygame.transform.scale(warningMsg, list(map(lambda x: x*round(gameVariables.screenSize[0]/125),
                                                              warningMsg.get_size())))
-
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(.2)
+    # play music
 
     # main loop
     while True:

@@ -26,7 +26,7 @@ class Color(Enum):
 
 # Class that handles projectiles
 class Bullets(pygame.sprite.Sprite):
-    def __init__(self, img, pos, direc, damage, speed, sz=1.0):
+    def __init__(self, img, pos, direc, damage, speed, sz=1.0, sound=None):
         super().__init__()
         self.pos = list(pos)  # initial position
         self.vel = [0, 0]  # projectiles velocity
@@ -52,6 +52,9 @@ class Bullets(pygame.sprite.Sprite):
 
         # set position of projectile
         self.position()
+
+        if sound is not None:
+            pygame.mixer.Sound.play(sound)
 
     # checks for collision with obstacles
     def collide(self):
@@ -201,7 +204,8 @@ class Player(pygame.sprite.Sprite):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
         # make bullet and add to projectile sprite class
         bullet = Bullets("bullet.png", (spawnS[0] + self.vel[0], spawnS[1]),
-                         self.direc, gameVariables.bullet_damage, gameVariables.bullet_speed, gameVariables.bull_size)
+                         self.direc, gameVariables.bullet_damage, gameVariables.bullet_speed,
+                         gameVariables.bull_size, sound=gameVariables.soundList("bulletSound"))
         gameVariables.projectiles.add(bullet)
         # print("bam")
 
@@ -211,7 +215,8 @@ class Player(pygame.sprite.Sprite):
         spawnS = self.rect.midright if self.direc == 1 else self.rect.midleft
         # spawn rocket and add to projectile class
         rocket = Bullets("rocket.png", (spawnS[0] + self.vel[0], spawnS[1]),
-                         self.direc, gameVariables.rocket_damage, gameVariables.rocket_speed, gameVariables.roke_size)
+                         self.direc, gameVariables.rocket_damage, gameVariables.rocket_speed,
+                         gameVariables.roke_size, sound=gameVariables.soundList("rocketSound"))
         gameVariables.projectiles.add(rocket)
 
     # set position of the player from cord

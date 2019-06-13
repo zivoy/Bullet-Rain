@@ -92,3 +92,5 @@ bull_size = screenSize[1] * 0.001625
 
 # sets rocket size
 roke_size = screenSize[1] * 0.00625
+
+soundList = dict()
