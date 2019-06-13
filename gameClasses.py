@@ -685,4 +685,4 @@ def makeItRain():
 
 # some weird stuff
 class shield:
-
+    pass
