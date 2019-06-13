@@ -205,7 +205,7 @@ class Player(pygame.sprite.Sprite):
         # make bullet and add to projectile sprite class
         bullet = Bullets("bullet.png", (spawnS[0] + self.vel[0], spawnS[1]),
                          self.direc, gameVariables.bullet_damage, gameVariables.bullet_speed,
-                         gameVariables.bull_size, sound=gameVariables.soundList("bulletSound"))
+                         gameVariables.bull_size, sound=gameVariables.soundList["bulletSound"])
         gameVariables.projectiles.add(bullet)
         # print("bam")
 
@@ -216,7 +216,7 @@ class Player(pygame.sprite.Sprite):
         # spawn rocket and add to projectile class
         rocket = Bullets("rocket.png", (spawnS[0] + self.vel[0], spawnS[1]),
                          self.direc, gameVariables.rocket_damage, gameVariables.rocket_speed,
-                         gameVariables.roke_size, sound=gameVariables.soundList("rocketSound"))
+                         gameVariables.roke_size, sound=gameVariables.soundList["rocketSound"])
         gameVariables.projectiles.add(rocket)
 
     # set position of the player from cord

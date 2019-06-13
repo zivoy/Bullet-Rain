@@ -20,13 +20,13 @@ lost = pygame.font.SysFont("monospace", round(20 * gameVariables.screenSize[0] /
 win = pygame.font.SysFont("monospace", round(30 * gameVariables.screenSize[0] / 1250))
 warning = pygame.font.Font("vgafix.fon", 36)
 
-sound = pygame.mixer.Sound("sounds/{0}.wav".format("GunShot"))
+sound = pygame.mixer.Sound("sounds/{0}.wav".format("GunShot2"))
 gameVariables.soundList["bulletSound"] = sound
-sound = pygame.mixer.Sound("sounds/{0}.wav".format("soundrocketthing"))
+sound = pygame.mixer.Sound("sounds/{0}.wav".format("RocketSound"))
 gameVariables.soundList["rocketSound"] = sound
 # load sounds
 
-pygame.mixer.music.load('sounds/{0}.wav'.format("music here"))
+pygame.mixer.music.load('sounds/{0}.mp3'.format("hitman"))
 # load game music
 
 # call colors into variables
@@ -239,7 +239,7 @@ def main():  #################################################################
     warningMsg = pygame.transform.scale(warningMsg, list(map(lambda x: x*round(gameVariables.screenSize[0]/125),
                                                              warningMsg.get_size())))
     pygame.mixer.music.play(-1)
-    pygame.mixer.music.set_volume(.2)
+    pygame.mixer.music.set_volume(.7)
     # play music
 
     # main loop
