@@ -121,7 +121,7 @@ def decel(val, rate=.5):
     neg = -1 if val < 0 else 1
 
     if val != 0:
-        return val - (rate * neg)
+        return max(0, val - (rate * neg))
     else:
         return 0
 

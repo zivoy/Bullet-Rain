@@ -4,20 +4,19 @@ import sys
 
 ####from fiirstclass import bla ###    Put classes here
 
-pygame.init()
-
-# These are some fonts that I made up with differ sizes for different events such as when you win, lose, etc.
-titlefont = pygame.font.Font("./kunstler.ttf", 200)
-bigfont = pygame.font.SysFont("monospace", 40)
-myfont = pygame.font.SysFont("monospace", 25)
-lost = pygame.font.SysFont("monospace", 20)
-win = pygame.font.SysFont("monospace", 30)
-warning = pygame.font.Font("vgafix.fon", 36)
-
 # load and apply settings
 settings.load()
 settings.apply()
 
+pygame.init()
+
+# These are some fonts that I made up with differ sizes for different events such as when you win, lose, etc.
+titlefont = pygame.font.Font("./kunstler.ttf", round(200 * gameVariables.screenSize[0] / 1250))
+bigfont = pygame.font.SysFont("monospace", round(40 * gameVariables.screenSize[0] / 1250))
+myfont = pygame.font.SysFont("monospace", round(25 * gameVariables.screenSize[0] / 1250))
+lost = pygame.font.SysFont("monospace", round(20 * gameVariables.screenSize[0] / 1250))
+win = pygame.font.SysFont("monospace", round(30 * gameVariables.screenSize[0] / 1250))
+warning = pygame.font.Font("vgafix.fon", 36)
 
 # call colors into variables
 black = Color.BLACK.value
@@ -35,7 +34,8 @@ rain_tick = gameVariables.rain_delay
 
 #################################################
 
-#Creats game loop for the first screen
+
+# Creats game loop for the first screen
 def main():  #################################################################
     # variable for leaving
     leave = False
@@ -55,9 +55,9 @@ def main():  #################################################################
         screen.fill(black)
 
         # this is the text that appear on the intro screen askign the user for the name
-        gameFunctions.print_text(titlefont, 200, 300, "Bullet-Rain", Color.RED, screen)
+        gameFunctions.print_text(titlefont, *gameFunctions.placeAt((16, 37.5)), "Bullet-Rain", Color.RED, screen)
 
-        # update screen
+        # update screen* gameVariables.screenSize[0] / 1250
         pygame.display.flip()
     # Creats game loop for the second screen
     while True:
@@ -85,7 +85,7 @@ def main():  #################################################################
         gameFunctions.print_text(myfont, 10, 250, "In this game there are ledges to jump to bullets to dodge, and a rain to fear.", Color.WHITE,
                                  screen)
         gameFunctions.print_text(myfont, 10, 300, "Good luck", Color.WHITE, screen)
-        gameFunctions.print_text(myfont, 10, 350, "The Player with the most points wins!!!", Color.RED, screen)
+        gameFunctions.print_text(myfont, 10, 350, "The Player who scores 15 eliminations first wins!!!", Color.RED, screen)
         gameFunctions.print_text(myfont, 10, 400, "But before playing we need to take you to some other screens.",
                                  Color.WHITE, screen)
         gameFunctions.print_text(myfont, 10, 450, "Please press enter to continue.", Color.WHITE, screen)

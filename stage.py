@@ -32,9 +32,9 @@ def createStage(stage=1):
 
     # bounds
     floors = [gameFunctions.drawRectangle(placeAt((0, 10)), placeAt((100, 0))),
-              gameFunctions.drawRectangle(placeAt((-5, 0)), placeAt((0, 100))),
-              gameFunctions.drawRectangle(placeAt((105, 0)), placeAt((100, 100))),
-              gameFunctions.drawRectangle(placeAt((0, 105)), placeAt((100, 100)))]
+              gameFunctions.drawRectangle(placeAt((-10, 0)), placeAt((0, 100))),
+              gameFunctions.drawRectangle(placeAt((110, 0)), placeAt((100, 100))),
+              gameFunctions.drawRectangle(placeAt((0, 110)), placeAt((100, 100)))]
 
     # load bounds
     for i in floors:
