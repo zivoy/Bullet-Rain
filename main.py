@@ -34,7 +34,8 @@ rain_tick = gameVariables.rain_delay
 
 #################################################
 
-#Creats game loop for the first screen
+
+# Creats game loop for the first screen
 def main():  #################################################################
     # variable for leaving
     leave = False
