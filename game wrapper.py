@@ -5,7 +5,8 @@ main_file = "main.py"
 libraries_used = ["pygame", "random"]
 files_needed = ["gameClasses.py", "gameFunctions.py", "gameVariables.py", "settings.json", "kunstler.ttf",
                 "settings.py", "stage.py", "vgafix.fon", "images", "sounds"]
-program_description = "Bullet rain is ..."
+program_description = "Bullet Rain is a side-view platform based shooter game where two players " \
+                      "go head to head in an epic battle for the glory!!!"
 program_version = "0.1.4"
 
 python_path = r"D:\Python36"
