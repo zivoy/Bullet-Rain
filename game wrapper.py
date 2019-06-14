@@ -38,12 +38,14 @@ system(rf"{python_path}\python.exe -m pip install --upgrade pip")
 for i in libraries_used:
     system(rf"{python_path}\Scripts\pip.exe install {i}")
 
-#system(rf"{python_path}\python.exe setup.py build")
+#system(rf"{python_path}\python.exe setup.py build")  # for having just the exe
 system(rf"{python_path}\python.exe setup.py bdist_msi")  # for creating msi installer
-#os.system(rf"{python_path}\python.exe setup.py bdist_dmg")  # only on mac create an installer
+#system(rf"{python_path}\python.exe setup.py bdist_dmg")  # only on mac create an installer
 
 remove("setup.py")
+
+# this part down here leaves only the installer
 for i in listdir("dist"):
-    move(rf"./dist/{i}", f"./{i}")
-rmtree(r"./dist")
-rmtree(r"./build")
+    move(rf".\dist\{i}", rf".\{i}")
+rmtree(r".\dist")
+rmtree(r".\build")
