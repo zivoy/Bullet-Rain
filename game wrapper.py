@@ -5,8 +5,10 @@ main_file = "main.py"
 libraries_used = ["pygame", "random"]
 files_needed = ["gameClasses.py", "gameFunctions.py", "gameVariables.py", "settings.json", "kunstler.ttf",
                 "settings.py", "stage.py", "vgafix.fon", "images", "sounds"]
+program_description = "Bullet rain is ..."
+program_version = "0.1.4"
 
-python_path = r"C:\Users\Games\AppData\Local\Programs\Python\Python36"
+python_path = r"D:\Python36"
 
 
 code = f"""\
@@ -14,6 +16,8 @@ import cx_Freeze
 
 cx_Freeze.setup(
     name="{program_name}",
+    version = "{program_version}",
+    description = "{program_description}",
     options={{"build_exe": {{"packages": {libraries_used},
                            "include_files": {files_needed}}}}},
     executables=[cx_Freeze.Executable("{main_file}")]
