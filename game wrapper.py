@@ -1,4 +1,5 @@
-import os
+from os import environ, system, remove, listdir
+from shutil import move, rmtree
 
 program_name = "Bullet Rain"
 main_file = "main.py"
@@ -9,7 +10,7 @@ program_description = "Bullet Rain is a side-view platform based shooter game wh
                       "go head to head in an epic battle for the glory!!!"
 program_version = "0.1.4"
 
-python_path = r"D:\Python36"
+python_path = r"C:\Users\Games\AppData\Local\Programs\Python\Python36"
 
 
 code = f"""\
@@ -30,12 +31,19 @@ with open("setup.py", 'w') as setup_file:
     setup_file.write(code)
 
 
-os.environ['TCL_LIBRARY'] = rf'{python_path}\tcl\tcl8.6'
-os.environ['TK_LIBRARY'] = rf'{python_path}\tcl\tk8.6'
-os.system(rf"{python_path}\Scripts\pip.exe install cx_Freeze")
+environ['TCL_LIBRARY'] = rf'{python_path}\tcl\tcl8.6'
+environ['TK_LIBRARY'] = rf'{python_path}\tcl\tk8.6'
+libraries_used.append("cx_Freeze")
+system(rf"{python_path}\python.exe -m pip install --upgrade pip")
+for i in libraries_used:
+    system(rf"{python_path}\Scripts\pip.exe install {i}")
 
-os.system(rf"{python_path}\python.exe setup.py build")
-#os.system(rf"{python_path}\python.exe setup.py bdist_msi")  # for creating msi installer
+#system(rf"{python_path}\python.exe setup.py build")
+system(rf"{python_path}\python.exe setup.py bdist_msi")  # for creating msi installer
 #os.system(rf"{python_path}\python.exe setup.py bdist_dmg")  # only on mac create an installer
 
-os.remove("setup.py")
+remove("setup.py")
+for i in listdir("dist"):
+    move(rf"./dist/{i}", f"./{i}")
+rmtree(r"./dist")
+rmtree(r"./build")
